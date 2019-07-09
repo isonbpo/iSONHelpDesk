@@ -1,0 +1,32 @@
+// If you want to override variables do it here
+@import "variables";
+
+// Import styles
+@import "~@coreui/coreui/scss/coreui";
+
+// If you want to add something do it here
+@import "custom";
+
+.form-group.required>label:first-child:after
+{
+    content:' *';
+    color: red;
+}
+
+.dropdown-item.configuration {
+    position: relative;
+    padding: 7px 14px;
+
+}
+.pagination {
+    justify-content: center;
+ }
+
+ .modal-lg, .modal-xl {
+    max-width: 950px;
+ }
+
+ .top thead tr th {
+    vertical-align: top !important;
+    font-size:9px;
+}

@@ -1,0 +1,120 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <strong>Role</strong>
+        </div>
+        <form #form="ngForm" [formGroup]="Service.formModelRole" autocomplete="off" (submit)="onSubmit()">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-4">
+                <input type="hidden" formControlName="role_id" [(ngModel)]="Service.role_id">
+              
+              <div class="form-group">
+                <label for="RoleName">Role Name</label>
+                <input class="form-control" formControlName="role_name" [(ngModel)]="Service.role_name" id="RoleName" placeholder="Enter Role Name" required/>
+                <label class="text-danger" *ngIf="Service.formModelRole.get('role_name').touched && Service.formModelRole.get('role_name').invalid">This
+                  field is mandatory.</label>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="Description">Discription</label>
+                <input class="form-control" formControlName="role_description" [(ngModel)]="Service.role_description" id="DescriptionName" placeholder="Enter Description Name"/>
+                <label class="text-danger" *ngIf="Service.formModelRole.get('role_description').touched && Service.formModelRole.get('role_description').invalid">This
+                  field is mandatory.</label>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="Enabled">Enabled</label>
+                <select class="form-control" id="Enabled" formControlName="role_enabled" [(ngModel)]="Service.role_enabled">
+                  <option>Yes</option>
+                  <option>No</option>
+                </select>
+                <label class="text-danger" *ngIf="Service.formModelRole.get('role_enabled').touched && Service.formModelRole.get('role_enabled').invalid">This
+                  field is mandatory.</label>
+              </div>
+            </div>
+          </div><!--/.row-->
+      </div>
+      
+      <div class="card-footer">
+        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+        <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+        </div>
+      </form>
+    </div>
+  
+    <!--/.col-->
+  </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+            <strong>Role List</strong>
+        </div>
+        <div class="card-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Enabled</th>
+                <th>Activities</th>
+                <th>Roles</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let role  of Service.listRole">  
+                <td hidden>{{role.role_id}}</td>
+                <td>{{role.role_description}}</td>
+                <td>{{role.role_name}}</td>
+                <td>{{role.role_enabled}}</td>
+                <td>Assign Activities</td>
+                <td>Assign Roles</td>
+                <td>
+                  <i data-toggle="modal" (click)="editRow(role.role_id)" class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </td>
+                <td>
+                    <i id="remove" (click)="deleteRow(role.role_id)" class="fa fa-trash" aria-hidden="true"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->  
+</div>
+
+
+<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-primary">
+          <h4 class="modal-title">Edit Role</h4>
+          <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+            <div class="modal-body">
+              
+              
+
+            </div> 
+          <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->

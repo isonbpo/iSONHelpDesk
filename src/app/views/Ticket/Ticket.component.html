@@ -1,0 +1,188 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <strong>Ticket</strong>
+        </div>
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-6 col-sm-4 col-md-2 col-xl mb-3 mb-xl-0">
+                  <button type="button" class="btn btn-block btn-primary">
+                    <i class="fa fa-refresh"></i> Refresh
+                  </button>
+                </div>
+                <div class="col-6 col-sm-4 col-md-2 col-xl mb-3 mb-xl-0">
+                  <button type="button" class="btn btn-block btn-success">
+                      <i class="fa fa-plus"></i> Add</button>
+                </div>
+                <div class="col-6 col-sm-4 col-md-2 col-xl mb-3 mb-xl-0">
+                  <button type="button" class="btn btn-block btn-warning"> 
+                      <i class="fa fa-pencil-square-o"></i> Edit</button>
+                </div>
+                <div class="col-6 col-sm-4 col-md-2 col-xl mb-3 mb-xl-0">
+                  <button type="button" class="btn btn-block btn-danger">
+                      <i class="fa fa-trash-o"></i>
+                      Delete</button>
+                </div>
+                <div class="col-6 col-sm-4 col-md-4 col-xl mb-3 mb-xl-0">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" id="search" name="search" class="form-control" placeholder="Search">
+                            <div class="input-group-append">
+                              <span class="input-group-text"><i class="fa fa-search"></i></span>
+                            </div>
+                          </div>    
+                    </div>
+                </div>
+              </div>
+              <hr>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="CreatedBy">Created By</label>
+                <input type="text" class="form-control" id="CreatedBy">
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="CreatedAt">Created At</label>
+                <input type="text" class="form-control" id="CreatedAt">
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="TicketNo">Ticket No</label>
+                <input type="text" class="form-control" id="TicketNo" placeholder="Enter Ticket No.">
+              </div>
+            </div>
+          </div><!--/.row-->
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="TicketSource">Ticket Source</label>
+                <select class="form-control" id="TicketSource">
+                  <option selected="selected" disabled>Select Ticket Source</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                  <label for="TicketStatus">Ticket Status</label>
+                  <select class="form-control" id="TicketStatus">
+                    <option selected="selected" disabled>Select Ticket Status</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="TicketOwner">Ticket Owner</label>
+                <select class="form-control" id="TicketOwner">
+                  <option selected="selected" disabled>Select Ticket Owner</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                </select>
+              </div>
+            </div>
+          </div><!--/.row-->
+          <div class="row">
+              <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="Subject">Subject</label>
+                    <input type="text" class="form-control" id="Subject" placeholder="Enter the Subject">
+                  </div>
+                </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label for="OpenTime">Open Time</label>
+                  <input type="date" class="form-control" id="OpenTime">
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label for="TicketType">Ticket Type</label>
+                  <select class="form-control" id="TicketType">
+                    <option selected="selected" disabled>Select Ticket Type</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                  </select>
+                </div>
+              </div>
+            </div><!--/.row-->
+
+            <div class="row">
+               <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="Severity">Severity</label>
+                      <select class="form-control" id="Severity">
+                        <option selected="selected" disabled>Select Severity</option>
+                        <option>High</option>
+                        <option>Normal</option>
+                        <option>Medium</option>
+                        <option>Urgent</option>
+                      </select>
+                    </div>
+                  </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="Category">Category</label>
+                    <select class="form-control" id="Category">
+                        <option selected="selected" disabled>Select Category</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                      </select>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="SubCategory">Sub Category</label>
+                    <select class="form-control" id="SubCategory">
+                        <option selected="selected" disabled>Select Sub Category</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                      </select>
+                  </div>
+                </div>
+              </div><!--/.row-->
+
+              <div class="row">
+                  <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for="Description">Description</label>
+                          <textarea id="Description" name="Description" rows="5" class="form-control" placeholder="Description"></textarea>
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for="Remark">Remark</label>
+                          <textarea id="Remark" name="Remark" rows="5" class="form-control" placeholder="Remark"></textarea>
+                      </div>
+                    </div>
+              </div><!--/.row-->
+      </div>
+      <div class="card-footer">
+          <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+          <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+        </div>
+    </div>
+    <!--/.col-->
+  </div>
+</div>

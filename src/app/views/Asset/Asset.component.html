@@ -1,0 +1,251 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <strong>Asset</strong>
+        </div>
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-6 col-sm-4 col-md-2 col-xl mb-3 mb-xl-0">
+                  <button type="button" class="btn btn-block btn-primary">
+                    <i class="fa fa-refresh"></i> Refresh
+                  </button>
+                </div>
+                <div class="col-6 col-sm-4 col-md-2 col-xl mb-3 mb-xl-0">
+                  <button type="button" class="btn btn-block btn-success">
+                      <i class="fa fa-plus"></i> Add</button>
+                </div>
+                <div class="col-6 col-sm-4 col-md-2 col-xl mb-3 mb-xl-0">
+                  <button type="button" class="btn btn-block btn-warning"> 
+                      <i class="fa fa-pencil-square-o"></i> Edit</button>
+                </div>
+                <div class="col-6 col-sm-4 col-md-2 col-xl mb-3 mb-xl-0">
+                  <button type="button" class="btn btn-block btn-danger">
+                      <i class="fa fa-trash-o"></i>
+                      Delete</button>
+                </div>
+                <div class="col-6 col-sm-4 col-md-4 col-xl mb-3 mb-xl-0">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" id="search" name="search" class="form-control" placeholder="Search">
+                            <div class="input-group-append">
+                              <span class="input-group-text"><i class="fa fa-search"></i></span>
+                            </div>
+                          </div>    
+                    </div>
+                </div>
+              </div>
+              <hr>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="CreatedBy">Created By</label>
+                <input type="text" class="form-control" id="CreatedBy">
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="CreatedAt">Created At</label>
+                <input type="text" class="form-control" id="CreatedAt">
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="AssetNo">Asset No</label>
+                <input type="text" class="form-control" id="AssetNo" placeholder="Enter Asset No.">
+              </div>
+            </div>
+          </div><!--/.row-->
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="AccountVender">Account/Vender</label>
+                <input type="text" class="form-control" id="AccountVender" placeholder="Enter Account Vender">               
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                  <label for="AssetOwner">Asset Owner</label>
+                  <input type="text" class="form-control" id="AssetOwner" placeholder="Enter Asset Owner">
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="AssetProductName">Asset Product Name</label>
+                <select class="form-control" id="AssetProductName">
+                  <option selected="selected" disabled>Select Asset Product Name</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                </select>
+              </div>
+            </div>
+          </div><!--/.row-->
+          <div class="row">
+              <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="AssetInstallationDate">Asset Installation Date</label>
+                    <input type="date" class="form-control" id="AssetInstallationDate" placeholder="dd mmm yy">
+                  </div>
+                </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label for="AssetTagNo">Asset Tag No.</label>
+                  <input type="text" class="form-control" id="AssetTagNo" placeholder="Enter the Asset Tag No.">
+                </div>
+              </div>
+              <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="AssetStatus">Asset Status</label>
+                    <select class="form-control" id="AssetStatus">
+                      <option selected="selected" disabled>Select Asset Status</option>
+                      <option>Under Warranty</option>
+                      <option>AMC</option>
+                      <option>CMC</option>
+                    </select>
+                  </div>
+                </div>
+            </div><!--/.row-->
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="AssetWarrantyStartDate">Asset Warranty Start Date</label>
+                        <input type="date" class="form-control" id="AssetWarrantyStartDate" placeholder="dd mmm yy">
+                    </div>
+                  </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                      <label for="AssetWarrantyEndDate">Asset Warranty End Date</label>
+                      <input type="date" class="form-control" id="AssetWarrantyEndDate" placeholder="dd mmm yy">
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="AssetValue">Asset Value</label>
+                    <select class="form-control" id="AssetValue">
+                        <option selected="selected" disabled>Select Currency</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                    </select>
+                  </div>
+                </div>
+              </div><!--/.row-->
+
+              <div class="row">
+                  <div class="col-sm-4">
+                      <div class="form-group">
+                          <label for="AssetAmount">Asset Amount</label>
+                          <input type="text" class="form-control" id="AssetAmount" placeholder="Enter Asset Amount">
+                      </div>
+                    </div>
+                  <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="AssetModel">Asset Model</label>
+                            <input type="text" class="form-control" id="AssetModel" placeholder="Enter Asset Model">
+                        </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="AssetOEMNumber">Asset OEM Number</label>
+                      <input type="text" class="form-control" id="AssetOEMNumber" placeholder="Enter Asset OEM Number">
+                    </div>
+                  </div>
+                </div><!--/.row-->              
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="AssetProcessPurpose"> Asset Process/Purpose</label>
+                            <input type="text" class="form-control" id="AssetProcessPurpose" placeholder="Enter Asset Process/Purpose ">
+                        </div>
+                      </div>
+                    <div class="col-sm-4">
+                          <div class="form-group">
+                              <label for="AssetIssueSparse">Asset Issue/Sparse</label>
+                              <input type="text" class="form-control" id="AssetIssueSparse" placeholder="Enter Asset Issue/Sparse">
+                          </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for="AssetOwnLease">Asset Own/Lease</label>
+                        <input type="text" class="form-control" id="AssetOwnLease" placeholder="Enter Asset Own/Lease">
+                      </div>
+                    </div>
+                  </div><!--/.row-->     
+
+                  <div class="row">
+                      <div class="col-sm-4">
+                          <div class="form-group">
+                              <label for="AssetPurchaseDate"> Asset Purchase Date</label>
+                              <input type="Date" class="form-control" id="AssetPurchaseDate" placeholder="mm dd yyyy">
+                          </div>
+                        </div>
+                      <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="AssetCategory">Asset Category</label>
+                                <select class="form-control" id="AssetCategory">
+                                    <option selected="selected" disabled>Select Asset Category</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                            </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="AssetSubCategory">Asset Sub Category</label>
+                            <select class="form-control" id="AssetSubCategory">
+                                <option selected="selected" disabled>Select Asset Sub Category</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                            </select>
+                        </div>
+                      </div>
+                    </div><!--/.row-->              
+                             
+                  <div class="row">
+                      <div class="col-sm-4">
+                          <div class="form-group">
+                              <label for="AssetSoftwareType">Asset Software Type</label>
+                              <select class="form-control" id="AssetSoftwareType">
+                                  <option selected="selected" disabled>Select Software Type</option>
+                                  <option>2</option>
+                                  <option>3</option>
+                                  <option>4</option>
+                              </select>
+                          </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                          <label for="AssetProductType">Asset Product Type</label>
+                          <select class="form-control" id="AssetProductType">
+                              <option selected="selected" disabled>Select Asset Product Type</option>
+                              <option>2</option>
+                              <option>3</option>
+                              <option>4</option>
+                          </select>
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="Description">Description</label>
+                            <textarea id="Description" name="Description" rows="5" class="form-control" placeholder="Description"></textarea>
+                        </div>
+                      </div>
+                    </div><!--/.row-->   
+
+      </div>
+      <div class="card-footer">
+          <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+          <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+        </div>
+    </div>
+    <!--/.col-->
+  </div>
+</div>

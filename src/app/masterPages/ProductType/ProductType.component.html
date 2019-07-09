@@ -1,0 +1,111 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form #form="ngForm" [formGroup]="Service.formModelProductType" autocomplete="off" (submit)="onSubmit()">
+        <div class="card">
+          <div class="card-header">
+            <strong>Product Type</strong>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label for="ProductTypeName">Product Type Name</label>
+                  <input class="form-control" formControlName="product_type_name" [(ngModel)]="Service.product_type_name" id="ProductTypeName" placeholder="Enter Product Type Name" required/>
+                  <label class="text-danger" *ngIf="Service.formModelProductType.get('product_type_name').touched && Service.formModelProductType.get('product_type_name').invalid">This
+                    field is mandatory.</label>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label for="ProductType">Product Type</label>
+                  <input class="form-control" formControlName="product_type" [(ngModel)]="Service.product_type" id="ProductType" placeholder="Enter Product Type" required/>
+                  <label class="text-danger" *ngIf="Service.formModelProductType.get('product_type').touched && Service.formModelProductType.get('product_type').invalid">This
+                    field is mandatory.</label>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label for="ProductCategory">Product Category</label>
+                  <input class="form-control" formControlName="product_category_name" [(ngModel)]="Service.product_category_name" id="ProductCategory" placeholder="Enter Product Category" required/>
+                  <label class="text-danger" *ngIf="Service.formModelProductType.get('product_category_name').touched && Service.formModelProductType.get('product_category_name').invalid">This
+                    field is mandatory.</label>
+                </div>
+              </div>
+            </div><!--/.row-->
+
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label for="ProductDiscription">Product Discription</label>
+                  <input class="form-control" formControlName="product_discription" [(ngModel)]="Service.product_discription" id="ProductPartDiscription" placeholder="Enter Product Discription" required/>
+                <label class="text-danger" *ngIf="Service.formModelProductType.get('product_discription').touched && Service.formModelProductType.get('product_discription').invalid">This
+                  field is mandatory.</label>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label for="Enabled">Enabled</label>
+                  <select class="form-control" id="Enabled" formControlName="product_type_enabled" [(ngModel)]="Service.product_type_enabled">
+                      <option>Yes</option>
+                      <option>No</option>
+                  </select>
+                  <label class="text-danger" *ngIf="Service.formModelProductType.get('product_type_enabled').touched && Service.formModelProductType.get('product_type_enabled').invalid">This
+                  field is mandatory.</label>
+                </div>
+            </div><!--/.row-->
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Insert</button>
+            <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+          </div>
+      </div>
+      <!--/.col-->
+        </div>  
+      </form>  
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> 
+          <strong>Product Type Table</strong>
+        </div>
+        <div class="card-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Product Type Name</th>
+                <th>Product Type</th>
+                <th>Product Category Name</th>
+                <th>Product Discription</th>
+                <th>Enabled</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let protype  of Service.listProductType">  
+                    <td hidden>{{protype.product_type_id}}</td>
+                    <td>{{protype.product_type_name}}</td>
+                    <td>{{protype.product_type}}</td>
+                    <td>{{protype.product_category_name}}</td>
+                    <td>{{protype.product_discription}}</td>
+                    <td>{{protype.product_type_enabled}}</td>
+                    <td>
+                      <i data-toggle="modal" (click)="editRow(protype.product_type_id)" class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </td>
+                    <td>
+                        <i id="remove" (click)="deleteRow(protype.product_type_id)" class="fa fa-trash" aria-hidden="true"></i>
+                    </td>
+                  </tr>
+            </tbody>
+          </table>
+          
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->  
+</div>
+
+

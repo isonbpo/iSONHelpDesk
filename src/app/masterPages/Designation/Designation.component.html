@@ -1,0 +1,124 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <strong>Designation</strong>
+        </div>
+        <form #form="ngForm" [formGroup]="Service.formModelDesig" autocomplete="off" (submit)="onSubmit()">
+          <div class="card-body">
+              
+            <div class="row">
+              <div class="col-sm-9">
+                  
+                <div class="form-group">
+                  <label for="DesignationName">Designation Name</label>
+                <input class="form-control" formControlName="desig_name" [(ngModel)]="Service.desig_name" id="DesignationName" placeholder="Enter Designation Name">               
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="Enabled">Enabled</label>
+                  <select class="form-control" id="Enabled" formControlName="desig_enabled" [(ngModel)]="Service.desig_enabled">
+                    <option>Yes</option>
+                    <option>No</option>
+                  </select>
+
+                </div>
+                
+              </div>
+            </div><!--/.row-->
+              
+  
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+            <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+        </div>
+        </form>
+    </div>
+    <!--/.col-->
+  </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          
+          <strong>Designation List</strong>
+        </div>
+        <div class="card-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Designation Name</th>
+                <th>Enabled</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let desig of Service.listDesig">  
+                <td hidden>{{desig.desig_id}}</td>
+                <td>{{desig.desig_name}}</td>
+                <td>{{desig.desig_enabled}}</td>
+                <td>
+                  <i data-toggle="modal" (click)="editRow(desig.desig_id)" class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </td>
+                <td>
+                    <i id="remove" (click)="deleteRow(desig.desig_id)" class="fa fa-trash" aria-hidden="true"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->  
+
+</div>
+
+
+<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h4 class="modal-title">Edit Department</h4>
+        <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+          <div class="modal-body">
+            <form #form="ngForm" [formGroup]="Service.formModelDesig" autocomplete="off" (submit)="onSubmit()">
+                <div class="row">
+                  <div class="col-sm-9">
+                      
+                    <div class="form-group">
+                      <label for="DesignationName">Designation Name</label>
+                    <input class="form-control" formControlName="desig_name" [(ngModel)]="Service.desig_name" id="DesignationName" placeholder="Enter Designation Name">               
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <label for="Enabled">Enabled</label>
+                      <select class="form-control" id="Enabled" formControlName="desig_enabled" [(ngModel)]="Service.desig_enabled">
+                        <option>Yes</option>
+                        <option>No</option>
+                      </select>
+    
+                    </div>
+                    
+                  </div>
+                </div><!--/.row-->
+                </form>
+          </div> 
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
