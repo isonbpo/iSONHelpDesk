@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -24,6 +25,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     ChartsModule,
     BsDropdownModule
   ],
-  declarations: [ RoleComponent ]
+  declarations: [ RoleComponent]
 })
 export class RoleModule { }

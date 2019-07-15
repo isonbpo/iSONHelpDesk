@@ -1,31 +1,38 @@
 <div class="animated fadeIn">
   <div class="row">
     <div class="col-sm-12">
+      <form #Myform="ngForm" [formGroup]="Service.formModelSoftwareCategory" autocomplete="off" (submit)="onSubmit()">
       <div class="card">
         <div class="card-header">
-          <strong>Configuration - Software Category</strong>
+          <strong>Software Category</strong>
         </div>
         <div class="card-body">
           <div class="row">
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="SoftwareCategory">Software Category Name</label>
-                <input type="text" class="form-control" id="SoftwareCategory" placeholder="Enter Software Category">               
+                <input class="form-control" formControlName="software_category_name" [(ngModel)]="Service.software_category_name" id="SoftwareCategory" placeholder="Enter Software Category Name"/>
+                <label class="text-danger" *ngIf="Service.formModelSoftwareCategory.get('software_category_name').touched && Service.formModelSoftwareCategory.get('software_category_name').invalid">This
+                  field is mandatory.</label>
               </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="SoftwareDiscription">Software Discription</label>
-                <input type="text" class="form-control" id="SoftwareDiscription" placeholder="Enter Software Discription">               
+                <input class="form-control" formControlName="software_category_discription" [(ngModel)]="Service.software_category_discription" id="SoftwareDiscription" placeholder="Enter Software Discription">               
+                <label class="text-danger" *ngIf="Service.formModelSoftwareCategory.get('software_category_discription').touched && Service.formModelSoftwareCategory.get('software_category_discription').invalid">This
+                  field is mandatory.</label>
               </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="Enabled">Enabled</label>
-                <select class="form-control" id="Enabled">
-                  <option>Yes</option>
-                  <option>No</option>
-                </select>
+                <select class="form-control" id="Enabled" formControlName="software_category_enabled" [(ngModel)]="Service.software_category_enabled">
+                    <option>Yes</option>
+                    <option>No</option>
+                  </select>
+                  <label class="text-danger" *ngIf="Service.formModelSoftwareCategory.get('software_category_enabled').touched && Service.formModelSoftwareCategory.get('software_category_enabled').invalid">This
+                    field is mandatory.</label>
               </div>
             </div>
           </div><!--/.row-->
@@ -38,14 +45,14 @@
         </div>
     </div>
     <!--/.col-->
+  </form>
   </div>
   </div>
   <div class="row">
     <div class="col-lg-12">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-align-justify"></i> 
-          <strong>Software Category Table</strong>
+          <strong>Software Category List</strong>
         </div>
         <div class="card-body">
           <table class="table table-striped">
@@ -55,15 +62,22 @@
                 <th>Software Category Description</th>
                 <th>Enabled</th>
                 <th>Edit</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Yiorgos Avraamu</td>
-                <td>2012/01/01</td>
-                <td>Member</td>
-                <td></td>
-              </tr>
+                <tr *ngFor="let softCat of Service.listSoftwareCategory">  
+                    <td hidden>{{softCat.software_category_id}}</td>
+                    <td>{{softCat.software_category_name}}</td>
+                    <td>{{softCat.software_category_discription}}</td>
+                    <td>{{softCat.software_category_enabled}}</td>
+                    <td>
+                      <i data-toggle="modal" (click)="editRow(softCat.software_category_id)" class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </td>
+                    <td>
+                        <i id="remove" (click)="deleteRow(softCat.software_category_id)" class="fa fa-trash" aria-hidden="true"></i>
+                    </td>
+                </tr>
             </tbody>
           </table>
           
@@ -74,3 +88,25 @@
   </div>
 
 </div>
+
+
+
+<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-primary">
+          <h4 class="modal-title">Edit Software Category</h4>
+          <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+            <div class="modal-body">
+              
+            </div> 
+          <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->

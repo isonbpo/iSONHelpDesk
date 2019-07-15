@@ -25,7 +25,7 @@ export class ProductTypeComponent implements OnInit {
 
   getProductTypeList()
   {
-    this.Service.getAllProducts();
+    this.Service.getAllProductType();
     this.Service.formModelProductType.reset();
   }
 
@@ -37,7 +37,7 @@ export class ProductTypeComponent implements OnInit {
 
   deleteRow(product_type_id:number)
   {
-    this.Service.deleteProducts(product_type_id).subscribe(
+    this.Service.deleteProductType(product_type_id).subscribe(
        res=>
          {
           this.toastr.warning('Product Type Deleted', 'Product');

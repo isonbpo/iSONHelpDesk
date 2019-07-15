@@ -9,12 +9,17 @@ import { Role } from './role.model';
 import { AssetCategory } from './asset-category.model';
 import { Products } from './products.model';
 import { ProductType } from './product-type.model';
+import { SoftwareType } from './software-type.model';
+import { SoftwareCategory } from './software-category.model';
+import { AssetSubCategory } from './asset-sub-category.model';
+import { TimeZone } from './time-zone.model';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class MasterPagesService {
+  
   formData :Department;
   constructor(private fb: FormBuilder, private http:HttpClient) { }
   readonly rootURL = 'http://localhost:54277/api';
@@ -236,16 +241,15 @@ editProducts(product_id:number)
 }
 // End Product Section
 
-//Start Products section
+//Start Products Type section
 listProductType:ProductType[];
 getAllProductType(){
-  this.http.get(this.rootURL+'/ProductType/ProductTypeList')
+  this.http.get(this.rootURL+'/ProductType/ProductsTypeList')
   .toPromise()
   .then(res=>this.listProductType = res as ProductType[]);
 }
 
 formModelProductType = this.fb.group({
-    
     product_type_id :  ['', Validators.required],
     product_type_name :  ['', Validators.required],
     product_type :  ['', Validators.required],
@@ -257,14 +261,13 @@ formModelProductType = this.fb.group({
 
 addProductType() {
   var body = {
-    
     product_type_name : this.formModelProductType.value.product_type_name,
     product_type : this.formModelProductType.value.product_type,
     product_type_enabled : this.formModelProductType.value.product_type_enabled,
     product_category_name : this.formModelProductType.value.product_category_name,
     product_discription : this.formModelProductType.value.product_discription
   };
-  return this.http.post(this.rootURL + '/producttype/CreateProductType', body);
+  return this.http.post(this.rootURL + '/ProductType/CreateProductsType', body);
 }
 
 deleteProductType(product_type_id:number)
@@ -276,6 +279,146 @@ editProductType(product_type_id:number)
 {
   return this.http.get(this.rootURL+'/producttype/EditProductType?product_type_id='+product_type_id);
 }
+// End Product Type Section
+
+//Start Software Type section
+listSoftwareType:SoftwareType[];
+getAllSoftwareType(){
+  this.http.get(this.rootURL+'/SoftwareType/SoftwareTypeList')
+  .toPromise()
+  .then(res=>this.listSoftwareType = res as SoftwareType[]);
+}
+
+formModelSoftwareType = this.fb.group({
+  software_type_id :  ['', Validators.required],
+  software_type_name :  ['', Validators.required],
+  software_type_enabled :  ['', Validators.required],
+  software_type_discription :  ['', Validators.required]
+});
+
+addSoftwareType() {
+  var body = {
+    software_type_name : this.formModelSoftwareType.value.software_type_name,
+    software_type_enabled :  this.formModelSoftwareType.value.software_type_enabled,
+    software_type_discription : this.formModelSoftwareType.value.software_type_discription
+  };
+  return this.http.post(this.rootURL + '/SoftwareType/CreateSoftwareType', body);
+}
+
+deleteSoftwareType(software_type_id:number)
+{
+  return this.http.delete(this.rootURL+'/SoftwareType/DeleteSoftwareType?software_type_id='+software_type_id);
+}
+
+editSoftwareType(software_type_id:number)
+{
+  return this.http.get(this.rootURL+'/SoftwareType/EditSoftwareType?software_type_id='+software_type_id);
+}
 // End Product Section
 
+//Start Software Category section
+listSoftwareCategory:SoftwareCategory[];
+getAllSoftwareCategory(){
+  this.http.get(this.rootURL+'/SoftwareCategory/SoftwareCategoryList')
+  .toPromise()
+  .then(res=>this.listSoftwareCategory = res as SoftwareCategory[]);
+}
+
+formModelSoftwareCategory = this.fb.group({
+  software_category_id : ['', Validators.required],
+  software_category_name : ['', Validators.required],
+  software_category_enabled : ['', Validators.required],
+  software_category_discription : ['', Validators.required]
+});
+
+addSoftwareCategory() {
+  var body = {
+  software_category_name : this.formModelSoftwareCategory.value.software_category_name,
+  software_category_enabled : this.formModelSoftwareCategory.value.software_category_enabled,
+  software_category_discription : this.formModelSoftwareCategory.value.software_category_discription
+  };
+  return this.http.post(this.rootURL + '/SoftwareCategory/CreateSoftwareCategory', body);
+}
+
+deleteSoftwareCategory(software_category_id:number)
+{
+  return this.http.delete(this.rootURL+'/SoftwareCategory/DeleteSoftwareCategory?software_category_id='+software_category_id);
+}
+
+editSoftwareCategory(software_category_id:number)
+{
+  return this.http.get(this.rootURL+'/SoftwareCategory/EditSoftwareCategory?software_category_id='+software_category_id);
+}
+// End Software Category Section
+
+//Start Asset Sub Category section
+listAssetSubCategory:AssetSubCategory[];
+getAllAssetSubCategory(){
+  this.http.get(this.rootURL+'/AssetSubCategory/AssetSubCategoryList')
+  .toPromise()
+  .then(res=>this.listAssetSubCategory = res as AssetSubCategory[]);
+}
+
+formModelAssetSubCategory = this.fb.group({
+    asset_sub_category_id :  ['', Validators.required],
+    asset_sub_category_name :  ['', Validators.required],
+    asset_sub_category_enabled :  ['', Validators.required],
+    asset_sub_category_discription :  ['', Validators.required]
+});
+
+addAssetSubCategory() {
+  var body = {
+    asset_sub_category_name :  this.formModelAssetSubCategory.value.asset_sub_category_name,
+    asset_sub_category_enabled :  this.formModelAssetSubCategory.value.asset_sub_category_enabled,
+    asset_sub_category_discription :  this.formModelAssetSubCategory.value.asset_sub_category_discription,
+  };
+  return this.http.post(this.rootURL + '/AssetSubCategory/CreateAssetSubCategory', body);
+}
+
+deleteAssetSubCategory(asset_sub_category_id:number)
+{
+  return this.http.delete(this.rootURL+'/AssetSubCategory/DeleteAssetSubCategory?asset_sub_category_id='+asset_sub_category_id);
+}
+
+editAssetSubCategory(asset_sub_category_id:number)
+{
+  return this.http.get(this.rootURL+'/AssetSubCategory/EditAssetSubCategory?asset_sub_category_id='+asset_sub_category_id);
+}
+// End Asset Sub Category Section
+
+
+
+//Start Time Zone
+listTimeZone:TimeZone[];
+getAllTimeZone(){
+  this.http.get(this.rootURL+'/TimeZone/TimeZoneList')
+  .toPromise()
+  .then(res=>this.listTimeZone = res as TimeZone[]);
+}
+
+formModelTimeZone = this.fb.group({
+  timezone_id:   ['', Validators.required],
+  timezone_name :   ['', Validators.required],
+  timezone_timespan_minutes :   ['', Validators.required]
+  
+});
+
+addTimeZone() {
+  var body = {
+    timezone_name : this.formModelTimeZone.value.timezone_name,
+    timezone_timespan_minutes : this.formModelTimeZone.value.timezone_timespan_minutes,
+  };
+  return this.http.post(this.rootURL + '/TimeZone/CreateTimeZone', body);
+}
+
+deleteTimeZone(timezone_id:number)
+{
+  return this.http.delete(this.rootURL+'/TimeZone/DeleteTimeZone?timezone_id='+timezone_id);
+}
+
+editTimeZone(timezone_id:number)
+{
+  return this.http.get(this.rootURL+'/TimeZone/EditTimeZone?timezone_id='+timezone_id);
+}
+// End Time Zone
 }

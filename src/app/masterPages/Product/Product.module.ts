@@ -20,7 +20,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     ReactiveFormsModule,
     FormsModule,
     ModalModule.forRoot(),
-
+    
     ProductRoutingModule,
     ChartsModule,
     BsDropdownModule

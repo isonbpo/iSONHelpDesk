@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { getStyle } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
@@ -7,6 +7,8 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { MasterPagesService } from '../shared/master-pages.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder } from '@angular/forms';
+
+import { Role } from '../shared/role.model';
 
 
 @Component({
@@ -55,6 +57,24 @@ export class RoleComponent implements OnInit {
            this.toastr.success('Role Added Successfully', 'Role');
          });
   }
+  
+ 
+
+  // @ViewChild('regForm') editcomponent: RoleUpdateComponent
+
+  // loadnewForm(role_id: number,  role_name : string, role_description : string, role_enabled :string, role_cust_enable:string) 
+  // {
+  //   console.log(role_id);
+  //   this.editcomponent.objemp.role_id = role_id;
+  //   this.editcomponent.objemp.role_name = role_name;
+  //   this.editcomponent.objemp.role_description =role_description;
+  //   this.editcomponent.objemp.role_enabled = role_enabled;
+  //   this.editcomponent.objemp.role_cust_enable = role_cust_enable;
+  // }
+
+  // RefreshData() {
+  //   this.getRoleList();
+  // }
 
   // lineChart1
   public lineChart1Data: Array<any> = [

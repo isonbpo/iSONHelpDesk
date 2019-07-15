@@ -1,14 +1,58 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { getStyle } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { from } from 'rxjs';
-
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { MasterPagesService } from '../shared/master-pages.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   templateUrl: 'AssetSubCategory.component.html'
 })
-export class AssetSubCategoryComponent {
+export class AssetSubCategoryComponent implements OnInit{
+
+  @ViewChild('largeModal') largeModal : ModalDirective;
+
+  constructor(private Service:MasterPagesService, private toastr: ToastrService){}
+  
+  ngOnInit()
+  {
+    this.getAssetSubCategory();
+  }
+
+  getAssetSubCategory()
+  {
+  this.Service.getAllAssetSubCategory();
+  this.Service.formModelAssetSubCategory.reset();
+  }
+
+  editRow(asset_sub_category_id:number)
+  {
+    this.largeModal.show();
+    this.Service.editAssetSubCategory(asset_sub_category_id).subscribe();
+  }
+
+  deleteRow(asset_sub_category_id:number)
+  {
+    this.Service.deleteAssetSubCategory(asset_sub_category_id).subscribe(
+      res=>
+        {
+          this.toastr.warning('Asset Sub Category Deleted', 'Asset Sub Category');
+          this.getAssetSubCategory();
+        });
+    
+  }
+
+
+  onSubmit() {
+    this.Service.addAssetSubCategory().subscribe(
+      res=>
+        {
+          this.toastr.success('Asset Sub Category Added Successfully', 'Asset Sub Category');
+          this.getAssetSubCategory();
+        });
+  }
   // lineChart1
   public lineChart1Data: Array<any> = [
     {

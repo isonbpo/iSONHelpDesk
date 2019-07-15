@@ -9,7 +9,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-sm-4">
-                <input type="hidden" formControlName="role_id" [(ngModel)]="Service.role_id">
+              <input type="hidden" formControlName="role_id" [(ngModel)]="Service.role_id">
               
               <div class="form-group">
                 <label for="RoleName">Role Name</label>
@@ -107,9 +107,8 @@
           </button>
         </div>
             <div class="modal-body">
-              
-              
-
+                <app-role-update></app-role-update>
+              <app-employeeupdate (nameEvent)="RefreshData($event)" [isReset]="resetForm" #regForm></app-employeeupdate>
             </div> 
           <div class="modal-footer">
           <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>

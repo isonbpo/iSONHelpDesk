@@ -75,17 +75,7 @@
                 <label for="Zone">Zone</label>
                 <select class="form-control" id="Zone">
                   <option selected="selected" disabled>Select Zone</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                  <option>6</option>
-                  <option>7</option>
-                  <option>8</option>
-                  <option>9</option>
-                  <option>10</option>
-                  <option>11</option>
-                  <option>12</option>
+                  <option *ngFor="let tz  of Service.listTimezone">{{tz.timezone_name}}</option>
                 </select>
               </div>
             </div>
@@ -100,38 +90,18 @@
               <div class="col-sm-4">
                   <div class="form-group">
                     <label for="Country">Country</label>
-                    <select class="form-control" id="Country">
+                    <select class="form-control" id="Country" (change)="getstate($event)">
                       <option selected="selected" disabled>Select Country</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
-                      <option>6</option>
-                      <option>7</option>
-                      <option>8</option>
-                      <option>9</option>
-                      <option>10</option>
-                      <option>11</option>
-                      <option>12</option>
+                      <option *ngFor="let cnt  of Service.list" value="{{cnt.country_id}}">{{cnt.country_name}} ({{cnt.country_code}}) </option>
                     </select>
                   </div>
                 </div>
               <div class="col-sm-4">
                 <div class="form-group">
                   <label for="State">State</label>
-                  <select class="form-control" id="State">
+                  <select class="form-control" id="State" (change)="getCity($event)">
                     <option selected="selected" disabled>Select State</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>8</option>
-                    <option>9</option>
-                    <option>10</option>
-                    <option>11</option>
-                    <option>12</option>
+                    <option *ngFor="let st of Service.listState" value="{{st.state_code}}">{{st.state_name}}</option>
                   </select>
                 </div>
               </div>
@@ -141,19 +111,9 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                       <label for="City">City</label>
-                      <select class="form-control" id="Zone">
-                        <option selected="selected" disabled>Select Zone</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                        <option>10</option>
-                        <option>11</option>
-                        <option>12</option>
+                      <select class="form-control" id="City">
+                        <option selected="selected" disabled>Select City</option>
+                        <option *ngFor="let ct of Service.listCity">{{ct.city_name}}</option>
                       </select>
                     </div>
                   </div>

@@ -1,14 +1,61 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { getStyle } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { from } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { MasterPagesService } from '../shared/master-pages.service';
 
 
 @Component({
   templateUrl: 'SoftwareCategory.component.html'
 })
-export class SoftwareCategoryComponent {
+export class SoftwareCategoryComponent implements OnInit {
+  @ViewChild('largeModal') largeModal : ModalDirective;
+
+  constructor(private Service:MasterPagesService, private toastr: ToastrService){}
+
+  ngOnInit()
+  {
+    this.getSoftwareCategoryList();
+  }
+
+  getSoftwareCategoryList()
+  {
+    
+    this.Service.getAllSoftwareCategory();
+    this.Service.formModelSoftwareCategory.reset();
+    
+  }
+
+  editRow(software_category_id:number)
+  {
+    
+    this.largeModal.show();
+    this.Service.editSoftwareCategory(software_category_id).subscribe();
+  }
+
+  deleteRow(software_category_id:number)
+  {
+    this.Service.deleteSoftwareCategory(software_category_id).subscribe(
+       res=>
+         {
+          this.toastr.warning('Software Category Deleted', 'Software Category');
+           this.getSoftwareCategoryList();
+         });
+        
+  }
+
+
+  onSubmit() {
+    this.Service.addSoftwareCategory().subscribe(
+       res=>
+         {
+           this.getSoftwareCategoryList();
+           this.toastr.success('Software Category Added Successfully', 'Software Category');
+         });
+  }
   // lineChart1
   public lineChart1Data: Array<any> = [
     {

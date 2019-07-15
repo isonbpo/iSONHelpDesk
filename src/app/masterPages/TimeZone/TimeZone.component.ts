@@ -1,14 +1,60 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { getStyle } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { from } from 'rxjs';
-
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { MasterPagesService } from '../shared/master-pages.service';
+import { ToastrService } from 'ngx-toastr';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   templateUrl: 'TimeZone.component.html'
 })
-export class TimeZoneComponent {
+export class TimeZoneComponent implements OnInit {
+
+  @ViewChild('largeModal') largeModal : ModalDirective;
+
+  constructor(private Service:MasterPagesService, private toastr: ToastrService, private formBuilder: FormBuilder){}
+
+  ngOnInit()
+  {
+    this.getTimeZoneList();
+  }
+
+  getTimeZoneList()
+  {
+    this.Service.getAllTimeZone();
+    this.Service.formModelTimeZone.reset();
+  }
+
+  editRow(timezone_id:number)
+  {
+    this.largeModal.show();
+    this.Service.editTimeZone(timezone_id).subscribe();
+  }
+
+  deleteRow(timezone_id:number)
+  {
+    this.Service.deleteTimeZone(timezone_id).subscribe(
+       res=>
+         {
+          this.toastr.warning('Timezone Deleted', 'Timezone');
+           this.getTimeZoneList();
+         });
+  }
+
+
+  onSubmit() {
+    
+    this.Service.addTimeZone().subscribe(
+       res=>
+         {
+           this.getTimeZoneList();
+           this.toastr.success('Timezone Added Successfully', 'Timezone');
+         });
+  }
+
   // lineChart1
   public lineChart1Data: Array<any> = [
     {

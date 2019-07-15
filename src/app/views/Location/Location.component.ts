@@ -1,14 +1,92 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { getStyle } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { from } from 'rxjs';
+import { ViewServicesService } from '../Shared/view-services.service';
+import { ToastrService } from 'ngx-toastr';
+import { FormBuilder } from '@angular/forms';
 
 
 @Component({
   templateUrl: 'Location.component.html'
 })
-export class LocationComponent {
+export class LocationComponent implements OnInit {
+
+  
+  constructor(private Service:ViewServicesService, private toastr: ToastrService, private formBuilder: FormBuilder){}
+
+  ngOnInit()
+  {
+    this.getCountryList();
+    this.getTimezoneList();
+  }
+
+  getCountryList()
+  {
+    this.Service.getCountry();
+    
+    //this.Service.formModelTimeZone.reset();
+  }
+
+  //selectedCountry: string = '';
+  
+  getstate(event:any,country_id: number) 
+  {
+    
+    //console.log(this.selectedCountry = event.target.value);
+    //country_id = event.target.value;
+    //console.log(country_id);
+    country_id = event.target.value;
+    this.Service.getState(country_id);
+  }
+
+  getCity(event:any,state_code: number) 
+  {
+    
+    //console.log(this.selectedCountry = event.target.value);
+    //country_id = event.target.value;
+    //console.log(country_id);
+    state_code = event.target.value;
+    this.Service.getCity(state_code);
+  }
+
+
+  getTimezoneList()
+  {
+    this.Service.getTimezone();
+    //this.Service.formModelTimeZone.reset();
+  }
+
+
+  // editRow(timezone_id:number)
+  // {
+  //   this.largeModal.show();
+  //   this.Service.editTimeZone(timezone_id).subscribe();
+  // }
+
+  // deleteRow(timezone_id:number)
+  // {
+  //   this.Service.deleteTimeZone(timezone_id).subscribe(
+  //      res=>
+  //        {
+  //         this.toastr.warning('Timezone Deleted', 'Timezone');
+  //          this.getTimeZoneList();
+  //        });
+  // }
+
+
+  // onSubmit() {
+    
+  //   this.Service.addTimeZone().subscribe(
+  //      res=>
+  //        {
+  //          this.getTimeZoneList();
+  //          this.toastr.success('Timezone Added Successfully', 'Timezone');
+  //        });
+  // }
+
+
   // lineChart1
   public lineChart1Data: Array<any> = [
     {

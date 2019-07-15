@@ -1,25 +1,28 @@
 <div class="animated fadeIn">
   <div class="row">
     <div class="col-sm-12">
+        <form #form="ngForm" [formGroup]="Service.formModelTimeZone" autocomplete="off" (submit)="onSubmit()">
       <div class="card">
         <div class="card-header">
-          <strong>Configuration - Software Type</strong>
+          <strong>Timezone</strong>
         </div>
         <div class="card-body">
           <div class="row">
-            <div class="col-sm-9">
+            <div class="col-sm-6">
               <div class="form-group">
-                <label for="TimeZone">Software Type</label>
-                <input type="text" class="form-control" id="TimeZone" placeholder="Enter TimeZone">               
+                  <input type="hidden" formControlName="timezone_id" [(ngModel)]="Service.timezone_id">
+                <label for="TimeZone">Timezone Name</label>
+                <input class="form-control" formControlName="timezone_name" [(ngModel)]="Service.timezone_name" id="TimeZoneName" placeholder="Enter Timezone Name" required/>
+                <label class="text-danger" *ngIf="Service.formModelTimeZone.get('timezone_name').touched && Service.formModelTimeZone.get('timezone_name').invalid">This
+                  field is mandatory.</label>
               </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-6">
               <div class="form-group">
-                <label for="Enabled">Enabled</label>
-                <select class="form-control" id="Enabled">
-                  <option>Yes</option>
-                  <option>No</option>
-                </select>
+                  <label for="TimeZone">Timezone Timespan (Minutes)</label>
+                  <input type="number" class="form-control" formControlName="timezone_timespan_minutes" [(ngModel)]="Service.timezone_timespan_minutes" id="TimeZoneName" placeholder="Enter Timespan in Minutes" required/>
+                  <label class="text-danger" *ngIf="Service.formModelTimeZone.get('timezone_timespan_minutes').touched && Service.formModelTimeZone.get('timezone_timespan_minutes').invalid">This
+                    field is mandatory.</label>
               </div>
             </div>
           </div><!--/.row-->
@@ -32,5 +35,44 @@
         </div>
     </div>
     <!--/.col-->
+    </form>
   </div>
 </div>
+<div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+            <strong>Timezone List</strong>
+        </div>
+        <div class="card-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Timezone</th>
+                <th>Timespan</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let time  of Service.listTimeZone">  
+                <td hidden>{{time.timezone_id}}</td>
+                <td>{{time.timezone_name}}</td>
+                <td>{{time.timezone_timespan_minutes}}</td>
+                <td>
+                  <i data-toggle="modal" (click)="editRow(time.timezone_id)" class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </td>
+                <td>
+                    <i id="remove" (click)="deleteRow(time.timezone_id)" class="fa fa-trash" aria-hidden="true"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->  
+  </div>

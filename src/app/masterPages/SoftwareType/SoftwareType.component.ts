@@ -1,14 +1,61 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { getStyle } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { from } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { MasterPagesService } from '../shared/master-pages.service';
 
 
 @Component({
   templateUrl: 'SoftwareType.component.html'
 })
-export class SoftwareTypeComponent {
+export class SoftwareTypeComponent implements OnInit {
+  @ViewChild('largeModal') largeModal : ModalDirective;
+
+  constructor(private Service:MasterPagesService, private toastr: ToastrService){}
+
+  ngOnInit()
+  {
+    this.getSoftwareTypeList();
+  }
+
+  getSoftwareTypeList()
+  {
+    
+    this.Service.getAllSoftwareType();
+    this.Service.formModelSoftwareType.reset();
+    
+  }
+
+  editRow(software_type_id:number)
+  {
+    
+    this.largeModal.show();
+    this.Service.editSoftwareType(software_type_id).subscribe();
+  }
+
+  deleteRow(software_type_id:number)
+  {
+    this.Service.deleteSoftwareType(software_type_id).subscribe(
+       res=>
+         {
+          this.toastr.warning('Software Type Deleted', 'Team');
+           this.getSoftwareTypeList();
+         });
+        
+  }
+
+
+  onSubmit() {
+    this.Service.addSoftwareType().subscribe(
+       res=>
+         {
+           this.getSoftwareTypeList();
+           this.toastr.success('Software Type Added Successfully', 'Software Type');
+         });
+  }
   // lineChart1
   public lineChart1Data: Array<any> = [
     {
