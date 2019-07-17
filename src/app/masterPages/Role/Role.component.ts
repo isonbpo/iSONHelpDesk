@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, OnInit, Input, Output, EventEmitter, ElementRef } from '@angular/core';
 
 import { getStyle } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
@@ -6,9 +6,10 @@ import { from } from 'rxjs';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { MasterPagesService } from '../shared/master-pages.service';
 import { ToastrService } from 'ngx-toastr';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, NgForm } from '@angular/forms';
 
 import { Role } from '../shared/role.model';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,65 +17,113 @@ import { Role } from '../shared/role.model';
 })
 export class RoleComponent implements OnInit {
 
-  @ViewChild('largeModal') largeModal : ModalDirective;
+  @ViewChild('regForm') largeModal : ModalDirective;
 
-  constructor(private Service:MasterPagesService, private toastr: ToastrService, private formBuilder: FormBuilder){}
+  rolelist: Role[];
+  dataavailbale: Boolean = false;
+  tempRole: Role
 
+  @Input() reset: boolean = false;
+  @ViewChild('regForm') myForm: NgForm;
+  @Input() isReset: boolean = false;
+  objtrlrl: Role;
+  @Input() objrl: Role = new Role();
+
+  @Input()  cleardata: boolean = false;
+  @Output() nameEvent = new EventEmitter<string>();
+
+  objtrolerole:Role;
+  @Input() objrole :Role=new Role();
+  @ViewChild('closeBtn') cb: ElementRef;
+
+  
+  
+
+  constructor(private Service:MasterPagesService, private toastr: ToastrService,private route:Router){}
   ngOnInit()
   {
-    this.getRoleList();
-  }
-
-  getRoleList()
-  {
-    this.Service.getAllRole();
-    this.Service.formModelRole.reset();
-  }
-
-  editRow(role_id:number)
-  {
-    this.largeModal.show();
-    this.Service.editRole(role_id).subscribe();
-  }
-
-  deleteRow(role_id:number)
-  {
-    this.Service.deleteRole(role_id).subscribe(
-       res=>
-         {
-          this.toastr.warning('Role Deleted', 'Role');
-           this.getRoleList();
-         });
-  }
-
-
-  onSubmit() {
-    
-    this.Service.addRole().subscribe(
-       res=>
-         {
-           this.getRoleList();
-           this.toastr.success('Role Added Successfully', 'Role');
-         });
+    this.LoadData();
   }
   
- 
+  LoadData() {
+    this.Service.getRole().subscribe((tempdate) => {
+      this.rolelist = tempdate;
+      if (this.rolelist.length > 0) {
+        this.dataavailbale = true;
+      }
+      else {
+        this.dataavailbale = false;
+      }
+    }
+    )
+      , err => {
+        console.log(err);
+      }
+  }
 
-  // @ViewChild('regForm') editcomponent: RoleUpdateComponent
+  Register(regForm:NgForm){  
+   
+    this.objtrlrl=new Role();
+    this.objtrlrl.role_name=regForm.value.role_name;
+    this.objtrlrl.role_enabled=regForm.value.role_enabled;
+    this.objtrlrl.role_description=regForm.value.role_description;
+    
+    
+    this.Service.AddRole(this.objtrlrl).subscribe(res=>{
+    this.toastr.success('Added Successfully', 'Role');
+    this.LoadData();
+    regForm.resetForm();
+    
+}
+  )
+  } 
+   
+  TakeHome(){
+     this.nameEvent.emit("ccc");
+     this.cb.nativeElement.click();
+     this.route.navigateByUrl('');
+   }
 
-  // loadnewForm(role_id: number,  role_name : string, role_description : string, role_enabled :string, role_cust_enable:string) 
-  // {
-  //   console.log(role_id);
-  //   this.editcomponent.objemp.role_id = role_id;
-  //   this.editcomponent.objemp.role_name = role_name;
-  //   this.editcomponent.objemp.role_description =role_description;
-  //   this.editcomponent.objemp.role_enabled = role_enabled;
-  //   this.editcomponent.objemp.role_cust_enable = role_cust_enable;
-  // }
+   deleteconfirmation(role_id: string) {
 
-  // RefreshData() {
-  //   this.getRoleList();
-  // }
+    if (confirm("Are you sure you want to delete this ?")) {
+      this.tempRole = new Role();
+      this.tempRole.role_id = role_id;
+      this.Service.DeleteRole(this.tempRole).subscribe(res => {
+        this.toastr.warning('Deleted Successfully', 'Role');
+        this.LoadData();
+      })
+    }
+  }
+
+  loadnewForm(role_name:string,role_description:string,role_enabled:string,role_id:string) {
+    console.log(role_id+" " + role_enabled + " " + role_name);
+    this.largeModal.show();
+    this.objrl.role_id = role_id
+    this.objrl.role_name = role_name
+    this.objrl.role_description = role_description
+    this.objrl.role_enabled = role_enabled
+    
+    
+  }
+
+  RefreshData() {
+    this.LoadData();
+  }
+
+
+  EditRole(regForm: NgForm) {
+    
+    this.Service.EditRole(this.objrl).subscribe(res => {
+      this.toastr.info('Updated Successfully', 'Role');
+      this.largeModal.hide();
+      this.nameEvent.emit("ccc");
+      this.LoadData();
+       },
+       err => {
+        console.log(err);
+      }
+    )}
 
   // lineChart1
   public lineChart1Data: Array<any> = [

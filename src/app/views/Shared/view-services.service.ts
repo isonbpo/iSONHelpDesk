@@ -44,4 +44,13 @@ export class ViewServicesService {
     //return this.http.get(this.rootURL+'/Global/StateList?country_id='+country_id);
   }
 
+
+  listCreateByDate:Global[];
+  getCreateByDate(){
+    this.http.get(this.rootURL+'/Global/CreatedByDate')
+    .toPromise()
+    .then(res=>this.listCreateByDate = res as Global[]);
+    //return this.http.get(this.rootURL+'/Global/StateList?country_id='+country_id);
+  }
+
 }

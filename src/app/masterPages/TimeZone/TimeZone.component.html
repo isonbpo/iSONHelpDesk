@@ -20,6 +20,7 @@
             <div class="col-sm-6">
               <div class="form-group">
                   <label for="TimeZone">Timezone Timespan (Minutes)</label>
+                  
                   <input type="number" class="form-control" formControlName="timezone_timespan_minutes" [(ngModel)]="Service.timezone_timespan_minutes" id="TimeZoneName" placeholder="Enter Timespan in Minutes" required/>
                   <label class="text-danger" *ngIf="Service.formModelTimeZone.get('timezone_timespan_minutes').touched && Service.formModelTimeZone.get('timezone_timespan_minutes').invalid">This
                     field is mandatory.</label>

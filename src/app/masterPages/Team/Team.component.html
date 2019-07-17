@@ -5,31 +5,30 @@
         <div class="card-header">
           <strong>Team</strong>
         </div>
-        <form #Myform="ngForm" [formGroup]="Service.formModelTeam" autocomplete="off" (submit)="onSubmit()">
+        <form #teamadd='ngForm' (ngSubmit)="Register(teamadd)" class="form-horizontal">
         <div class="card-body">
           <div class="row">
             <div class="col-sm-9">
-              <div class="form-group required">
+              <div class="form-group">
                 <label for="TeamName">Team Name</label>
-                <input class="form-control" formControlName="team_name" [(ngModel)]="Service.team_name" id="TeamName" placeholder="Enter Team Name"/>
-                <label class="text-danger" *ngIf="Service.formModelTeam.get('team_name').touched && Service.formModelTeam.get('team_name').invalid">This
-                  field is mandatory.</label>
-
-              </div>
+                  <input type="text" class="form-control" id="team_name" placeholder="Enter Team Name" 
+                  name="team_name" team_name required [(ngModel)]='objdsg.team_name'  #team_name="ngModel">
+                  <span class="help-bpx" *ngIf="team_name.touched && !team_name.valid ">Required</span>
+               </div>
             </div>
             <div class="col-sm-3">
               <div class="form-group">
                 <label for="Enabled">Enabled</label>
-                <select class="form-control" id="Enabled" formControlName="team_enabled" [(ngModel)]="Service.team_enabled">
-                  <option>Yes</option>
-                  <option>No</option>
-                </select>
-                <label class="text-danger" *ngIf="Service.formModelTeam.get('team_enabled').touched && Service.formModelTeam.get('team_enabled').invalid">This
-                  field is mandatory.</label>
-              </div>
+                    <select class="form-control" name="team_enabled" team_enabled required [(ngModel)]='objdsg.team_enabled' #team_enabled="ngModel">
+                        <option value="0" selected disabled>Please Select</option>
+                        <option value="Y">Yes</option>
+                        <option value="N">No</option>
+                        <span class="help-bpx" *ngIf="team_enabled.touched && !team_enabled.valid ">required</span>
+                    </select>
             </div>
           </div><!--/.row-->
-      </div>
+          </div>
+        </div>
       <div class="card-footer">
         <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
         <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
@@ -46,31 +45,31 @@
           <strong>Team List</strong>
         </div>
         <div class="card-body">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Enabled</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <tr *ngFor="let team  of Service.listTeam">  
-                  <td hidden>{{team.team_id}}</td>
-                  <td>{{team.team_name}}</td>
-                  <td>{{team.team_enabled}}</td>
-                  <td>
-                    <i data-toggle="modal" (click)="editRow(team.team_id)" class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                  </td>
-                  <td>
-                      <i id="remove" (click)="deleteRow(team.team_id)" class="fa fa-trash" aria-hidden="true"></i>
-                  </td>
-              </tr>
-            </tbody>
+            <div *ngIf="!dataavailbale">
+
+                <h6> No Data available </h6>
+            </div>
+          <table class="table table-striped" *ngIf="dataavailbale">
+              <thead>
+                  <tr>
+                      <th scope="col" style="align-content: center">Action</th>
+                      <th scope="col">Team Name</th>
+                      <th scope="col">Enabled</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let e of teamlist">
+                    <td scope="col">
+                          <i data-toggle="modal"  data-target="#myModaledit" (click)="loadnewForm(e.team_name,e.team_enabled,e.team_id)" class="fa fa-pencil-square-o text-primary"></i>
+                            &nbsp;&nbsp;
+                            <i id="remove" (click)="deleteconfirmation(e.team_id)" class="fa fa-trash text-danger" aria-hidden="true"></i>
+                    </td>  
+                    <td scope="col">{{e.team_name}}</td>
+                    <td scope="col">{{e.team_enabled}}</td>
+                    <td scope="col" style="display:none">{{e.team_id}}</td>
+                  </tr>
+                </tbody>
           </table>
-          
         </div>
       </div>
     </div>
@@ -81,40 +80,46 @@
 
 
 
-<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-md" role="document">
-    <div class="modal-content">
-      <div class="modal-header bg-primary">
-        <h4 class="modal-title">Edit Department</h4>
-        <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-          <div class="modal-body">
-            <form #form="ngForm" [formGroup]="Service.formModelTeam" autocomplete="off" (submit)="onSubmit()">
-              <div class="row">
+
+<div bsModal #regForm="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+          
+        <div class="modal-header">
+            <h4 class="modal-title">Edit Team</h4>
+          <button type="button" (click)="largeModal.hide()" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <form #EditForm='ngForm' name="editform" (ngSubmit)="EditTeam(EditForm)" class="form-horizontal">
+        <div class="modal-body">
+            <div class="row">
                 <div class="col-sm-9">
                   <div class="form-group">
                     <label for="TeamName">Team Name</label>
-                    <input class="form-control" formControlName="team_name" [(ngModel)]="Service.team_name" id="TeamName" placeholder="Enter Team Name">
-                  </div>
+                      <input type="text" class="form-control" id="team_name" placeholder="Enter Team Name" 
+                      name="team_name" team_name required [(ngModel)]='objdg.team_name'  #team_name="ngModel">
+                      <span class="help-bpx" *ngIf="team_name.touched && !team_name.valid ">Required</span>
+                   </div>
                 </div>
                 <div class="col-sm-3">
                   <div class="form-group">
                     <label for="Enabled">Enabled</label>
-                    <select class="form-control" id="Enabled" formControlName="team_enabled" [(ngModel)]="Service.team_enabled">
-                      <option>Yes</option>
-                      <option>No</option>
-                    </select>
+                    <select class="form-control" name="team_enabled" team_enabled required [(ngModel)]='objdg.team_enabled' #team_enabled="ngModel">
+                        <option value="0" selected disabled>Please Select</option>
+                        <option value="Y">Yes</option>
+                        <option value="N">No</option>
+                        <span class="help-bpx" *ngIf="team_enabled.touched && !team_enabled.valid ">required</span>
+                      </select>
                   </div>
+                  
                 </div>
               </div><!--/.row-->
-            </form>
-          </div> 
+        </div>
         <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" (click)="largeModal.hide()" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </form>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+
+    </div>
+  </div>

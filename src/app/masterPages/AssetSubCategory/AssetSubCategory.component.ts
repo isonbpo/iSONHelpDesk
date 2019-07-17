@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, ElementRef } from '@angular/core';
 
 import { getStyle } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
@@ -6,53 +6,122 @@ import { from } from 'rxjs';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { MasterPagesService } from '../shared/master-pages.service';
 import { ToastrService } from 'ngx-toastr';
+import { AssetSubCategory } from '../shared/asset-sub-category.model';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: 'AssetSubCategory.component.html'
 })
 export class AssetSubCategoryComponent implements OnInit{
 
-  @ViewChild('largeModal') largeModal : ModalDirective;
+  @ViewChild('regForm') largeModal : ModalDirective;
 
-  constructor(private Service:MasterPagesService, private toastr: ToastrService){}
+  AssetSubCategorylist: AssetSubCategory[];
+  dataavailbale: Boolean = false;
+  tempdsg: AssetSubCategory
+
+  @Input() reset: boolean = false;
+  @ViewChild('regForm') myForm: NgForm;
+  @Input() isReset: boolean = false;
+  objtasct: AssetSubCategory;
+  @Input() objas: AssetSubCategory = new AssetSubCategory();
+
+  @Input()  cleardata: boolean = false;
+  @Output() nameEvent = new EventEmitter<string>();
+
+  objacac:AssetSubCategory;
+  @Input() objasc :AssetSubCategory=new AssetSubCategory();
+  @ViewChild('closeBtn') cb: ElementRef;
+
   
+  
+
+  constructor(private Service:MasterPagesService, private toastr: ToastrService,private route:Router){}
   ngOnInit()
   {
-    this.getAssetSubCategory();
-  }
-
-  getAssetSubCategory()
-  {
-  this.Service.getAllAssetSubCategory();
-  this.Service.formModelAssetSubCategory.reset();
-  }
-
-  editRow(asset_sub_category_id:number)
-  {
-    this.largeModal.show();
-    this.Service.editAssetSubCategory(asset_sub_category_id).subscribe();
-  }
-
-  deleteRow(asset_sub_category_id:number)
-  {
-    this.Service.deleteAssetSubCategory(asset_sub_category_id).subscribe(
-      res=>
-        {
-          this.toastr.warning('Asset Sub Category Deleted', 'Asset Sub Category');
-          this.getAssetSubCategory();
-        });
+    this.LoadData();
     
   }
-
-
-  onSubmit() {
-    this.Service.addAssetSubCategory().subscribe(
-      res=>
-        {
-          this.toastr.success('Asset Sub Category Added Successfully', 'Asset Sub Category');
-          this.getAssetSubCategory();
-        });
+  
+  LoadData() {
+    this.Service.getAssetSubCategory().subscribe((tempdate) => {
+      this.AssetSubCategorylist = tempdate;
+      if (this.AssetSubCategorylist.length > 0) {
+        this.dataavailbale = true;
+      }
+      else {
+        this.dataavailbale = false;
+      }
+    }
+    )
+      , err => {
+        console.log(err);
+      }
   }
+
+  Register(regForm:NgForm){  
+   
+    this.objacac=new AssetSubCategory();
+    this.objacac.asset_sub_category_name=regForm.value.asset_sub_category_name;
+    this.objacac.asset_sub_category_discription=regForm.value.asset_sub_category_discription;
+    this.objacac.asset_sub_category_enabled=regForm.value.asset_sub_category_enabled;
+    
+    this.Service.AddAssetSubCategory(this.objacac).subscribe(res=>{
+    this.toastr.success('Added Successfully', 'Asset Category');
+    this.LoadData();
+    regForm.resetForm();
+    }
+  )
+  } 
+   
+  TakeHome(){
+     this.nameEvent.emit("ccc");
+     this.cb.nativeElement.click();
+     this.route.navigateByUrl('');
+   }
+
+   deleteconfirmation(asset_sub_category_id: string) {
+
+    if (confirm("Are you sure you want to delete this ?")) {
+      this.tempdsg = new AssetSubCategory();
+      this.tempdsg.asset_sub_category_id = asset_sub_category_id;
+      this.Service.DeleteAssetSubCategory(this.tempdsg).subscribe(res => {
+        this.toastr.warning('Deleted Successfully', 'Asset Category');
+        this.LoadData();
+      })
+    }
+  }
+
+  loadnewForm(asset_sub_category_name:string,asset_sub_category_discription:string,asset_sub_category_enabled:string,asset_sub_category_id:string) {
+    this.largeModal.show();
+    console.log(asset_sub_category_name +asset_sub_category_discription+ "Yes"  +asset_sub_category_enabled +asset_sub_category_id)
+    
+    this.objas.asset_sub_category_id = asset_sub_category_id
+    this.objas.asset_sub_category_name = asset_sub_category_name
+    this.objas.asset_sub_category_discription = asset_sub_category_discription
+    this.objas.asset_sub_category_enabled = asset_sub_category_enabled
+  }
+
+  RefreshData() {
+    this.LoadData();
+  }
+
+
+  EditAssetSubCategory(regForm: NgForm) {
+    this.Service.EditAssetSubCategory(this.objas).subscribe(res => {
+      this.toastr.info('Updated Successfully', 'Asset Category');
+      this.largeModal.hide();
+      this.nameEvent.emit("ccc");
+      this.LoadData();
+       },
+       err => {
+        console.log(err);
+      }
+    )}
+  
+//Asset Category End
+  
   // lineChart1
   public lineChart1Data: Array<any> = [
     {

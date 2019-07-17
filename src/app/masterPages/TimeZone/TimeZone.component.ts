@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 
 import { getStyle } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
@@ -7,6 +7,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { MasterPagesService } from '../shared/master-pages.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder } from '@angular/forms';
+import { TimeZone } from '../shared/time-zone.model';
 
 @Component({
   templateUrl: 'TimeZone.component.html'
@@ -21,6 +22,8 @@ export class TimeZoneComponent implements OnInit {
   {
     this.getTimeZoneList();
   }
+
+
 
   getTimeZoneList()
   {

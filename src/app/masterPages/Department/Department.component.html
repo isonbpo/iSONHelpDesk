@@ -5,35 +5,29 @@
         <div class="card-header">
           <strong>Department</strong>
         </div>
-        <form #form="ngForm" [formGroup]="Service.formModel" autocomplete="off" (submit)="onSubmit()">
+        <form #dptadd='ngForm' (ngSubmit)="Register(dptadd)" class="form-horizontal">
         <div class="card-body">
-            
           <div class="row">
             <div class="col-sm-9">
-                <input type="hidden" formControlName="dept_id" [(ngModel)]="Service.dept_id" id="DepartmentId">
               <div class="form-group">
-                <label for="DepartmentName">Department Name</label>
-                <input class="form-control" formControlName="dept_name" [(ngModel)]="Service.dept_name" id="DepartmentName" placeholder="Enter Department Name">
-                <!-- <input class="form-control" formControlName="dept_name"> -->
-                <label class="validation-error text-danger" *ngIf="Service.formModel.get('dept_name').touched && Service.formModel.get('dept_name').errors?.required">This
-                    field is mandatory.</label>
+              <label for="DepartmentName">Department Name</label>
+              <input type="text" class="form-control" id="dept_name" placeholder="Enter Department Name"
+               name="dept_name" dept_name required [(ngModel)]='objdpt.dept_name'  #dept_name="ngModel">
+           <span class="help-bpx" *ngIf="dept_name.touched && !dept_name.valid ">Required</span>
               </div>
             </div>
             <div class="col-sm-3">
               <div class="form-group">
                 <label for="Enabled">Enabled</label>
-                <select class="form-control" id="Enabled" formControlName="dept_enabled" [(ngModel)]="Service.dept_enabled">
-                  <option>Yes</option>
-                  <option>No</option>
-                </select>
-                <label class="validation- text-danger" *ngIf="Service.formModel.get('dept_enabled').touched && Service.formModel.get('dept_enabled').errors?.required">This
-                    field is mandatory.</label>
-              </div>
-              
+                <select class="form-control" name="dept_enabled" dept_enabled required [(ngModel)]='objdpt.dept_enabled' #dept_enabled="ngModel">
+                    <option value="0" selected disabled>Please Select</option>
+                    <option value="Y">Yes</option>
+                    <option value="N">No</option>
+                    <span class="help-bpx" *ngIf="dept_enabled.touched && !dept_enabled.valid ">required</span>
+                  </select>
+             </div>
             </div>
           </div><!--/.row-->
-            
-
       </div>
       <div class="card-footer">
           <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
@@ -51,81 +45,90 @@
           <strong>Department List</strong>
         </div>
         <div class="card-body">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Department Name</th>
-                <th>Enabled</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let dept of Service.list">  
-                <td hidden>{{dept.dept_id}}</td>
-                <td>{{dept.dept_name}}</td>
-                <td>{{dept.dept_enabled}}</td>
-                <td>
-                  <i data-toggle="modal" (click)="editRow(dept.dept_id)" class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                </td>
-                <td>
-                    <i id="remove" (click)="deleteRow(dept.dept_id)" class="fa fa-trash" aria-hidden="true"></i>
-                </td>
-              </tr>
-            </tbody>
+
+            <div *ngIf="!dataavailbale">
+
+                <h6> No Department Data is available, Please Add new data.</h6>
+            </div>
+
+
+          <table class="table table-striped" *ngIf="dataavailbale">
+              <thead>
+                <tr>
+                    <th scope="col" style="align-content: center">Action</th>
+                    <th scope="col">Department Name</th>
+                    <th scope="col">Enabled</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let e of dptlist">
+                  <td scope="col">
+                        <i data-toggle="modal"  data-target="#myModaledit" (click)="loadnewForm(e.dept_name,e.dept_enabled,e.dept_id)" class="fa fa-pencil-square-o text-primary"></i>
+                          &nbsp;&nbsp;
+                          <i id="remove" (click)="deleteconfirmation(e.dept_id)" class="fa fa-trash text-danger" aria-hidden="true"></i>
+                  </td>  
+                  <td scope="col">{{e.dept_name}}</td>
+                  <td scope="col">{{e.dept_enabled}}</td>
+                  <td scope="col" style="display:none">{{e.dept_id}}</td>
+                  
+                </tr>
+              </tbody>
+
+              
           </table>
-         
         </div>
       </div>
     </div>
     <!--/.col-->
-
-
   </div>
-  <!--/.row-->    
+  <!--/.row-->
 </div>
 
 
 
-<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-md" role="document">
-    <div class="modal-content">
-      <div class="modal-header bg-primary">
-        <h4 class="modal-title">Edit Department</h4>
-        <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-          <div class="modal-body">
-              <form #form="ngForm" [formGroup]="Service.formModel" autocomplete="off" (submit)="onSubmit()">
-                      
-                    <div class="row">
-                      <div class="col-sm-9">
-                          <input type="hidden" formControlName="dept_id" value="Service.dept_id">
-                          
-                        <div class="form-group">
-                          <label for="DepartmentName">Department Name</label>
-                          <input class="form-control">
-                        </div>
-                      </div>
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label for="Enabled">Enabled</label>
-                          <select class="form-control">
-                            <option>Yes</option>
-                            <option>No</option>
-                          </select>
-                        </div>
-                        
-                      </div>
-                    </div><!--/.row-->
-                </form> 
-          </div> 
+<div bsModal #regForm="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+          
+        <div class="modal-header">
+            <h4 class="modal-title">Edit</h4>
+          <button type="button" (click)="largeModal.hide()" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <form #EditForm='ngForm' name="editform" (ngSubmit)="EditDepartment(EditForm)" class="form-horizontal">
+        <div class="modal-body">
+            
+                <div class="col-sm-9">
+                    <div class="form-group">
+                    <label for="DepartmentName">Department Name</label>
+                    <input type="text" class="form-control" id="dept_name" placeholder="Enter Department Name"
+                     name="dept_name" dept_name required [(ngModel)]='objdt.dept_name'  #dept_name="ngModel">
+                 <span class="help-bpx" *ngIf="dept_name.touched && !dept_name.valid ">Required</span>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <label for="Enabled">Enabled</label>
+                      <select class="form-control" name="dept_enabled" dept_enabled required [(ngModel)]='objdt.dept_enabled' #dept_enabled="ngModel">
+                          <option value="0" selected disabled>Please Select</option>
+                          <option value="Y">Yes</option>
+                          <option value="N">No</option>
+                          <span class="help-bpx" *ngIf="dept_enabled.touched && !dept_enabled.valid ">required</span>
+                        </select>
+                   </div>
+                  </div>
+              
+        </div>
         <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" (click)="largeModal.hide()" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </form>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
 
+    </div>
+  </div>
+
+
+  
+
+  

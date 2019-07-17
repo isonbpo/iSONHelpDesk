@@ -1,4 +1,8 @@
 export class Global {
+    
+    createdBy : string;
+    createdDate : string;
+
     country_id : number;
     country_code : string;
     country_name : string;

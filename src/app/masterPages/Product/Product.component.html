@@ -1,40 +1,40 @@
 <div class="animated fadeIn">
   <div class="row">
     <div class="col-sm-12">
-        <form #form="ngForm" [formGroup]="Service.formModelProducts" autocomplete="off" (submit)="onSubmit()">
+        <form #proadd='ngForm' (ngSubmit)="Register(proadd)" class="form-horizontal">
       <div class="card">
         <div class="card-header">
           <strong>Product</strong>
         </div>
-        
+       
         <div class="card-body">
           <div class="row">
             <div class="col-sm-4">
-                <input type="hidden" formControlName="product_id" [(ngModel)]="Service.product_id">
               <div class="form-group">
                 <label for="ProductName">Product Name</label>
-                <input class="form-control" formControlName="product_name" [(ngModel)]="Service.product_name" id="ProductName" placeholder="Enter Product Name" required/>
-                <label class="text-danger" *ngIf="Service.formModelProducts.get('product_name').touched && Service.formModelProducts.get('product_name').invalid">This
-                  field is mandatory.</label>
+                <input type="text" class="form-control" id="product_name" placeholder="Enter product Name" 
+                name="product_name" product_name required [(ngModel)]='objdsg.product_name'  #product_name="ngModel">
+                <span class="help-bpx" *ngIf="product_name.touched && !product_name.valid ">Required</span>
               </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="ProductType">Product Type</label>
-                <select class="form-control" id="ProductType" formControlName="product_type" [(ngModel)]="Service.product_type">
-                    <option>ProductType1</option>
-                    <option>ProductType2</option>
+                  <select class="form-control" name="product_type" product_type required [(ngModel)]='objdsg.product_type' #product_type="ngModel">
+                      <option value="0" selected disabled>Please Select</option>
+                      <option value="Y">Yes</option>
+                      <option value="N">No</option>
+                      <span class="help-bpx" *ngIf="product_type.touched && !product_type.valid ">required</span>
                   </select>
-                    <label class="text-danger" *ngIf="Service.formModelProducts.get('product_type').touched && Service.formModelProducts.get('product_type').invalid">This
-                    field is mandatory.</label>
+
               </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="VenderName">Vender Name</label>
-                <input class="form-control" formControlName="product_vender_name" [(ngModel)]="Service.product_vender_name" id="ProductVenderName" placeholder="Enter Vender Name" required/>
-                <label class="text-danger" *ngIf="Service.formModelProducts.get('product_vender_name').touched && Service.formModelProducts.get('product_vender_name').invalid">This
-                  field is mandatory.</label>
+                <input type="text" class="form-control" id="product_vender_name" placeholder="Enter Vender Name" 
+                name="product_vender_name" product_vender_name required [(ngModel)]='objdsg.product_vender_name'  #product_vender_name="ngModel">
+                <span class="help-bpx" *ngIf="product_vender_name.touched && !product_vender_name.valid ">Required</span>
               </div>
             </div>
           </div><!--/.row-->
@@ -43,25 +43,25 @@
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="ManufacturerName">Manufacturer Name</label>
-                <input class="form-control" formControlName="product_manufacturer_name" [(ngModel)]="Service.product_manufacturer_name" id="ProductManufacturerName" placeholder="Enter Manufacturer Name" required/>
-                <label class="text-danger" *ngIf="Service.formModelProducts.get('product_manufacturer_name').touched && Service.formModelProducts.get('product_manufacturer_name').invalid">This
-                  field is mandatory.</label>
+                <input type="text" class="form-control" id="product_manufacturer_name" placeholder="Enter Manufacturer Name" 
+                name="product_manufacturer_name" product_manufacturer_name required [(ngModel)]='objdsg.product_manufacturer_name'  #product_manufacturer_name="ngModel">
+                <span class="help-bpx" *ngIf="product_manufacturer_name.touched && !product_manufacturer_name.valid ">Required</span>
               </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="PartNo">Part No.</label>
-                <input class="form-control" formControlName="product_part_no" [(ngModel)]="Service.product_part_no" id="ProductPartNo" placeholder="Enter Part No." required/>
-                <label class="text-danger" *ngIf="Service.formModelProducts.get('product_part_no').touched && Service.formModelProducts.get('product_part_no').invalid">This
-                  field is mandatory.</label>
-                </div>
+                <input type="text" class="form-control" id="product_part_no" placeholder="Enter Part No"
+                name="product_part_no" product_part_no required [(ngModel)]='objdsg.product_part_no'  #product_part_no="ngModel">
+                <span class="help-bpx" *ngIf="product_part_no.touched && !product_part_no.valid ">Required</span>
+              </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="PartDiscription">Part Discription</label>
-                <input class="form-control" formControlName="product_part_discription" [(ngModel)]="Service.product_part_discription" id="ProductPartDiscription" placeholder="Enter Part Discription" required/>
-                <label class="text-danger" *ngIf="Service.formModelProducts.get('product_part_discription').touched && Service.formModelProducts.get('product_part_discription').invalid">This
-                  field is mandatory.</label>
+                <input type="text" class="form-control" id="product_part_discription" placeholder="Enter Part Discription"
+                name="product_part_discription" product_part_discription required [(ngModel)]='objdsg.product_part_discription'  #product_part_discription="ngModel">
+                <span class="help-bpx" *ngIf="product_part_discription.touched && !product_part_discription.valid ">Required</span>
                 </div>
             </div>
             
@@ -71,12 +71,13 @@
             <div class="col-sm-4">
               <div class="form-group">
                   <label for="Enabled">Enabled</label>
-                  <select class="form-control" id="Enabled" formControlName="product_enabled" [(ngModel)]="Service.product_enabled">
-                      <option>Yes</option>
-                      <option>No</option>
-                  </select>
-                  <label class="text-danger" *ngIf="Service.formModelProducts.get('product_enabled').touched && Service.formModelProducts.get('product_enabled').invalid">This
-                  field is mandatory.</label>
+                  
+                      <select class="form-control" name="product_enabled" product_enabled required [(ngModel)]='objdsg.product_enabled' #product_enabled="ngModel">
+                          <option value="0" selected disabled>Please Select</option>
+                          <option value="Y">Yes</option>
+                          <option value="N">No</option>
+                          <span class="help-bpx" *ngIf="product_enabled.touched && !product_enabled.valid ">required</span>
+                      </select>
               </div>
             </div>
           </div><!--/.row-->                    
@@ -98,38 +99,44 @@
           <strong>Product Table</strong>
         </div>
         <div class="card-body">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Product Name</th>
-                <th>Product Type</th>
-                <th>Vender Name</th>
-                <th>Manufacturer Name</th>
-                <th>Part No.</th>
-                <th>Part Discription</th>
-                <th>Enabled</th>
-                <th>Edit</th>
-              </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let pro  of Service.listProducts">  
-                    <td hidden>{{pro.product_id}}</td>
-                    <td>{{pro.product_type}}</td>
-                    <td>{{pro.product_vender_name}}</td>
-                    <td>{{pro.product_manufacturer_name}}</td>
-                    <td>{{pro.product_part_no}}</td>
-                    <td>{{pro.product_part_discription}}</td>
-                    <td>{{pro.product_enabled}}</td>
-                    <td>
-                      <i data-toggle="modal" (click)="editRow(pro.product_id)" class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    </td>
-                    <td>
-                        <i id="remove" (click)="deleteRow(pro.product_id)" class="fa fa-trash" aria-hidden="true"></i>
-                    </td>
-                  </tr>
-            </tbody>
-          </table>
           
+            <div *ngIf="!dataavailbale">
+
+                <h6> No Data available </h6>
+            </div>
+          <table class="table table-striped" *ngIf="dataavailbale">
+              <thead>
+                  <tr>
+                      <th scope="col" style="align-content: center">Action</th>
+                      <th>Product Name</th>
+                      <th>Product Type</th>
+                      <th>Vender Name</th>
+                      <th>Manufacturer Name</th>
+                      <th>Part No.</th>
+                      <th>Part Discription</th>
+                      <th>Enabled</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let e of productslist">
+                    <td scope="col">
+                          <i data-toggle="modal"  data-target="#myModaledit" (click)="loadnewForm(e.product_name, e.product_type, e.product_vender_name, e.product_manufacturer_name, e.product_part_no, e.product_part_discription, e.product_enabled, e.product_id)" class="fa fa-pencil-square-o text-primary"></i>
+                            &nbsp;&nbsp;
+                            <i id="remove" (click)="deleteconfirmation(e.product_id)" class="fa fa-trash text-danger" aria-hidden="true"></i>
+                    </td>  
+                    
+                    <td scope="col">{{e.product_name}}</td>
+                    <td scope="col">{{e.product_type}}</td>
+                    <td scope="col">{{e.product_vender_name}}</td>
+                    <td scope="col">{{e.product_manufacturer_name}}</td>
+                    <td scope="col">{{e.product_part_no}}</td>
+                    <td scope="col">{{e.product_part_discription}}</td>
+                    <td scope="col">{{e.product_enabled}}</td>
+                    <td scope="col" style="display:none">{{e.product_id}}</td>
+                  </tr>
+                </tbody>
+                
+          </table>
         </div>
       </div>
     </div>
@@ -141,24 +148,97 @@
 
 
 
-<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
+<div bsModal #regForm="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header bg-primary">
-          <h4 class="modal-title">Edit Product</h4>
-          <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          
+        <div class="modal-header">
+            <h4 class="modal-title">Edit Product</h4>
+          <button type="button" (click)="largeModal.hide()" class="close" data-dismiss="modal">&times;</button>
         </div>
-            <div class="modal-body">
+        <form #EditForm='ngForm' name="editform" (ngSubmit)="EditProducts(EditForm)" class="form-horizontal">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="ProductName">Product Name</label>
+                    <input type="text" class="form-control" id="product_name" placeholder="Enter product Name" 
+                    name="product_name" product_name required [(ngModel)]='objdg.product_name'  #product_name="ngModel">
+                    <span class="help-bpx" *ngIf="product_name.touched && !product_name.valid ">Required</span>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="ProductType">Product Type</label>
+                      <select class="form-control" name="product_type" product_type required [(ngModel)]='objdg.product_type' #product_type="ngModel">
+                          <option value="0" selected disabled>Please Select</option>
+                          <option value="Y">Yes</option>
+                          <option value="N">No</option>
+                          <span class="help-bpx" *ngIf="product_type.touched && !product_type.valid ">required</span>
+                      </select>
+    
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="VenderName">Vender Name</label>
+                    <input type="text" class="form-control" id="product_vender_name" placeholder="Enter Vender Name" 
+                    name="product_vender_name" product_vender_name required [(ngModel)]='objdg.product_vender_name'  #product_vender_name="ngModel">
+                    <span class="help-bpx" *ngIf="product_vender_name.touched && !product_vender_name.valid ">Required</span>
+                  </div>
+                </div>
+              </div><!--/.row-->
+    
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="ManufacturerName">Manufacturer Name</label>
+                    <input type="text" class="form-control" id="product_manufacturer_name" placeholder="Enter Manufacturer Name" 
+                    name="product_manufacturer_name" product_manufacturer_name required [(ngModel)]='objdg.product_manufacturer_name'  #product_manufacturer_name="ngModel">
+                    <span class="help-bpx" *ngIf="product_manufacturer_name.touched && !product_manufacturer_name.valid ">Required</span>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="PartNo">Part No.</label>
+                    <input type="text" class="form-control" id="product_part_no" placeholder="Enter Part No"
+                    name="product_part_no" product_part_no required [(ngModel)]='objdg.product_part_no'  #product_part_no="ngModel">
+                    <span class="help-bpx" *ngIf="product_part_no.touched && !product_part_no.valid ">Required</span>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="PartDiscription">Part Discription</label>
+                    <input type="text" class="form-control" id="product_part_discription" placeholder="Enter Part Discription"
+                    name="product_part_discription" product_part_discription required [(ngModel)]='objdg.product_part_discription'  #product_part_discription="ngModel">
+                    <span class="help-bpx" *ngIf="product_part_discription.touched && !product_part_discription.valid ">Required</span>
+                    </div>
+                </div>
+                
+              </div><!--/.row-->          
+    
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+                      <label for="Enabled">Enabled</label>
+                      
+                          <select class="form-control" name="product_enabled" product_enabled required [(ngModel)]='objdg.product_enabled' #product_enabled="ngModel">
+                              <option value="0" selected disabled>Please Select</option>
+                              <option value="Y">Yes</option>
+                              <option value="N">No</option>
+                              <span class="help-bpx" *ngIf="product_enabled.touched && !product_enabled.valid ">required</span>
+                          </select>
+                  </div>
+                </div>
+              </div><!--/.row-->                    
               
-              
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" (click)="largeModal.hide()" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+      </div>
 
-            </div> 
-          <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+    </div>
+  </div>

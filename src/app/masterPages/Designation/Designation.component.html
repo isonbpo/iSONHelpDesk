@@ -5,31 +5,30 @@
         <div class="card-header">
           <strong>Designation</strong>
         </div>
-        <form #form="ngForm" [formGroup]="Service.formModelDesig" autocomplete="off" (submit)="onSubmit()">
+        <form #dsgadd='ngForm' (ngSubmit)="Register(dsgadd)" class="form-horizontal">
           <div class="card-body">
-              
             <div class="row">
               <div class="col-sm-9">
-                  
                 <div class="form-group">
                   <label for="DesignationName">Designation Name</label>
-                <input class="form-control" formControlName="desig_name" [(ngModel)]="Service.desig_name" id="DesignationName" placeholder="Enter Designation Name">               
-                </div>
+                    <input type="text" class="form-control" id="desig_name" placeholder="Enter Designation Name" 
+                    name="desig_name" desig_name required [(ngModel)]='objdsg.desig_name'  #desig_name="ngModel">
+                    <span class="help-bpx" *ngIf="desig_name.touched && !desig_name.valid ">Required</span>
+                 </div>
               </div>
               <div class="col-sm-3">
                 <div class="form-group">
                   <label for="Enabled">Enabled</label>
-                  <select class="form-control" id="Enabled" formControlName="desig_enabled" [(ngModel)]="Service.desig_enabled">
-                    <option>Yes</option>
-                    <option>No</option>
-                  </select>
-
+                  <select class="form-control" name="desig_enabled" desig_enabled required [(ngModel)]='objdsg.desig_enabled' #desig_enabled="ngModel">
+                      <option value="0" selected disabled>Please Select</option>
+                      <option value="Y">Yes</option>
+                      <option value="N">No</option>
+                      <span class="help-bpx" *ngIf="desig_enabled.touched && !desig_enabled.valid ">required</span>
+                    </select>
                 </div>
                 
               </div>
             </div><!--/.row-->
-              
-  
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
@@ -48,28 +47,34 @@
           <strong>Designation List</strong>
         </div>
         <div class="card-body">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Designation Name</th>
-                <th>Enabled</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let desig of Service.listDesig">  
-                <td hidden>{{desig.desig_id}}</td>
-                <td>{{desig.desig_name}}</td>
-                <td>{{desig.desig_enabled}}</td>
-                <td>
-                  <i data-toggle="modal" (click)="editRow(desig.desig_id)" class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                </td>
-                <td>
-                    <i id="remove" (click)="deleteRow(desig.desig_id)" class="fa fa-trash" aria-hidden="true"></i>
-                </td>
-              </tr>
-            </tbody>
+            <div *ngIf="!dataavailbale">
+
+                <h6> No Data available </h6>
+            </div>
+
+
+          <table class="table table-striped" *ngIf="dataavailbale">
+              <thead>
+                <tr>
+                    <th scope="col" style="align-content: center">Action</th>
+                    <th scope="col">Designation Name</th>
+                    <th scope="col">Enabled</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let e of dsglist">
+                  <td scope="col">
+                        <i data-toggle="modal"  data-target="#myModaledit" (click)="loadnewForm(e.desig_name,e.desig_enabled,e.desig_id)" class="fa fa-pencil-square-o text-primary"></i>
+                          &nbsp;&nbsp;
+                          <i id="remove" (click)="deleteconfirmation(e.desig_id)" class="fa fa-trash text-danger" aria-hidden="true"></i>
+                  </td>  
+
+                  <td scope="col">{{e.desig_name}}</td>
+                  <td scope="col">{{e.desig_enabled}}</td>
+                  <td scope="col" style="display:none">{{e.desig_id}}</td>
+                  
+                </tr>
+              </tbody>
           </table>
           
         </div>
@@ -82,43 +87,46 @@
 </div>
 
 
-<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-md" role="document">
-    <div class="modal-content">
-      <div class="modal-header bg-primary">
-        <h4 class="modal-title">Edit Department</h4>
-        <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-          <div class="modal-body">
-            <form #form="ngForm" [formGroup]="Service.formModelDesig" autocomplete="off" (submit)="onSubmit()">
-                <div class="row">
-                  <div class="col-sm-9">
-                      
-                    <div class="form-group">
-                      <label for="DesignationName">Designation Name</label>
-                    <input class="form-control" formControlName="desig_name" [(ngModel)]="Service.desig_name" id="DesignationName" placeholder="Enter Designation Name">               
-                    </div>
-                  </div>
-                  <div class="col-sm-3">
-                    <div class="form-group">
-                      <label for="Enabled">Enabled</label>
-                      <select class="form-control" id="Enabled" formControlName="desig_enabled" [(ngModel)]="Service.desig_enabled">
-                        <option>Yes</option>
-                        <option>No</option>
-                      </select>
-    
-                    </div>
+<div bsModal #regForm="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+          
+        <div class="modal-header">
+            <h4 class="modal-title">Edit</h4>
+          <button type="button" (click)="largeModal.hide()" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <form #EditForm='ngForm' name="editform" (ngSubmit)="EditDesignation(EditForm)" class="form-horizontal">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-9">
                     
+                  <div class="form-group">
+                    <label for="DesignationName">Designation Name</label>
+                      <input type="text" class="form-control" id="desig_name" placeholder="Enter Designation Name" 
+                      name="desig_name" desig_name required [(ngModel)]='objdg.desig_name'  #desig_name="ngModel">
+                      <span class="help-bpx" *ngIf="desig_name.touched && !desig_name.valid ">Required</span>
+                   </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label for="Enabled">Enabled</label>
+                    <select class="form-control" name="desig_enabled" desig_enabled required [(ngModel)]='objdg.desig_enabled' #desig_enabled="ngModel">
+                        <option value="0" selected disabled>Please Select</option>
+                        <option value="Y">Yes</option>
+                        <option value="N">No</option>
+                        <span class="help-bpx" *ngIf="desig_enabled.touched && !desig_enabled.valid ">required</span>
+                      </select>
                   </div>
-                </div><!--/.row-->
-                </form>
-          </div> 
+                  
+                </div>
+              </div><!--/.row-->
+        </div>
         <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" (click)="largeModal.hide()" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </form>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+
+    </div>
+</div>

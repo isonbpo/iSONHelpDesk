@@ -1,4 +1,4 @@
-import { Component,ViewChild, OnInit } from '@angular/core';
+import { Component,ViewChild, OnInit, Input, EventEmitter, ElementRef, Output } from '@angular/core';
 
 import { getStyle } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
@@ -6,6 +6,9 @@ import { from } from 'rxjs';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { MasterPagesService } from '../shared/master-pages.service';
 import { ToastrService } from 'ngx-toastr';
+import { Designation } from '../shared/designation.model';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -13,46 +16,112 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class DesignationComponent implements OnInit {
 
-  @ViewChild('largeModal') largeModal : ModalDirective;
+  @ViewChild('regForm') largeModal : ModalDirective;
 
-  constructor(private Service:MasterPagesService, private toastr: ToastrService){}
+  dsglist: Designation[];
+  dataavailbale: Boolean = false;
+  tempdsg: Designation
+
+  @Input() reset: boolean = false;
+  @ViewChild('regForm') myForm: NgForm;
+  @Input() isReset: boolean = false;
+  objtdgdg: Designation;
+  @Input() objdg: Designation = new Designation();
+
+  @Input()  cleardata: boolean = false;
+  @Output() nameEvent = new EventEmitter<string>();
+
+  objtdsgdsg:Designation;
+  @Input() objdsg :Designation=new Designation();
+  @ViewChild('closeBtn') cb: ElementRef;
+
+  
+  
+
+  constructor(private Service:MasterPagesService, private toastr: ToastrService,private route:Router){}
   ngOnInit()
   {
-    this.getDesignationList();
+    this.LoadData();
+  }
+  
+  LoadData() {
+    this.Service.getDesignation().subscribe((tempdate) => {
+      this.dsglist = tempdate;
+      if (this.dsglist.length > 0) {
+        this.dataavailbale = true;
+      }
+      else {
+        this.dataavailbale = false;
+      }
+    }
+    )
+      , err => {
+        console.log(err);
+      }
   }
 
-  getDesignationList()
-  {
-  this.Service.getAllDesignation();
-  this.Service.formModelDesig.reset();
+  Register(regForm:NgForm){  
+   
+    this.objtdsgdsg=new Designation();
+    this.objtdsgdsg.desig_name=regForm.value.desig_name;
+    this.objtdsgdsg.desig_enabled=regForm.value.desig_enabled;
+    
+    
+    this.Service.AddDesignation(this.objtdsgdsg).subscribe(res=>{
+    this.toastr.success('Added Successfully', 'Designation');
+    this.LoadData();
+    regForm.resetForm();
+    
+}
+  )
+  } 
+   
+  TakeHome(){
+     this.nameEvent.emit("ccc");
+     this.cb.nativeElement.click();
+     this.route.navigateByUrl('');
+   }
+
+   deleteconfirmation(desig_id: string) {
+
+    if (confirm("Are you sure you want to delete this ?")) {
+      this.tempdsg = new Designation();
+      this.tempdsg.desig_id = desig_id;
+      this.Service.DeleteDesignation(this.tempdsg).subscribe(res => {
+        this.toastr.warning('Deleted Successfully', 'Designation');
+        this.LoadData();
+      })
+    }
   }
 
-  editRow(desig_id:number)
-  {
+  loadnewForm(desig_name:string,desig_enabled:string,desig_id:string) {
+    console.log(desig_id+" " + desig_enabled + " " + desig_name);
     this.largeModal.show();
-    this.Service.editDesignation(desig_id).subscribe();
-  }
-
-  deleteRow(desig_id:number)
-  {
-    this.Service.deleteDesignation(desig_id).subscribe(
-      res=>
-        {
-          this.toastr.warning('Designation Deleted', 'Designation');
-          this.getDesignationList();
-        });
+    this.objdg.desig_id = desig_id
+    this.objdg.desig_name = desig_name
+    this.objdg.desig_enabled = desig_enabled
+    
     
   }
 
-
-  onSubmit() {
-    this.Service.addDesignation().subscribe(
-      res=>
-        {
-          this.toastr.success('Designation Added Successfully', 'Designation');
-          this.getDesignationList();
-        });
+  RefreshData() {
+    this.LoadData();
   }
+
+
+  EditDesignation(regForm: NgForm) {
+    
+    this.Service.EditDesignation(this.objdg).subscribe(res => {
+
+      this.toastr.info('Updated Successfully', 'Designation');
+      this.largeModal.hide();
+      this.nameEvent.emit("ccc");
+      this.LoadData();
+       },
+       err => {
+        console.log(err);
+      }
+    )}
 
 
 

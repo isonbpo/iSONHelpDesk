@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild, Input, EventEmitter, Output, ElementRef} from '@angular/core';
 
 import { getStyle } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
@@ -7,54 +7,118 @@ import { ToastrService } from 'ngx-toastr';
 import { Department } from '../shared/department.model';
 import { NgForm } from '@angular/forms';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: 'Department.component.html'
 })
 export class DepartmentComponent implements OnInit{
-  //@ViewChild('largeModal') largeModal: BsModalComponent;
-  //@ViewChild('myModal') public myModal: ModalDirective;
-  @ViewChild('largeModal') largeModal : ModalDirective;
+  @ViewChild('regForm') largeModal : ModalDirective;
 
-  constructor(private Service:MasterPagesService, private toastr: ToastrService){}
+  dptlist: Department[];
+  dataavailbale: Boolean = false;
+  tempdpt: Department
+
+  @Input() reset: boolean = false;
+  @ViewChild('regForm') myForm: NgForm;
+  @Input() isReset: boolean = false;
+  objtdtdt: Department;
+  @Input() objdt: Department = new Department();
+
+  @Input()  cleardata: boolean = false;
+  @Output() nameEvent = new EventEmitter<string>();
+
+  objtdptdpt:Department;
+  @Input() objdpt :Department=new Department();
+  @ViewChild('closeBtn') cb: ElementRef;
+
+  
+  
+
+  constructor(private Service:MasterPagesService, private toastr: ToastrService,private route:Router){}
   ngOnInit()
   {
-    this.getDepartment();
+    this.LoadData();
+  }
+  
+  LoadData() {
+    this.Service.getDepartment().subscribe((tempdate) => {
+      this.dptlist = tempdate;
+      if (this.dptlist.length > 0) {
+        this.dataavailbale = true;
+      }
+      else {
+        this.dataavailbale = false;
+      }
+    }
+    )
+      , err => {
+        console.log(err);
+      }
   }
 
-  getDepartment()
-  {
-  this.Service.getAllDepartment();
-  this.Service.formModel.reset();
-  }
-
-  editRow(dept_id:number)
-  {
+  Register(regForm:NgForm){  
+   
+    this.objtdptdpt=new Department();
+    this.objtdptdpt.dept_name=regForm.value.dept_name;
+    this.objtdptdpt.dept_enabled=regForm.value.dept_enabled;
     
+    
+    this.Service.AddDepartment(this.objtdptdpt).subscribe(res=>{
+    this.toastr.success('Added Successfully', 'Department');
+    this.LoadData();
+    regForm.resetForm();
+    
+}
+  )
+  } 
+   
+  TakeHome(){
+     this.nameEvent.emit("ccc");
+     this.cb.nativeElement.click();
+     this.route.navigateByUrl('');
+   }
+
+   deleteconfirmation(dept_id: string) {
+
+    if (confirm("Are you sure you want to delete this ?")) {
+      this.tempdpt = new Department();
+      this.tempdpt.dept_id = dept_id;
+      this.Service.DeleteDepartment(this.tempdpt).subscribe(res => {
+        this.toastr.warning('Deleted Successfully', 'Department');
+        this.LoadData();
+      })
+    }
+  }
+
+  loadnewForm(dept_name:string,dept_enabled:string,dept_id:string) {
+    console.log(dept_id+" " + dept_enabled + " " + dept_name);
     this.largeModal.show();
-    this.Service.editDepartment(dept_id).subscribe();
-  }
-
-  deleteRow(dept_id:number)
-  {
-    this.Service.deleteDepartment(dept_id).subscribe(
-      res=>
-        {
-          this.toastr.warning('Department Deleted', 'Department');
-          this.getDepartment();
-        });
+    this.objdt.dept_id = dept_id
+    this.objdt.dept_name = dept_name
+    this.objdt.dept_enabled = dept_enabled
+    
     
   }
 
-
-  onSubmit() {
-    this.Service.addDepartment().subscribe(
-      res=>
-        {
-          this.toastr.success('Department Added Successfully', 'Department');
-          this.getDepartment();
-        });
+  RefreshData() {
+    this.LoadData();
   }
+
+
+  EditDepartment(regForm: NgForm) {
+    
+    this.Service.EditDepartment(this.objdt).subscribe(res => {
+      this.toastr.info('Updated Successfully', 'Department');
+      this.largeModal.hide();
+      this.nameEvent.emit("ccc");
+      this.LoadData();
+       },
+       err => {
+        console.log(err);
+      }
+    )}
+
 
   // lineChart1
   public lineChart1Data: Array<any> = [

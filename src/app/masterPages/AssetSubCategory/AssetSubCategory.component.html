@@ -1,7 +1,7 @@
 <div class="animated fadeIn">
   <div class="row">
     <div class="col-sm-12">
-        <form #form="ngForm" [formGroup]="Service.formModelAssetSubCategory" autocomplete="off" (submit)="onSubmit()">
+        <form #astsubcatadd='ngForm' (ngSubmit)="Register(astsubcatadd)" class="form-horizontal">
       <div class="card">
         <div class="card-header">
           <strong>Asset Sub Category</strong>
@@ -12,33 +12,31 @@
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="AssetSubCategory">Asset Sub Category Name</label>
-                <input class="form-control" formControlName="asset_sub_category_name" [(ngModel)]="Service.asset_sub_category_name" id="AssetCatgoryName" placeholder="Enter Asset Sub Category Name">
-                <label class="validation-error text-danger" *ngIf="Service.formModelAssetSubCategory.get('asset_sub_category_name').touched && Service.formModelAssetSubCategory.get('asset_sub_category_name').errors?.required">This
-                    field is mandatory.</label>
+                <input type="text" class="form-control" id="asset_sub_category_name" placeholder="Enter Category Name" 
+                name="asset_sub_category_name" asset_sub_category_name required [(ngModel)]='objasc.asset_sub_category_name'  #asset_sub_category_name="ngModel">
+                <span class="help-bpx" *ngIf="asset_sub_category_name.touched && !asset_sub_category_name.valid ">Required</span>
               </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="SubCategoryDiscription">Sub Category Discription</label>
-                <input class="form-control" formControlName="asset_sub_category_discription" [(ngModel)]="Service.asset_sub_category_discription" id="AssetSubCatgoryDiscription" placeholder="Enter Asset Sub Category Discription">
-                <label class="validation-error text-danger" *ngIf="Service.formModelAssetSubCategory.get('asset_sub_category_discription').touched && Service.formModelAssetSubCategory.get('asset_sub_category_discription').errors?.required">This
-                    field is mandatory.</label>
+                <input type="text" class="form-control" id="asset_sub_category_discription" placeholder="Enter Category Discription" 
+                name="asset_sub_category_discription" asset_sub_category_discription required [(ngModel)]='objasc.asset_sub_category_discription'  #asset_sub_category_discription="ngModel">
+                <span class="help-bpx" *ngIf="asset_sub_category_discription.touched && !asset_sub_category_discription.valid ">Required</span>
               </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
                   <label for="Enabled">Enabled</label>
-                  <select class="form-control" id="Enabled" formControlName="asset_sub_category_enabled" [(ngModel)]="Service.asset_sub_category_enabled">
-                    <option>Yes</option>
-                    <option>No</option>
+                  <select class="form-control" name="asset_sub_category_enabled" asset_sub_category_enabled required [(ngModel)]='objasc.asset_sub_category_enabled' #asset_sub_category_enabled="ngModel">
+                      <option value="0" selected disabled>Please Select</option>
+                      <option value="Y">Yes</option>
+                      <option value="N">No</option>
+                      <span class="help-bpx" *ngIf="asset_sub_category_enabled.touched && !asset_sub_category_enabled.valid ">required</span>
                   </select>
-                  <label class="validation- text-danger" *ngIf="Service.formModelAssetSubCategory.get('asset_sub_category_enabled').touched && Service.formModelAssetSubCategory.get('asset_sub_category_enabled').errors?.required">This
-                      field is mandatory.</label>
               </div>
             </div>
           </div><!--/.row-->
-
-
       </div>
       <div class="card-footer">
           <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Insert</button>
@@ -58,37 +56,93 @@
           <strong>Asset Sub Category List</strong>
         </div>
         <div class="card-body">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Asset Sub Category</th>
-                <th>Asset Sub Discription</th>
-                <th>Enabled</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let assetSubCtr of Service.listAssetSubCategory">  
-                    <td hidden>{{assetSubCtr.asset_sub_category_id}}</td>
-                    <td>{{assetSubCtr.asset_sub_category_name}}</td>
-                    <td>{{assetSubCtr.asset_sub_category_discription}}</td>
-                    <td>{{assetSubCtr.asset_sub_category_enabled}}</td>
-                    <td>
-                      <i data-toggle="modal" (click)="editRow(assetSubCtr.asset_sub_category_id)" class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    </td>
-                    <td>
-                        <i id="remove" (click)="deleteRow(assetSubCtr.asset_sub_category_id)" class="fa fa-trash" aria-hidden="true"></i>
-                    </td>
+
+            <div *ngIf="!dataavailbale">
+
+                <h6> No Data available </h6>
+            </div>
+          <table class="table table-striped" *ngIf="dataavailbale">
+              <thead>
+                  <tr>
+                      <th scope="col" style="align-content: center">Action</th>
+                      <th scope="col">Asset Sub Category</th>
+                      <th scope="col">Asset Sub Discription</th>
+                      <th scope="col">Enabled</th>
                   </tr>
-  
-            </tbody>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let e of AssetSubCategorylist">
+                    <td scope="col">
+                          <i data-toggle="modal"  data-target="#myModaledit" (click)="loadnewForm(e.asset_sub_category_name,e.asset_sub_category_discription,e.asset_sub_category_enabled,e.asset_sub_category_id)" class="fa fa-pencil-square-o text-primary"></i>
+                            &nbsp;&nbsp;
+                          <i id="remove" (click)="deleteconfirmation(e.asset_sub_category_id)" class="fa fa-trash text-danger" aria-hidden="true"></i>
+                    </td>  
+                    <td scope="col">{{e.asset_sub_category_name}}</td>
+                    <td scope="col">{{e.asset_sub_category_discription}}</td>
+                    <td scope="col">{{e.asset_sub_category_enabled}}</td>
+                    <td scope="col" style="display:none">{{e.asset_sub_category_id}}</td>
+                  </tr>
+                </tbody>
           </table>
-          
-        </div>
+         </div>
       </div>
     </div>
     <!--/.col-->
   </div>
   <!--/.row-->
+</div>
+
+
+
+
+
+
+<div bsModal #regForm="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+          
+        <div class="modal-header">
+            <h4 class="modal-title">Edit Asset Sub Category</h4>
+          <button type="button" (click)="largeModal.hide()" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <form #EditForm='ngForm' name="editform" (ngSubmit)="EditAssetSubCategory(EditForm)" class="form-horizontal">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+                      <label for="AssetSubCategory">Asset Sub Category Name</label>
+                      <input type="text" class="form-control" id="asset_sub_category_name" placeholder="Enter Asset Sub Category Name" 
+                      name="asset_sub_category_name" asset_sub_category_name required [(ngModel)]='objas.asset_sub_category_name'  #asset_sub_category_name="ngModel">
+                      <span class="help-bpx" *ngIf="asset_sub_category_name.touched && !asset_sub_category_name.valid ">Required</span>
+                   </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="CategorySubDiscription">Category Sub Discription</label>
+                        <input type="text" class="form-control" id="asset_sub_category_discription" placeholder="Enter Asset Sub Category Discription" 
+                        name="asset_sub_category_discription" asset_sub_category_discription required [(ngModel)]='objas.asset_sub_category_discription'  #asset_sub_category_discription="ngModel">
+                        <span class="help-bpx" *ngIf="asset_sub_category_discription.touched && !asset_sub_category_discription.valid ">Required</span>
+                    </div>  
+                </div>
+                <div class="col-sm-4 ">
+                  <div class="form-group">
+                      <label for="Enabled">Enabled</label>
+                      <select class="form-control" name="asset_sub_category_enabled" asset_sub_category_enabled required [(ngModel)]='objas.asset_sub_category_enabled' #asset_sub_category_enabled="ngModel">
+                          <option value="0" selected disabled>Please Select</option>
+                          <option value="Y">Yes</option>
+                          <option value="N">No</option>
+                          <span class="help-bpx" *ngIf="asset_sub_category_enabled.touched && !asset_sub_category_enabled.valid ">required</span>
+                      </select>    
+                  </div>
+                </div>
+              </div><!--/.row-->
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" (click)="largeModal.hide()" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+      </div>
+
+    </div>
 </div>

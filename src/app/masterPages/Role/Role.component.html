@@ -5,36 +5,34 @@
         <div class="card-header">
           <strong>Role</strong>
         </div>
-        <form #form="ngForm" [formGroup]="Service.formModelRole" autocomplete="off" (submit)="onSubmit()">
+        <form #roleadd='ngForm' (ngSubmit)="Register(roleadd)" class="form-horizontal">
         <div class="card-body">
           <div class="row">
             <div class="col-sm-4">
-              <input type="hidden" formControlName="role_id" [(ngModel)]="Service.role_id">
-              
               <div class="form-group">
                 <label for="RoleName">Role Name</label>
-                <input class="form-control" formControlName="role_name" [(ngModel)]="Service.role_name" id="RoleName" placeholder="Enter Role Name" required/>
-                <label class="text-danger" *ngIf="Service.formModelRole.get('role_name').touched && Service.formModelRole.get('role_name').invalid">This
-                  field is mandatory.</label>
+                <input type="text" class="form-control" id="role_name" placeholder="Enter Role Name" 
+                name="role_name" role_name required [(ngModel)]='objrole.role_name'  #role_name="ngModel">
+                <span class="help-bpx" *ngIf="role_name.touched && !role_name.valid ">Required</span>
               </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="Description">Discription</label>
-                <input class="form-control" formControlName="role_description" [(ngModel)]="Service.role_description" id="DescriptionName" placeholder="Enter Description Name"/>
-                <label class="text-danger" *ngIf="Service.formModelRole.get('role_description').touched && Service.formModelRole.get('role_description').invalid">This
-                  field is mandatory.</label>
+                <input type="text" class="form-control" id="role_description" placeholder="Enter Team Description" 
+                name="role_description" role_description required [(ngModel)]='objrole.role_description'  #role_description="ngModel">
+                <span class="help-bpx" *ngIf="role_description.touched && !role_description.valid ">Required</span>
               </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="Enabled">Enabled</label>
-                <select class="form-control" id="Enabled" formControlName="role_enabled" [(ngModel)]="Service.role_enabled">
-                  <option>Yes</option>
-                  <option>No</option>
+                <select class="form-control" name="role_enabled" role_enabled required [(ngModel)]='objrole.role_enabled' #role_enabled="ngModel">
+                    <option value="0" selected disabled>Please Select</option>
+                    <option value="Y">Yes</option>
+                    <option value="N">No</option>
+                    <span class="help-bpx" *ngIf="role_enabled.touched && !role_enabled.valid ">required</span>
                 </select>
-                <label class="text-danger" *ngIf="Service.formModelRole.get('role_enabled').touched && Service.formModelRole.get('role_enabled').invalid">This
-                  field is mandatory.</label>
               </div>
             </div>
           </div><!--/.row-->
@@ -58,36 +56,37 @@
             <strong>Role List</strong>
         </div>
         <div class="card-body">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Enabled</th>
-                <th>Activities</th>
-                <th>Roles</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let role  of Service.listRole">  
-                <td hidden>{{role.role_id}}</td>
-                <td>{{role.role_description}}</td>
-                <td>{{role.role_name}}</td>
-                <td>{{role.role_enabled}}</td>
-                <td>Assign Activities</td>
-                <td>Assign Roles</td>
-                <td>
-                  <i data-toggle="modal" (click)="editRow(role.role_id)" class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                </td>
-                <td>
-                    <i id="remove" (click)="deleteRow(role.role_id)" class="fa fa-trash" aria-hidden="true"></i>
-                </td>
-              </tr>
-            </tbody>
+            <div *ngIf="!dataavailbale">
+
+                <h6> No Data available </h6>
+            </div>
+          <table class="table table-striped" *ngIf="dataavailbale">
+              <thead>
+                  <tr>
+                      <th scope="col" style="align-content: center">Action</th>
+                      <th scope="col" >Name</th>
+                      <th scope="col" >Description</th>
+                      <th scope="col" >Enabled</th>
+                      <th scope="col" >Activities</th>
+                      <th scope="col" >Roles</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let e of rolelist">
+                    <td scope="col">
+                          <i data-toggle="modal"  data-target="#myModaledit" (click)="loadnewForm(e.role_name,e.role_description,e.role_enabled,e.role_id)" class="fa fa-pencil-square-o text-primary"></i>
+                            &nbsp;&nbsp;
+                            <i id="remove" (click)="deleteconfirmation(e.role_id)" class="fa fa-trash text-danger" aria-hidden="true"></i>
+                    </td>  
+                    <td scope="col">{{e.role_name}}</td>
+                    <td scope="col">{{e.role_description}}</td>
+                    <td scope="col">{{e.role_enabled}}</td>
+                    <td scope="col">Assign Activities</td>
+                    <td scope="col">Assign Roles</td>
+                    <td scope="col" style="display:none">{{e.role_id}}</td>
+                  </tr>
+                </tbody>
           </table>
-          
         </div>
       </div>
     </div>
@@ -97,23 +96,53 @@
 </div>
 
 
-<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
+<div bsModal #regForm="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header bg-primary">
-          <h4 class="modal-title">Edit Role</h4>
-          <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          
+        <div class="modal-header">
+            <h4 class="modal-title">Edit</h4>
+          <button type="button" (click)="largeModal.hide()" class="close" data-dismiss="modal">&times;</button>
         </div>
-            <div class="modal-body">
-                <app-role-update></app-role-update>
-              <app-employeeupdate (nameEvent)="RefreshData($event)" [isReset]="resetForm" #regForm></app-employeeupdate>
-            </div> 
-          <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+        <form #EditForm='ngForm' name="editform" (ngSubmit)="EditRole(EditForm)" class="form-horizontal">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="RoleName">Role Name</label>
+                      <input type="text" class="form-control" id="role_name" placeholder="Enter Role Name" 
+                      name="role_name" role_name required [(ngModel)]='objrl.role_name'  #role_name="ngModel">
+                      <span class="help-bpx" *ngIf="role_name.touched && !role_name.valid ">Required</span>
+                   </div>
+                </div>
+                <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="RoleDescription">Role Description</label>
+                      <input type="text" class="form-control" id="role_description" placeholder="Enter Role Description" 
+                      name="role_description" role_description required [(ngModel)]='objrl.role_description'  #role_description="ngModel">
+                      <span class="help-bpx" *ngIf="role_description.touched && !role_description.valid ">Required</span>
+                </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label for="Enabled">Enabled</label>
+                    <select class="form-control" name="role_enabled" role_enabled required [(ngModel)]='objrl.role_enabled' #role_enabled="ngModel">
+                        <option value="0" selected disabled>Please Select</option>
+                        <option value="Y">Yes</option>
+                        <option value="N">No</option>
+                        <span class="help-bpx" *ngIf="role_enabled.touched && !role_enabled.valid ">required</span>
+                      </select>
+                  </div>
+                  
+                </div>
+              </div><!--/.row-->
         </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" (click)="largeModal.hide()" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+      </div>
+
+    </div>
+  </div>

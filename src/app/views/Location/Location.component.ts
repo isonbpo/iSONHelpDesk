@@ -58,6 +58,10 @@ export class LocationComponent implements OnInit {
     //this.Service.formModelTimeZone.reset();
   }
 
+  getCreatedByDate()
+  {
+    this.Service.getCreateByDate();
+  }
 
   // editRow(timezone_id:number)
   // {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Department } from './department.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Designation } from './designation.model';
@@ -20,224 +20,279 @@ import { TimeZone } from './time-zone.model';
 })
 export class MasterPagesService {
   
-  formData :Department;
+  //formData :Department;
+  department: Observable<Department[]>;
+  newdepartment: Department;
+
   constructor(private fb: FormBuilder, private http:HttpClient) { }
   readonly rootURL = 'http://localhost:54277/api';
 
-  //start department sections
-  list:Department[];
-  getAllDepartment(){
-    this.http.get(this.rootURL+'/department/DepartmentList')
-    .toPromise()
-    .then(res=>this.list = res as Department[]);
+  //Department Start
+  getDepartment() {
+    return this.http.get<Department[]>(this.rootURL + '/department/DepartmentList');
   }
-  
-  formModel = this.fb.group({
-    dept_id: ['', Validators.required],
-    dept_name: ['', Validators.required],
-    dept_enabled:['', Validators.required]
-  });
+  AddDepartment(dpt: Department) {
 
-
-  addDepartment() {
+    const headers = new HttpHeaders().set('content-type', 'application/json');
     var body = {
-      dept_name: this.formModel.value.dept_name,
-      dept_enabled: this.formModel.value.dept_enabled,
+      dept_name: dpt.dept_name , dept_enabled: dpt.dept_enabled      
     };
-    return this.http.post(this.rootURL + '/department/CreateDepartment', body);
-  }
-
-  deleteDepartment(dept_id:number)
-  {
-    return this.http.delete(this.rootURL+'/department/DeleteDepartment?dept_id='+dept_id);
-  }
-
-  editDepartment(dept_id:number)
-  {
-    return this.http.get(this.rootURL+'/department/EditDepartment?dept_id='+dept_id);
-  }
-//end department section
-
-//start designation section
-    listDesig:Designation[];
-    getAllDesignation(){
-      this.http.get(this.rootURL+'/designation/DesignationList')
-      .toPromise()
-      .then(res=>this.listDesig = res as Designation[]);
-    }
-    
-    formModelDesig = this.fb.group({
-      desig_id: ['', Validators.required],
-      desig_name: ['', Validators.required],
-      desig_enabled:['', Validators.required]
-    });
-
-    addDesignation() {
-      var body = {
-        desig_name: this.formModelDesig.value.desig_name,
-        desig_enabled: this.formModelDesig.value.desig_enabled,
-      };
-      return this.http.post(this.rootURL + '/designation/CreateDesignation', body);
-    }
   
-    deleteDesignation(desig_id:number)
-    {
-      return this.http.delete(this.rootURL+'/Designation/DeleteDesignation?desig_id='+desig_id);
-    }
+    return this.http.post<Department>(this.rootURL + '/Department', body, { headers });
+
+  }
+
+  EditDepartment(dpt: Department) {
+    console.log(dpt);
+     const params = new HttpParams().set('dept_id', dpt.dept_id.toString());
+     const headers = new HttpHeaders().set('content-type', 'application/json');
+     var body = {
+       dept_id:dpt.dept_id, dept_name: dpt.dept_name , dept_enabled: dpt.dept_enabled      
+     }
+     
+     return this.http.put<Department>(this.rootURL + '/department/UpdateDepartment?dept_id=' + dpt.dept_id, body, { headers })
+  }
+
   
-    editDesignation(desig_id:number)
-    {
-      return this.http.get(this.rootURL+'/designation/EditDesignation?desig_id='+desig_id);
+  DeleteDepartment(dpt: Department) {
+    const params = new HttpParams().set('ID', dpt.dept_id.toString());
+    const headers = new HttpHeaders().set('content-type', 'application/json');
+    var body = {
+      dept_id:dpt.dept_id, dept_name: dpt.dept_name , dept_enabled: dpt.dept_enabled      
     }
-// End Designation Section
+    return this.http.delete<Department>(this.rootURL + '/department/DeleteDepartment?dept_id='+ dpt.dept_id)
+  }
+//Department End
 
 
-//Start Team section
-listTeam:Team[];
-getAllTeam(){
-  this.http.get(this.rootURL+'/Team/TeamList')
-  .toPromise()
-  .then(res=>this.listTeam = res as Team[]);
+//Designation Start
+getDesignation() {
+  return this.http.get<Designation[]>(this.rootURL + '/Designation/DesignationList');
 }
+AddDesignation(dg: Designation) {
 
-formModelTeam = this.fb.group({
-  team_id: ['', Validators.required],
-  team_name: ['', Validators.required],
-  team_enabled:['', Validators.required]
-});
-
-addTeam() {
+  const headers = new HttpHeaders().set('content-type', 'application/json');
   var body = {
-    team_name: this.formModelTeam.value.team_name,
-    team_enabled: this.formModelTeam.value.team_enabled,
+    desig_name: dg.desig_name , desig_enabled: dg.desig_enabled      
   };
-  return this.http.post(this.rootURL + '/team/CreateTeam', body);
+  
+  return this.http.post<Designation>(this.rootURL + '/Designation', body, { headers });
+
 }
 
-deleteTeam(team_id:number)
-{
-  return this.http.delete(this.rootURL+'/team/DeleteTeam?team_id='+team_id);
+EditDesignation(dg: Designation) {
+  console.log(dg);
+   const params = new HttpParams().set('desig_id', dg.desig_id.toString());
+   const headers = new HttpHeaders().set('content-type', 'application/json');
+   var body = {
+     desig_id:dg.desig_id, desig_name: dg.desig_name , desig_enabled: dg.desig_enabled
+   }
+  
+   return this.http.put<Designation>(this.rootURL + '/designation/UpdateDesignation?desig_id=' + dg.desig_id, body, { headers })
 }
 
-editTeam(team_id:number)
-{
-  return this.http.get(this.rootURL+'/team/EditTeam?team_id='+team_id);
-}
-// End Team Section
 
-//Start Role section
-listRole:Role[];
-getAllRole(){
-  this.http.get(this.rootURL+'/Role/RoleList')
-  .toPromise()
-  .then(res=>this.listRole = res as Role[]);
-}
-
-formModelRole = this.fb.group({
-  role_id: ['', Validators.required],
-  role_name: ['', Validators.required],
-  role_description: ['', Validators.required],
-  role_enabled:['', Validators.required],
-  role_cust_enable:['', Validators.required]
-
-});
-
-addRole() {
+DeleteDesignation(dg: Designation) {
+  const params = new HttpParams().set('ID', dg.desig_id.toString());
+  const headers = new HttpHeaders().set('content-type', 'application/json');
   var body = {
-    role_name: this.formModelRole.value.role_name,
-    role_description:this.formModelRole.value.role_description,
-    role_enabled: this.formModelRole.value.role_enabled,
-  };
-  return this.http.post(this.rootURL + '/role/CreateRole', body);
+    desig_id:dg.desig_id, desig_name: dg.desig_name , desig_enabled: dg.desig_enabled
+  }
+  return this.http.delete<Designation>(this.rootURL + '/designation/DeleteDesignation?desig_id='+ dg.desig_id)
 }
+//Designation End
 
-deleteRole(role_id:number)
-{
-  return this.http.delete(this.rootURL+'/role/DeleteRole?role_id='+role_id);
+//Team Start
+getTeam() {
+  return this.http.get<Team[]>(this.rootURL + '/Team/TeamList');
 }
+AddTeam(tm: Team) {
 
-editRole(role_id:number)
-{
-  return this.http.get(this.rootURL+'/role/EditRole?role_id='+role_id);
-}
-// End Role Section
-
-//Start AssetCategory section
-listAssetCategory:AssetCategory[];
-getAllAssetCategory(){
-  this.http.get(this.rootURL+'/AssetCategory/AssetCategoryList')
-  .toPromise()
-  .then(res=>this.listAssetCategory = res as AssetCategory[]);
-}
-
-formModelAssetCategory = this.fb.group({
-  asset_category_id :  ['', Validators.required],
-    asset_category_name : ['', Validators.required],
-    asset_category_enabled : ['', Validators.required],
-    asset_category_discription : ['', Validators.required]
-});
-
-addAssetCategory() {
+  const headers = new HttpHeaders().set('content-type', 'application/json');
   var body = {
-    asset_category_name: this.formModelAssetCategory.value.asset_category_name,
-    asset_category_discription:this.formModelAssetCategory.value.asset_category_discription,
-    asset_category_enabled: this.formModelAssetCategory.value.asset_category_enabled
+    team_name: tm.team_name , team_enabled: tm.team_enabled      
   };
-  return this.http.post(this.rootURL + '/AssetCategory/CreateAssetCategory', body);
+  return this.http.post<Team>(this.rootURL + '/Team', body, { headers });
+
 }
 
-deleteAssetCategory(asset_category_id:number)
-{
-  return this.http.delete(this.rootURL+'/AssetCategory/DeleteAssetCategory?asset_category_id='+asset_category_id);
+EditTeam(tm: Team) {
+  
+   const params = new HttpParams().set('team_id', tm.team_id.toString());
+   const headers = new HttpHeaders().set('content-type', 'application/json');
+   var body = {
+     team_id:tm.team_id, team_name: tm.team_name , team_enabled: tm.team_enabled
+   }
+   return this.http.put<Team>(this.rootURL + '/Team/UpdateTeam?team_id=' + tm.team_id, body, { headers })
 }
 
-editAssetCategory(asset_category_id:number)
-{
-  return this.http.get(this.rootURL+'/AssetCategory/EditAssetCategory?asset_category_id='+asset_category_id);
+
+DeleteTeam(tm: Team) {
+  const params = new HttpParams().set('ID', tm.team_id.toString());
+  const headers = new HttpHeaders().set('content-type', 'application/json');
+  var body = {
+    team_id:tm.team_id, team_name: tm.team_name , team_enabled: tm.team_enabled
+  }
+  return this.http.delete<Team>(this.rootURL + '/Team/DeleteTeam?team_id='+ tm.team_id)
 }
-// End Asset Category Section
+//Team End
+
+//Role Start
+getRole() {
+  return this.http.get<Role[]>(this.rootURL + '/Role/RoleList');
+}
+AddRole(rl: Role) {
+  const headers = new HttpHeaders().set('content-type', 'application/json');
+  var body = {
+    role_name: rl.role_name ,  role_description: rl.role_description, role_enabled: rl.role_enabled
+  };
+  return this.http.post<Role>(this.rootURL + '/Role', body, { headers });
+
+}
+
+EditRole(rl: Role) {
+  
+   const params = new HttpParams().set('role_id', rl.role_id);
+   const headers = new HttpHeaders().set('content-type', 'application/json');
+   var body = {
+     role_id:rl.role_id, role_name: rl.role_name ,  role_description: rl.role_description, role_enabled: rl.role_enabled
+   }
+   return this.http.put<Role>(this.rootURL + '/Role/UpdateRole?role_id=' + rl.role_id, body, { headers })
+}
+
+
+DeleteRole(rl: Role) {
+  const params = new HttpParams().set('ID', rl.role_id);
+  const headers = new HttpHeaders().set('content-type', 'application/json');
+  var body = {
+    role_id:rl.role_id, role_name: rl.role_name ,  role_description: rl.role_description, role_enabled: rl.role_enabled
+  }
+  return this.http.delete<Role>(this.rootURL + '/Role/DeleteRole?role_id='+ rl.role_id)
+}
+//Role End
+
+
+//AssetCategory Start
+getAssetCategory() {
+  return this.http.get<AssetCategory[]>(this.rootURL + '/AssetCategory/AssetCategoryList');
+}
+
+
+AddAssetCategory(ac: AssetCategory){
+  const headers = new HttpHeaders().set('content-type', 'application/json');
+  var body = {
+
+  asset_category_name : ac.asset_category_name, asset_category_enabled : ac.asset_category_enabled,     	asset_category_discription : ac.asset_category_discription
+  };
+  
+  return this.http.post<AssetCategory>(this.rootURL + '/AssetCategory', body, { headers });
+}
+
+EditAssetCategory(ac: AssetCategory){
+  const params = new HttpParams().set('asset_category_id', ac.asset_category_id);
+  const headers = new HttpHeaders().set('content-type', 'application/json');
+  var body = {
+    asset_category_id : ac.asset_category_id,  asset_category_name : ac.asset_category_name, asset_category_enabled : ac.asset_category_enabled,     	asset_category_discription : ac.asset_category_discription
+  };
+  
+  return this.http.put<AssetCategory>(this.rootURL + '/AssetCategory/UpdateAssetCategory?asset_category_id=' + ac.asset_category_id, body, { headers });
+}
+
+
+
+
+
+DeleteAssetCategory(ac: AssetCategory) {
+  const params = new HttpParams().set('asset_category_id', ac.asset_category_id);
+  const headers = new HttpHeaders().set('content-type', 'application/json');
+  var body = {
+    asset_category_id:ac.asset_category_id, asset_category_name: ac.asset_category_name ,  asset_category_description: ac.asset_category_discription, asset_category_enabled: ac.asset_category_enabled
+  }
+  return this.http.delete<AssetCategory>(this.rootURL + '/AssetCategory/DeleteAssetCategory?asset_category_id='+ ac.asset_category_id)
+}
+//Asset Category End
+
+
+//Start Asset Sub Category section
+getAssetSubCategory() {
+  return this.http.get<AssetSubCategory[]>(this.rootURL + '/AssetSubCategory/AssetSubCategoryList');
+}
+
+
+AddAssetSubCategory(asc: AssetSubCategory){
+  const headers = new HttpHeaders().set('content-type', 'application/json');
+  var body = {
+  asset_sub_category_name : asc.asset_sub_category_name, asset_sub_category_enabled : asc.asset_sub_category_enabled,     	asset_sub_category_discription : asc.asset_sub_category_discription
+  
+  };
+  
+  return this.http.post<AssetSubCategory>(this.rootURL + '/AssetSubCategory', body, { headers });
+}
+
+EditAssetSubCategory(asc: AssetSubCategory){
+  const params = new HttpParams().set('asset_category_id', asc.asset_sub_category_id);
+  const headers = new HttpHeaders().set('content-type', 'application/json');
+  var body = {
+    asset_sub_category_id : asc.asset_sub_category_id,  asset_sub_category_name : asc.asset_sub_category_name, asset_sub_category_enabled : asc.asset_sub_category_enabled,     	asset_sub_category_discription : asc.asset_sub_category_discription
+  };
+  
+  return this.http.put<AssetSubCategory>(this.rootURL + '/AssetSubCategory/UpdateAssetSubCategory?asset_sub_category_id=' + asc.asset_sub_category_id, body, { headers });
+}
+
+DeleteAssetSubCategory(asc: AssetSubCategory) {
+  const params = new HttpParams().set('asset_category_id', asc.asset_sub_category_id);
+  const headers = new HttpHeaders().set('content-type', 'application/json');
+  var body = {
+    asset_sub_category_id : asc.asset_sub_category_id,  asset_sub_category_name : asc.asset_sub_category_name, asset_sub_category_enabled : asc.asset_sub_category_enabled,     	asset_sub_category_discription : asc.asset_sub_category_discription
+  }
+  return this.http.delete<AssetSubCategory>(this.rootURL + '/AssetSubCategory/DeleteAssetSubCategory?asset_sub_category_id='+ asc.asset_sub_category_id)
+}
+// End Asset Sub Category Section
+
+
+
 
 //Start Products section
-listProducts:Products[];
-getAllProducts(){
-  this.http.get(this.rootURL+'/Products/ProductsList')
-  .toPromise()
-  .then(res=>this.listProducts = res as Products[]);
+
+getProducts() {
+  return this.http.get<Products[]>(this.rootURL + '/Products/ProductsList');
 }
 
-formModelProducts = this.fb.group({
-    product_id : ['', Validators.required],
-    product_name : ['', Validators.required],
-    product_type : ['', Validators.required],
-    product_vender_name : ['', Validators.required],
-    product_manufacturer_name : ['', Validators.required],
-    product_part_no : ['', Validators.required],
-    product_part_discription : ['', Validators.required],
-    product_enabled : ['', Validators.required]
 
-});
-
-addProduct() {
+AddProducts(pro: Products){
+  const headers = new HttpHeaders().set('content-type', 'application/json');
   var body = {
-    product_name : this.formModelProducts.value.product_name,
-    product_type : this.formModelProducts.value.product_type,
-    product_vender_name : this.formModelProducts.value.product_vender_name,
-    product_manufacturer_name : this.formModelProducts.value.product_manufacturer_name,
-    product_part_no : this.formModelProducts.value.product_part_no,
-    product_part_discription : this.formModelProducts.value.product_part_discription,
-    product_enabled : this.formModelProducts.value.product_enabled
+  product_name : pro.product_name, product_enabled : pro.product_enabled, product_discription : pro.product_part_discription,
+  product_type : pro.product_type, product_vender_name : pro.product_vender_name, product_manufacturer_name : pro.product_manufacturer_name,
+  product_part_no : pro.product_part_no
+  
   };
-  return this.http.post(this.rootURL + '/products/CreateProducts', body);
+  
+  return this.http.post<Products>(this.rootURL + '/Products', body, { headers });
 }
 
-deleteProducts(product_id:number)
-{
-  return this.http.delete(this.rootURL+'/products/DeleteProducts?product_id='+product_id);
+EditProducts(pro: Products){
+  const params = new HttpParams().set('product_id', pro.product_id);
+  const headers = new HttpHeaders().set('content-type', 'application/json');
+  var body = {
+    product_id : pro.product_id,    product_name : pro.product_name, product_enabled : pro.product_enabled, product_part_discription : pro.product_part_discription,
+    product_type : pro.product_type, product_vender_name : pro.product_vender_name, product_manufacturer_name : pro.product_manufacturer_name,
+    product_part_no : pro.product_part_no
+  };
+  
+  return this.http.put<Products>(this.rootURL + '/Products/UpdateProducts?product_id=' + pro.product_id, body, { headers });
 }
 
-editProducts(product_id:number)
-{
-  return this.http.get(this.rootURL+'/products/EditProducts?product_id='+product_id);
+DeleteProducts(pro: Products) {
+  const params = new HttpParams().set('product_id', pro.product_id);
+  const headers = new HttpHeaders().set('content-type', 'application/json');
+  var body = {
+    product_id : pro.product_id,    product_name : pro.product_name, product_enabled : pro.product_enabled, product_part_discription : pro.product_part_discription,
+    product_type : pro.product_type, product_vender_name : pro.product_vender_name, product_manufacturer_name : pro.product_manufacturer_name,
+    product_part_no : pro.product_part_no
+  }
+  
+  return this.http.delete<Products>(this.rootURL + '/Products/DeleteProducts?product_id='+ pro.product_id)
 }
 // End Product Section
 
@@ -351,40 +406,7 @@ editSoftwareCategory(software_category_id:number)
 }
 // End Software Category Section
 
-//Start Asset Sub Category section
-listAssetSubCategory:AssetSubCategory[];
-getAllAssetSubCategory(){
-  this.http.get(this.rootURL+'/AssetSubCategory/AssetSubCategoryList')
-  .toPromise()
-  .then(res=>this.listAssetSubCategory = res as AssetSubCategory[]);
-}
 
-formModelAssetSubCategory = this.fb.group({
-    asset_sub_category_id :  ['', Validators.required],
-    asset_sub_category_name :  ['', Validators.required],
-    asset_sub_category_enabled :  ['', Validators.required],
-    asset_sub_category_discription :  ['', Validators.required]
-});
-
-addAssetSubCategory() {
-  var body = {
-    asset_sub_category_name :  this.formModelAssetSubCategory.value.asset_sub_category_name,
-    asset_sub_category_enabled :  this.formModelAssetSubCategory.value.asset_sub_category_enabled,
-    asset_sub_category_discription :  this.formModelAssetSubCategory.value.asset_sub_category_discription,
-  };
-  return this.http.post(this.rootURL + '/AssetSubCategory/CreateAssetSubCategory', body);
-}
-
-deleteAssetSubCategory(asset_sub_category_id:number)
-{
-  return this.http.delete(this.rootURL+'/AssetSubCategory/DeleteAssetSubCategory?asset_sub_category_id='+asset_sub_category_id);
-}
-
-editAssetSubCategory(asset_sub_category_id:number)
-{
-  return this.http.get(this.rootURL+'/AssetSubCategory/EditAssetSubCategory?asset_sub_category_id='+asset_sub_category_id);
-}
-// End Asset Sub Category Section
 
 
 

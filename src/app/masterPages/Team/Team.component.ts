@@ -1,66 +1,126 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, Input, Output, EventEmitter, ElementRef } from '@angular/core';
 
 import { getStyle } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { from } from 'rxjs';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { MasterPagesService } from '../shared/master-pages.service';
-import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, NgForm} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Team } from '../shared/team.model';
+import { Router } from '@angular/router';
 
 
 @Component({
   templateUrl: 'Team.component.html'
 })
 export class TeamComponent implements OnInit {
-  registerForm: FormGroup;
-  submitted = false;
-  @ViewChild('largeModal') largeModal : ModalDirective;
+  @ViewChild('regForm') largeModal : ModalDirective;
 
-  constructor(private Service:MasterPagesService, private toastr: ToastrService, private formBuilder: FormBuilder){}
+  teamlist: Team[];
+  dataavailbale: Boolean = false;
+  tempdsg: Team
 
+  @Input() reset: boolean = false;
+  @ViewChild('regForm') myForm: NgForm;
+  @Input() isReset: boolean = false;
+  objtdgdg: Team;
+  @Input() objdg: Team = new Team();
+
+  @Input()  cleardata: boolean = false;
+  @Output() nameEvent = new EventEmitter<string>();
+
+  objtmtm:Team;
+  @Input() objdsg :Team=new Team();
+  @ViewChild('closeBtn') cb: ElementRef;
+
+  
+  
+
+  constructor(private Service:MasterPagesService, private toastr: ToastrService,private route:Router){}
   ngOnInit()
   {
-    this.getTeamList();
-  }
-
-  getTeamList()
-  {
-    
-    this.Service.getAllTeam();
-    this.Service.formModelTeam.reset();
+    this.LoadData();
     
   }
+  
+  LoadData() {
+    this.Service.getTeam().subscribe((tempdate) => {
+      this.teamlist = tempdate;
+      if (this.teamlist.length > 0) {
+        this.dataavailbale = true;
+      }
+      else {
+        this.dataavailbale = false;
+      }
+    }
+    )
+      , err => {
+        console.log(err);
+      }
+  }
 
-  editRow(team_id:number)
-  {
+  Register(regForm:NgForm){  
+   
+    this.objtmtm=new Team();
+    this.objtmtm.team_name=regForm.value.team_name;
+    this.objtmtm.team_enabled=regForm.value.team_enabled;
     
+    
+    this.Service.AddTeam(this.objtmtm).subscribe(res=>{
+    this.toastr.success('Added Successfully', 'Team');
+    this.LoadData();
+    regForm.resetForm();
+    
+    
+}
+  )
+  } 
+   
+  TakeHome(){
+     this.nameEvent.emit("ccc");
+     this.cb.nativeElement.click();
+     this.route.navigateByUrl('');
+   }
+
+   deleteconfirmation(team_id: string) {
+
+    if (confirm("Are you sure you want to delete this ?")) {
+      this.tempdsg = new Team();
+      this.tempdsg.team_id = team_id;
+      this.Service.DeleteTeam(this.tempdsg).subscribe(res => {
+        this.toastr.warning('Deleted Successfully', 'Team');
+        this.LoadData();
+      })
+    }
+  }
+
+  loadnewForm(team_name:string,team_enabled:string,team_id:string) {
+    console.log(team_id+" " + team_enabled + " " + team_name);
     this.largeModal.show();
-    this.Service.editTeam(team_id).subscribe();
+    this.objdg.team_id = team_id
+    this.objdg.team_name = team_name
+    this.objdg.team_enabled = team_enabled
   }
 
-  deleteRow(team_id:number)
-  {
-    this.Service.deleteTeam(team_id).subscribe(
-       res=>
-         {
-          this.toastr.warning('Team Deleted', 'Team');
-           this.getTeamList();
-         });
-        
+  RefreshData() {
+    this.LoadData();
   }
 
 
-  onSubmit() {
+  EditTeam(regForm: NgForm) {
     
-    
-    this.Service.addTeam().subscribe(
-       res=>
-         {
-           this.getTeamList();
-           this.toastr.success('Team Added Successfully', 'Team');
-         });
-  }
+    this.Service.EditTeam(this.objdg).subscribe(res => {
+      this.toastr.info('Updated Successfully', 'Team');
+      this.largeModal.hide();
+      this.nameEvent.emit("ccc");
+      this.LoadData();
+       },
+       err => {
+        console.log(err);
+      }
+    )}
+
   
   // lineChart1
   public lineChart1Data: Array<any> = [
@@ -444,3 +504,4 @@ export class TeamComponent implements OnInit {
   public lineChart5Legend = false;
   public lineChart5Type = 'line';
 }
+    

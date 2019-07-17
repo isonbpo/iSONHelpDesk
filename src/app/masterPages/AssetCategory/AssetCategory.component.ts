@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, ElementRef } from '@angular/core';
 
 import { getStyle } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
@@ -6,54 +6,119 @@ import { from } from 'rxjs';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { MasterPagesService } from '../shared/master-pages.service';
 import { ToastrService } from 'ngx-toastr';
+import { AssetCategory } from '../shared/asset-category.model';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Component({
   templateUrl: 'AssetCategory.component.html'
 })
 export class AssetCategoryComponent implements OnInit{
+  
+  @ViewChild('regForm') largeModal : ModalDirective;
 
-  @ViewChild('largeModal') largeModal : ModalDirective;
+  AssetCategorylist: AssetCategory[];
+  dataavailbale: Boolean = false;
+  tempdsg: AssetCategory
 
-  constructor(private Service:MasterPagesService, private toastr: ToastrService){}
+  @Input() reset: boolean = false;
+  @ViewChild('regForm') myForm: NgForm;
+  @Input() isReset: boolean = false;
+  objtasct: AssetCategory;
+  @Input() objas: AssetCategory = new AssetCategory();
+
+  @Input()  cleardata: boolean = false;
+  @Output() nameEvent = new EventEmitter<string>();
+
+  objacac:AssetCategory;
+  @Input() objasc :AssetCategory=new AssetCategory();
+  @ViewChild('closeBtn') cb: ElementRef;
+
+  
+  
+
+  constructor(private Service:MasterPagesService, private toastr: ToastrService,private route:Router){}
   ngOnInit()
   {
-    this.getAssetCategory();
-  }
-
-  getAssetCategory()
-  {
-  this.Service.getAllAssetCategory();
-  this.Service.formModelAssetCategory.reset();
-  }
-
-  editRow(asset_category_id:number)
-  {
+    this.LoadData();
     
+  }
+  
+  LoadData() {
+    this.Service.getAssetCategory().subscribe((tempdate) => {
+      this.AssetCategorylist = tempdate;
+      if (this.AssetCategorylist.length > 0) {
+        this.dataavailbale = true;
+      }
+      else {
+        this.dataavailbale = false;
+      }
+    }
+    )
+      , err => {
+        console.log(err);
+      }
+  }
+
+  Register(regForm:NgForm){  
+   
+    this.objacac=new AssetCategory();
+    this.objacac.asset_category_name=regForm.value.asset_category_name;
+    this.objacac.asset_category_discription=regForm.value.asset_category_discription;
+    this.objacac.asset_category_enabled=regForm.value.asset_category_enabled;
+    
+    this.Service.AddAssetCategory(this.objacac).subscribe(res=>{
+    this.toastr.success('Added Successfully', 'Asset Category');
+    this.LoadData();
+    regForm.resetForm();
+    }
+  )
+  } 
+   
+  TakeHome(){
+     this.nameEvent.emit("ccc");
+     this.cb.nativeElement.click();
+     this.route.navigateByUrl('');
+   }
+
+   deleteconfirmation(asset_category_id: string) {
+
+    if (confirm("Are you sure you want to delete this ?")) {
+      this.tempdsg = new AssetCategory();
+      this.tempdsg.asset_category_id = asset_category_id;
+      this.Service.DeleteAssetCategory(this.tempdsg).subscribe(res => {
+        this.toastr.warning('Deleted Successfully', 'Asset Category');
+        this.LoadData();
+      })
+    }
+  }
+
+  loadnewForm(asset_category_name:string,asset_category_discription:string,asset_category_enabled:string,asset_category_id:string) {
     this.largeModal.show();
-    this.Service.editAssetCategory(asset_category_id).subscribe();
+    this.objas.asset_category_id = asset_category_id
+    this.objas.asset_category_name = asset_category_name
+    this.objas.asset_category_discription = asset_category_discription
+    this.objas.asset_category_enabled = asset_category_enabled
   }
 
-  deleteRow(asset_category_id:number)
-  {
-    this.Service.deleteAssetCategory(asset_category_id).subscribe(
-      res=>
-        {
-          this.toastr.warning('Asset Category Deleted', 'Asset Category');
-          this.getAssetCategory();
-        });
-    
+  RefreshData() {
+    this.LoadData();
   }
 
 
-  onSubmit() {
-    this.Service.addAssetCategory().subscribe(
-      res=>
-        {
-          this.toastr.success('Asset Category Added Successfully', 'Asset Category');
-          this.getAssetCategory();
-        });
-  }
+  EditAssetCategory(regForm: NgForm) {
+    this.Service.EditAssetCategory(this.objas).subscribe(res => {
+      this.toastr.info('Updated Successfully', 'Asset Category');
+      this.largeModal.hide();
+      this.nameEvent.emit("ccc");
+      this.LoadData();
+       },
+       err => {
+        console.log(err);
+      }
+    )}
+  
 
   
   // lineChart1

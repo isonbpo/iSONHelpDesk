@@ -1,14 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, EventEmitter, Output, ElementRef } from '@angular/core';
 
 import { getStyle } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { MasterPagesService } from '../shared/master-pages.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Products } from '../shared/products.model';
+import { Router } from '@angular/router';
 
-
-  
 
 @Component({
   
@@ -16,50 +16,121 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ProductComponent implements OnInit {
 
-  @ViewChild('largeModal') largeModal : ModalDirective;
+  @ViewChild('regForm') largeModal : ModalDirective;
 
-  constructor(private Service:MasterPagesService, private toastr: ToastrService, private formBuilder: FormBuilder){}
+  productslist: Products[];
+  dataavailbale: Boolean = false;
+  tempdsg: Products
 
-  ngOnInit()
-  {
-    this.getProductsList();
-  }
+  @Input() reset: boolean = false;
+  @ViewChild('regForm') myForm: NgForm;
+  @Input() isReset: boolean = false;
+  objtdgdg: Products;
+  @Input() objdg: Products = new Products();
 
+  @Input()  cleardata: boolean = false;
+  @Output() nameEvent = new EventEmitter<string>();
+
+  objtmtm:Products;
+  @Input() objdsg :Products=new Products();
+  @ViewChild('closeBtn') cb: ElementRef;
 
   
+  
 
-
-  getProductsList()
+  constructor(private Service:MasterPagesService, private toastr: ToastrService,private route:Router){}
+  ngOnInit()
   {
-    this.Service.getAllProducts();
-    this.Service.formModelProducts.reset();
+    this.LoadData();
+    
+  }
+  
+  LoadData() {
+    this.Service.getProducts().subscribe((tempdate) => {
+      this.productslist = tempdate;
+      if (this.productslist.length > 0) {
+        this.dataavailbale = true;
+      }
+      else {
+        this.dataavailbale = false;
+      }
+    }), 
+    err => {
+        console.log(err);
+      }
   }
 
-  editRow(product_id:number)
-  {
+  Register(regForm:NgForm){  
+   
+    this.objtmtm=new Products();
+    this.objtmtm.product_name=regForm.value.product_name;
+    this.objtmtm.product_type=regForm.value.product_type;
+    this.objtmtm.product_vender_name=regForm.value.product_vender_name;
+    this.objtmtm.product_manufacturer_name=regForm.value.product_manufacturer_name;
+    this.objtmtm.product_part_no=regForm.value.product_part_no;
+    this.objtmtm.product_part_discription=regForm.value.product_part_discription;
+    this.objtmtm.product_enabled=regForm.value.product_enabled;
+    
+    this.Service.AddProducts(this.objtmtm).subscribe(res=>{
+    this.toastr.success('Added Successfully', 'Product');
+    this.LoadData();
+    regForm.resetForm();
+    
+    
+}
+  )
+  } 
+   
+  TakeHome(){
+     this.nameEvent.emit("ccc");
+     this.cb.nativeElement.click();
+     this.route.navigateByUrl('');
+   }
+
+   deleteconfirmation(product_id: string) {
+    
+    if (confirm("Are you sure you want to delete this ?")) {
+      this.tempdsg = new Products();
+      this.tempdsg.product_id = product_id;
+      this.Service.DeleteProducts(this.tempdsg).subscribe(res => {
+        this.toastr.warning('Deleted Successfully', 'Product');
+        this.LoadData();
+      })
+    }
+  }
+
+  loadnewForm(product_name:string,product_type:string, 
+    product_vender_name:string, product_manufacturer_name:string,
+    product_part_no:string,product_part_discription:string, product_enabled:string,product_id:string) {
+  
     this.largeModal.show();
-    this.Service.editProducts(product_id).subscribe();
+    this.objdg.product_id = product_id
+    this.objdg.product_name = product_name
+    this.objdg.product_type = product_type
+    this.objdg.product_vender_name = product_vender_name
+    this.objdg.product_manufacturer_name = product_manufacturer_name
+    this.objdg.product_part_no = product_part_no
+    this.objdg.product_part_discription = product_part_discription
+    this.objdg.product_enabled = product_enabled
   }
 
-  deleteRow(product_id:number)
-  {
-    this.Service.deleteProducts(product_id).subscribe(
-       res=>
-         {
-          this.toastr.warning('Product Deleted', 'Product');
-           this.getProductsList();
-         });
+  RefreshData() {
+    this.LoadData();
   }
 
 
-  onSubmit() {
-    this.Service.addProduct().subscribe(
-       res=>
-         {
-           this.getProductsList();
-           this.toastr.success('Product Added Successfully', 'Product');
-         });
-  }
+  EditProducts(regForm: NgForm) {
+    
+    this.Service.EditProducts(this.objdg).subscribe(res => {
+      this.toastr.info('Updated Successfully', 'Products');
+      this.largeModal.hide();
+      this.nameEvent.emit("ccc");
+      this.LoadData();
+       },
+       err => {
+        console.log(err);
+      }
+    )}
 
 
   // lineChart1
