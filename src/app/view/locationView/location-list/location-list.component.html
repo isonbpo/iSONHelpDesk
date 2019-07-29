@@ -1,0 +1,104 @@
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-header">Location List</div>
+          <div class="card-body">
+            <div class="table-responsive">
+                <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+                    <ng-container matColumnDef="ShortName">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Short Name </th>
+                      <td mat-cell *matCellDef="let element"> {{element.dept_name}} </td>
+                    </ng-container>
+                  
+                    <ng-container matColumnDef="Active">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Active </th>
+                      <td mat-cell *matCellDef="let element"> {{element.dept_enabled}} </td>
+                    </ng-container>
+                
+                    <ng-container matColumnDef="Address" >
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header > <Address></Address> </th>
+                        <td mat-cell *matCellDef="let element" > {{element.dept_id}} </td>
+                    </ng-container>
+                
+                    <ng-container matColumnDef="City" >
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header >City</th>
+                      <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="State" >
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header >State</th>
+                        <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Country" >
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header >Country</th>
+                        <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                    </ng-container>
+                
+                    <ng-container matColumnDef="ZipCode" >
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header >Zip Code</th>
+                        <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                      </ng-container>
+                      
+                      <ng-container matColumnDef="Zone" >
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header >Zone</th>
+                          <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Phone" >
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header >Phone</th>
+                            <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                          </ng-container>
+
+                            <ng-container matColumnDef="EmailID" >
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header >Email</th>
+                                <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="Extension" >
+                                  <th mat-header-cell *matHeaderCellDef mat-sort-header >Extension</th>
+                                  <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="WebAddress" >
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header >Web Address</th>
+                                    <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                                  </ng-container>
+
+                                  <ng-container matColumnDef="CreatedBy" >
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header >Created By</th>
+                                      <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="CreatedTime" >
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header >Created Time</th>
+                                        <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                                      </ng-container>
+    
+                                      <ng-container matColumnDef="CreatedDate" >
+                                          <th mat-header-cell *matHeaderCellDef mat-sort-header >Created Date</th>
+                                          <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="Owner" >
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header >Owner</th>
+                                            <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                                          </ng-container>
+                    <!-- <ng-container matColumnDef="Action">
+                      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                      <mat-cell *matCellDef="let row">
+                        <button mat-icon-button (click)="EditDepartment(row)"><mat-icon>launch</mat-icon></button>
+                      </mat-cell>
+                    </ng-container> -->
+                
+                
+                         
+                           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>  

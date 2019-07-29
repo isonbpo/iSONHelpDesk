@@ -1,0 +1,107 @@
+<mat-toolbar color="" class="example-toolbar">
+
+	
+		<div class="logo-manage text-center">
+				
+						<a class="navbar-brand brand-logo" href="index.html">
+						  <img src="assets/images/isonLogo.png" alt="logo" height="220px" width="60px"/>
+						</a>
+		</div>
+		<button mat-icon-button (click)="isExpanded = !isExpanded"><mat-icon>menu</mat-icon></button>
+	
+</mat-toolbar>
+	<mat-sidenav-container class="example-container" autosize>
+		<mat-sidenav #sidenav class="example-sidenav" mode="side" opened="true" (mouseenter)="mouseenter()" (mouseleave)="mouseleave()">
+			<mat-nav-list>
+				<mat-list-item>
+							<span class="full-width" *ngIf="isExpanded || isShowing" routerLink="/dashboard" routerLinkActive="active">Dashboard</span>
+							<mat-icon mat-list-icon>home</mat-icon>
+				</mat-list-item>
+				<mat-list-item>
+						<span class="full-width" *ngIf="isExpanded || isShowing" routerLink="/location" routerLinkActive="active">Location</span>
+						<mat-icon mat-list-icon>location_on</mat-icon>
+				</mat-list-item>
+				<mat-list-item>
+						<span class="full-width" *ngIf="isExpanded || isShowing" routerLink="/contacts" routerLinkActive="active">Contacts</span>
+						<mat-icon mat-list-icon>home</mat-icon>
+				</mat-list-item>
+				<mat-list-item>
+						<span class="full-width" *ngIf="isExpanded || isShowing" routerLink="/assets" routerLinkActive="active">Assets</span>
+						<mat-icon mat-list-icon>home</mat-icon>
+				</mat-list-item>
+				<mat-list-item>
+						<span class="full-width" *ngIf="isExpanded || isShowing" routerLink="/ticket" routerLinkActive="active">Ticket</span>
+						<mat-icon mat-list-icon>home</mat-icon>
+				</mat-list-item>
+				<mat-list-item>
+						<span class="full-width" *ngIf="isExpanded || isShowing" routerLink="/document" routerLinkActive="active">Documents</span>
+						<mat-icon mat-list-icon>home</mat-icon>
+				</mat-list-item>
+				<mat-list-item (click)="showSubmenu = !showSubmenu" class="parent">
+					<span class="full-width" *ngIf="isExpanded || isShowing">Configuration</span>
+					<mat-icon mat-list-icon>home</mat-icon>
+					<mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}" *ngIf="isExpanded || isShowing">expand_more</mat-icon>
+				</mat-list-item>
+				<div class="submenu" [ngClass]="{'expanded' : showSubmenu}" *ngIf="isShowing || isExpanded">
+					<a mat-list-item routerLink='/Department' routerLinkActive='active'>
+						<i class="menu-icon mdi mdi-server"></i>
+						<span class="menu-title">Department</span>
+					</a>
+					<a mat-list-item routerLink="/designation" routerLinkActive="active">
+						<i class="menu-icon mdi mdi-sort"></i>
+						<span class="menu-title">Designation</span>
+					  </a>
+					  <a mat-list-item routerLink="/Team" routerLinkActive="active">
+						<i class="menu-icon mdi  mdi-account-multiple"></i>
+						<span class="menu-title">Team</span>
+					  </a>
+					  <a mat-list-item routerLink="/Role" routerLinkActive="active">
+						<i class="menu-icon mdi mdi-table"></i>
+						<span class="menu-title">Role</span>
+					  </a>
+					  <a mat-list-item routerLink="/AssetCategory" routerLinkActive="active">
+						<i class="menu-icon mdi  mdi-basket"></i>
+						<span class="menu-title">Asset Category</span>
+					  </a>
+					  <a mat-list-item routerLink="/AssetSubCategory" routerLinkActive="active">
+						<i class="menu-icon mdi mdi-basket"></i>
+						<span class="menu-title">Asset Sub Category</span>
+					  </a>
+					  <a mat-list-item routerLink="/Product" routerLinkActive="active">
+						<i class="menu-icon mdi mdi-basket"></i>
+						<span class="menu-title">Product</span>
+					  </a>
+					  <a mat-list-item routerLink="/ProductType" routerLinkActive="active">
+						<i class="menu-icon mdi mdi-basket"></i>
+						<span class="menu-title">Product Type</span>
+					  </a>
+					  <a mat-list-item routerLink="/SoftwareType" routerLinkActive="active">
+						<i class="menu-icon mdi mdi-basket"></i>
+						<span class="menu-title">Software Type</span>
+					  </a>
+					  <a mat-list-item routerLink="/SoftwareCategory" routerLinkActive="active">
+						<i class="menu-icon mdi mdi-basket"></i>
+						<span class="menu-title">Software Category</span>
+					  </a>
+					  <a mat-list-item routerLink="/Timezone" routerLinkActive="active">
+						<i class="menu-icon mdi mdi-basket"></i>
+						<span class="menu-title">Timezone</span>
+					  </a>
+				</div>
+			</mat-nav-list>
+		<mat-nav-list>
+	</mat-nav-list>
+</mat-sidenav>
+	
+		
+			<!-- <div class="container-fluid page-body-wrapper"> -->
+				
+						<div class="content-wrapper">
+							<router-outlet></router-outlet>
+						</div>
+				
+			<!-- </div>	 -->
+		
+	
+	</mat-sidenav-container>
+	

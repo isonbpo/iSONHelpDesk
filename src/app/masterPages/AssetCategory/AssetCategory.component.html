@@ -1,145 +1,89 @@
-<div class="animated fadeIn">
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="card">
-        <div class="card-header">
-          <strong>Asset Category</strong>
-        </div>
-        <form #astcatadd='ngForm' (ngSubmit)="Register(astcatadd)" class="form-horizontal">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label for="AssetCategory">Asset Category Name</label>
-                <input type="text" class="form-control" id="asset_category_name" placeholder="Enter Asset Category Name" 
-                name="asset_category_name" asset_category_name required [(ngModel)]='objasc.asset_category_name'  #asset_category_name="ngModel">
-                <span class="help-bpx" *ngIf="asset_category_name.touched && !asset_category_name.valid ">Required</span>
- 
-              </div>
-            </div>
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label for="CategoryDiscription">Category Discription</label>
-                <input type="text" class="form-control" id="asset_category_discription" placeholder="Enter Asset Category Discription" 
-                name="asset_category_discription" asset_category_discription required [(ngModel)]='objasc.asset_category_discription'  #asset_category_discription="ngModel">
-                <span class="help-bpx" *ngIf="asset_category_discription.touched && !asset_category_discription.valid ">Required</span>
-              </div>
-            </div>
-            <div class="col-sm-4">
-              <div class="form-group">
-                  <label for="Enabled">Enabled</label>
-                  <select class="form-control" name="asset_category_enabled" asset_category_enabled required [(ngModel)]='objasc.asset_category_enabled' #asset_category_enabled="ngModel">
-                      <option value="0" selected disabled>Please Select</option>
-                      <option value="Y">Yes</option>
-                      <option value="N">No</option>
-                      <span class="help-bpx" *ngIf="asset_category_enabled.touched && !asset_category_enabled.valid ">required</span>
-                  </select>
-              </div>
-            </div>
-          </div><!--/.row-->
-      </div>
-     <div class="card-footer">
-          <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Insert</button>
-          <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
-     </div>
-        </form>
-      </div>
-    <!--/.col-->
-  </div>
-  </div>
-
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="card">
-        <div class="card-header">
-          <strong>Asset Category List</strong>
-        </div>
-        <div class="card-body">
-
-            <div *ngIf="!dataavailbale">
-
-                <h6> No Data available </h6>
-            </div>
-          <table class="table table-striped" *ngIf="dataavailbale">
-              <thead>
-                  <tr>
-                      <th scope="col" style="align-content: center">Action</th>
-                      <th scope="col">Asset Category</th>
-                      <th scope="col">Asset Discription</th>
-                      <th scope="col">Enabled</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let e of AssetCategorylist">
-                    <td scope="col">
-                          <i data-toggle="modal"  data-target="#myModaledit" (click)="loadnewForm(e.asset_category_name,e.asset_category_discription,e.asset_category_enabled,e.asset_category_id)" class="fa fa-pencil-square-o text-primary"></i>
-                            &nbsp;&nbsp;
-                          <i id="remove" (click)="deleteconfirmation(e.asset_category_id)" class="fa fa-trash text-danger" aria-hidden="true"></i>
-                    </td>  
-                    <td scope="col">{{e.asset_category_name}}</td>
-                    <td scope="col">{{e.asset_category_discription}}</td>
-                    <td scope="col">{{e.asset_category_enabled}}</td>
-                    <td scope="col" style="display:none">{{e.asset_category_id}}</td>
-                  </tr>
-                </tbody>
-          </table>
-        </div>
-      </div>
+<div class="row">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-header">Asset Category</div>
+    <form #form="ngForm" [formGroup]="Service.formModelAssetCategory" autocomplete="off" (submit)="onSubmit()">  
+    <div class="card-body">
+    <div class="row setWidth">
+    <div class="col-md-4">
+    <mat-form-field>
+      <input matInput placeholder="Asset Category Name" formControlName="asset_category_name" required>
+    </mat-form-field>
+    </div>    
+    <div class="col-md-4">
+      <mat-form-field>
+          <mat-select placeholder="Select" formControlName="asset_category_enabled" required>
+              <mat-option value="Y">Yes</mat-option>
+              <mat-option value="N">No</mat-option>
+          </mat-select>
+      </mat-form-field>
     </div>
-    <!--/.col-->
+    <div class="col-md-2">
+        <button type="submit" mat-raised-button color="primary">Add</button>
+    </div>
+    <div class="col-md-2">
+        <button type="reset" mat-raised-button color="warn">Cancel</button>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field>
+        <textarea matInput placeholder="Textarea" formControlName="asset_category_discription" required></textarea>
+      </mat-form-field>
+      
+      </div>    
+    </div>    
+    </div>
+    </form>
   </div>
-  <!--/.row-->
+  </div>
 </div>
 
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-header">Asset Category List</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              
+      
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  
+    <ng-container matColumnDef="AssetCategoryName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Asset Category Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.asset_category_name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="AssetCategoryDiscription">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+      <td mat-cell *matCellDef="let element"> {{element.asset_category_discription}} </td>
+    </ng-container>
+
+    
+    <ng-container matColumnDef="Enabled">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Enabled </th>
+      <td mat-cell *matCellDef="let element"> {{element.asset_category_enabled}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Id" hidden>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header hidden> id </th>
+        <td mat-cell *matCellDef="let element" hidden> {{element.asset_category_id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+        <td (click)="EditDesignation(element)" mat-cell *matCellDef="let element">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+        </td>
+    </ng-container>
 
 
 
-<div bsModal #regForm="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-          
-        <div class="modal-header">
-            <h4 class="modal-title">Edit</h4>
-          <button type="button" (click)="largeModal.hide()" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <form #EditForm='ngForm' name="editform" (ngSubmit)="EditAssetCategory(EditForm)" class="form-horizontal">
-        <div class="modal-body">
-            <div class="row">
-                <div class="col-sm-4">
-                  <div class="form-group">
-                      <label for="AssetCategory">Asset Category Name</label>
-                      <input type="text" class="form-control" id="asset_category_name" placeholder="Enter Asset Category Name" 
-                      name="asset_category_name" asset_category_name required [(ngModel)]='objas.asset_category_name'  #asset_category_name="ngModel">
-                      <span class="help-bpx" *ngIf="asset_category_name.touched && !asset_category_name.valid ">Required</span>
-                   </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label for="CategoryDiscription">Category Discription</label>
-                        <input type="text" class="form-control" id="asset_category_discription" placeholder="Enter Asset Category Discription" 
-                        name="asset_category_discription" asset_category_discription required [(ngModel)]='objas.asset_category_discription'  #asset_category_discription="ngModel">
-                        <span class="help-bpx" *ngIf="asset_category_discription.touched && !asset_category_discription.valid ">Required</span>
-                    </div>  
-                </div>
-                <div class="col-sm-4 ">
-                  <div class="form-group">
-                      <label for="Enabled">Enabled</label>
-                      <select class="form-control" name="asset_category_enabled" asset_category_enabled required [(ngModel)]='objas.asset_category_enabled' #asset_category_enabled="ngModel">
-                          <option value="0" selected disabled>Please Select</option>
-                          <option value="Y">Yes</option>
-                          <option value="N">No</option>
-                          <span class="help-bpx" *ngIf="asset_category_enabled.touched && !asset_category_enabled.valid ">required</span>
-                      </select>    
-                  </div>
-                </div>
-              </div><!--/.row-->
-        </div>
-        <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Submit</button>
-          <button type="button" (click)="largeModal.hide()" class="btn btn-danger" data-dismiss="modal">Close</button>
-        </div>
-      </form>
-      </div>
-
-    </div>
+         
+           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    
 </div>
+</div>
+</div>
+</div>
+  

@@ -1,110 +1,91 @@
-<div class="animated fadeIn">
-  <div class="row">
-    <div class="col-sm-12">
-        <form #Myform="ngForm" [formGroup]="Service.formModelSoftwareType" autocomplete="off" (submit)="onSubmit()">
-      <div class="card">
-        <div class="card-header">
-          <strong>Software Type</strong>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label for="SoftwareType">Software Type</label>
-                <input class="form-control" formControlName="software_type_name" [(ngModel)]="Service.software_type_name" id="SoftwareTypeName" placeholder="Enter Software Type Name"/>
-                <label class="text-danger" *ngIf="Service.formModelSoftwareType.get('software_type_name').touched && Service.formModelSoftwareType.get('software_type_name').invalid">This
-                  field is mandatory.</label>
-              </div>
-            </div>
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label for="SoftwareDiscription">Software Discription</label>
-                <input class="form-control" formControlName="software_type_discription" [(ngModel)]="Service.software_type_discription" id="SoftwareTypeName" placeholder="Enter Software Type Name"/>
-                <label class="text-danger" *ngIf="Service.formModelSoftwareType.get('software_type_name').touched && Service.formModelSoftwareType.get('software_type_name').invalid">This
-                  field is mandatory.</label>
-              </div>
-            </div>
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label for="Enabled">Enabled</label>
-                <select class="form-control" id="Enabled" formControlName="software_type_enabled" [(ngModel)]="Service.software_type_enabled">
-                  <option>Yes</option>
-                  <option>No</option>
-                </select>
-                <label class="text-danger" *ngIf="Service.formModelSoftwareType.get('software_type_enabled').touched && Service.formModelSoftwareType.get('software_type_enabled').invalid">This
-                  field is mandatory.</label>
-              </div>
-            </div>
-          </div><!--/.row-->
+<div class="row">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-header">Software Type</div>
+    <form #form="ngForm" [formGroup]="Service.formModelSoftwareType" autocomplete="off" (submit)="onSubmit()">  
+    <div class="card-body">
+    <div class="row setWidth">
+    <div class="col-md-4">
+    <mat-form-field>
+      <input matInput placeholder="Software Type Name" formControlName="software_type_name" required>
+    </mat-form-field>
+    </div>    
+    <div class="col-md-4">
+        <mat-form-field>
+            <mat-select placeholder="Select" formControlName="software_type_enabled" required>
+                <mat-option value="Y">Yes</mat-option>
+                <mat-option value="N">No</mat-option>
+            </mat-select>
+        </mat-form-field>
+      </div>
+    <div class="col-md-4">
+        <mat-form-field>
+          <textarea matInput placeholder="Software Type Discription" formControlName="software_type_discription" required></textarea>
+        </mat-form-field>
+  </div>
 
 
-      </div>
-      <div class="card-footer">
-          <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Insert</button>
-          <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
-        </div>
+  </div>
     </div>
-  </form>
-    <!--/.col-->
+    <div class="card-footer">
+        <div class="row setWidth">
+            <div class="col-md-2">
+                <button type="submit" mat-raised-button color="primary">Add</button>
+            </div>
+            <div class="col-md-2">
+                <button type="reset" mat-raised-button color="warn">Cancel</button>
+            </div>
+              
+            </div>  
+    </div>
+    </form>
   </div>
   </div>
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="card">
-        <div class="card-header">
-          <strong>Software Type List</strong>
-        </div>
-        <div class="card-body">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Software Type</th>
-                <th>Software Description</th>
-                <th>Enabled</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let softType of Service.listSoftwareType">  
-                  <td hidden>{{softType.software_type_id}}</td>
-                  <td>{{softType.software_type_name}}</td>
-                  <td>{{softType.software_type_discription}}</td>
-                  <td>{{softType.software_type_discription}}</td>
-                  <td>
-                    <i data-toggle="modal" (click)="editRow(softType.software_type_id)" class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                  </td>
-                  <td>
-                      <i id="remove" (click)="deleteRow(softType.software_type_id)" class="fa fa-trash" aria-hidden="true"></i>
-                  </td>
-              </tr>
-            </tbody>
-          </table>
-          
-        </div>
-      </div>
-    </div>
-    <!--/.col-->
-  </div>    
 </div>
 
-
-<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
-      <div class="modal-content">
-        <div class="modal-header bg-primary">
-          <h4 class="modal-title">Edit Software Type</h4>
-          <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-            <div class="modal-body">
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-header">Software Type List</div>
+          <div class="card-body">
+            <div class="table-responsive">
               
-            </div> 
-          <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+      
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  
+    <ng-container matColumnDef="SoftwareTypeName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Software Type Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.software_type_name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="SoftwareDiscription">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Software Type Discription </th>
+        <td mat-cell *matCellDef="let element"> {{element.software_type_discription}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Enabled">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Enabled </th>
+        <td mat-cell *matCellDef="let element"> {{element.software_type_enabled}} </td>
+      </ng-container>
+
+    <ng-container matColumnDef="Id" hidden>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header hidden> id </th>
+        <td mat-cell *matCellDef="let element" hidden> {{element.software_type_id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+        <td (click)="EditDesignation(element)" mat-cell *matCellDef="let element">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+        </td>
+    </ng-container>
+
+           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    
+</div>
+</div>
+</div>
+</div>
+  

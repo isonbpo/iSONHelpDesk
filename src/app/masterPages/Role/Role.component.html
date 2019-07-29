@@ -1,148 +1,89 @@
-<div class="animated fadeIn">
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="card">
-        <div class="card-header">
-          <strong>Role</strong>
-        </div>
-        <form #roleadd='ngForm' (ngSubmit)="Register(roleadd)" class="form-horizontal">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label for="RoleName">Role Name</label>
-                <input type="text" class="form-control" id="role_name" placeholder="Enter Role Name" 
-                name="role_name" role_name required [(ngModel)]='objrole.role_name'  #role_name="ngModel">
-                <span class="help-bpx" *ngIf="role_name.touched && !role_name.valid ">Required</span>
-              </div>
-            </div>
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label for="Description">Discription</label>
-                <input type="text" class="form-control" id="role_description" placeholder="Enter Team Description" 
-                name="role_description" role_description required [(ngModel)]='objrole.role_description'  #role_description="ngModel">
-                <span class="help-bpx" *ngIf="role_description.touched && !role_description.valid ">Required</span>
-              </div>
-            </div>
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label for="Enabled">Enabled</label>
-                <select class="form-control" name="role_enabled" role_enabled required [(ngModel)]='objrole.role_enabled' #role_enabled="ngModel">
-                    <option value="0" selected disabled>Please Select</option>
-                    <option value="Y">Yes</option>
-                    <option value="N">No</option>
-                    <span class="help-bpx" *ngIf="role_enabled.touched && !role_enabled.valid ">required</span>
-                </select>
-              </div>
-            </div>
-          </div><!--/.row-->
-      </div>
+<div class="row">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-header">Role</div>
+    <form #form="ngForm" [formGroup]="Service.formModelRole" autocomplete="off" (submit)="onSubmit()">  
+    <div class="card-body">
+    <div class="row setWidth">
+    <div class="col-md-4">
+    <mat-form-field>
+      <input matInput placeholder="Role Name" formControlName="role_name" required>
+    </mat-form-field>
+    </div>    
+    <div class="col-md-4">
+      <mat-form-field>
+          <mat-select placeholder="Select" formControlName="role_enabled" required>
+              <mat-option value="Y">Yes</mat-option>
+              <mat-option value="N">No</mat-option>
+          </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-md-2">
+        <button type="submit" mat-raised-button color="primary">Add</button>
+    </div>
+    <div class="col-md-2">
+        <button type="reset" mat-raised-button color="warn">Cancel</button>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field>
+        <textarea matInput placeholder="Description" formControlName="role_description" required></textarea>
+      </mat-form-field>
       
-      <div class="card-footer">
-        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
-        <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
-        </div>
-      </form>
+      </div>    
+    </div>    
     </div>
-  
-    <!--/.col-->
+    </form>
   </div>
   </div>
-
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="card">
-        <div class="card-header">
-            <strong>Role List</strong>
-        </div>
-        <div class="card-body">
-            <div *ngIf="!dataavailbale">
-
-                <h6> No Data available </h6>
-            </div>
-          <table class="table table-striped" *ngIf="dataavailbale">
-              <thead>
-                  <tr>
-                      <th scope="col" style="align-content: center">Action</th>
-                      <th scope="col" >Name</th>
-                      <th scope="col" >Description</th>
-                      <th scope="col" >Enabled</th>
-                      <th scope="col" >Activities</th>
-                      <th scope="col" >Roles</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let e of rolelist">
-                    <td scope="col">
-                          <i data-toggle="modal"  data-target="#myModaledit" (click)="loadnewForm(e.role_name,e.role_description,e.role_enabled,e.role_id)" class="fa fa-pencil-square-o text-primary"></i>
-                            &nbsp;&nbsp;
-                            <i id="remove" (click)="deleteconfirmation(e.role_id)" class="fa fa-trash text-danger" aria-hidden="true"></i>
-                    </td>  
-                    <td scope="col">{{e.role_name}}</td>
-                    <td scope="col">{{e.role_description}}</td>
-                    <td scope="col">{{e.role_enabled}}</td>
-                    <td scope="col">Assign Activities</td>
-                    <td scope="col">Assign Roles</td>
-                    <td scope="col" style="display:none">{{e.role_id}}</td>
-                  </tr>
-                </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <!--/.col-->
-  </div>
-  <!--/.row-->  
 </div>
 
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-header">Role List</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              
+      
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  
+    <ng-container matColumnDef="RoleName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Role Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.role_name}} </td>
+    </ng-container>
 
-<div bsModal #regForm="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-          
-        <div class="modal-header">
-            <h4 class="modal-title">Edit</h4>
-          <button type="button" (click)="largeModal.hide()" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <form #EditForm='ngForm' name="editform" (ngSubmit)="EditRole(EditForm)" class="form-horizontal">
-        <div class="modal-body">
-            <div class="row">
-                <div class="col-sm-4">
-                  <div class="form-group">
-                    <label for="RoleName">Role Name</label>
-                      <input type="text" class="form-control" id="role_name" placeholder="Enter Role Name" 
-                      name="role_name" role_name required [(ngModel)]='objrl.role_name'  #role_name="ngModel">
-                      <span class="help-bpx" *ngIf="role_name.touched && !role_name.valid ">Required</span>
-                   </div>
-                </div>
-                <div class="col-sm-4">
-                <div class="form-group">
-                    <label for="RoleDescription">Role Description</label>
-                      <input type="text" class="form-control" id="role_description" placeholder="Enter Role Description" 
-                      name="role_description" role_description required [(ngModel)]='objrl.role_description'  #role_description="ngModel">
-                      <span class="help-bpx" *ngIf="role_description.touched && !role_description.valid ">Required</span>
-                </div>
-                </div>
-                <div class="col-sm-3">
-                  <div class="form-group">
-                    <label for="Enabled">Enabled</label>
-                    <select class="form-control" name="role_enabled" role_enabled required [(ngModel)]='objrl.role_enabled' #role_enabled="ngModel">
-                        <option value="0" selected disabled>Please Select</option>
-                        <option value="Y">Yes</option>
-                        <option value="N">No</option>
-                        <span class="help-bpx" *ngIf="role_enabled.touched && !role_enabled.valid ">required</span>
-                      </select>
-                  </div>
-                  
-                </div>
-              </div><!--/.row-->
-        </div>
-        <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Submit</button>
-          <button type="button" (click)="largeModal.hide()" class="btn btn-danger" data-dismiss="modal">Close</button>
-        </div>
-      </form>
-      </div>
+    <ng-container matColumnDef="RoleDescription">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+      <td mat-cell *matCellDef="let element"> {{element.role_description}} </td>
+    </ng-container>
 
-    </div>
-  </div>
+    
+    <ng-container matColumnDef="Enabled">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Enabled </th>
+      <td mat-cell *matCellDef="let element"> {{element.role_enabled}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Id" hidden>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header hidden> id </th>
+        <td mat-cell *matCellDef="let element" hidden> {{element.role_id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+        <td (click)="EditDesignation(element)" mat-cell *matCellDef="let element">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+        </td>
+    </ng-container>
+
+
+
+         
+           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    
+</div>
+</div>
+</div>
+</div>
+  
