@@ -3,6 +3,7 @@ import { ViewEncapsulation } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { DataSource } from '@angular/cdk/table';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 
@@ -18,7 +19,8 @@ import { FormControl } from '@angular/forms';
 })
 export class TicketViewComponent implements OnInit {
   
-
+  constructor(private route:Router){}
+  
   ngOnInit() {
     
   }
@@ -28,7 +30,7 @@ export class TicketViewComponent implements OnInit {
 
   addTab() {
     this.tabs.push('Add Ticket');
-
+    this.selected.setValue(this.tabs.length - 1);
     // if (selectAfterAdding) {
     //   this.selected.setValue(this.tabs.length - 1);
     // }
@@ -36,5 +38,11 @@ export class TicketViewComponent implements OnInit {
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
+  }
+  
+  refresh()
+  {
+    this.route.navigateByUrl('/ticketList', {skipLocationChange: true}).then(()=>
+    this.route.navigate(["/ticket"])); 
   }
 }

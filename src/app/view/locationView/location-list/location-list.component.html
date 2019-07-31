@@ -8,55 +8,55 @@
 
                     <ng-container matColumnDef="ShortName">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header> Short Name </th>
-                      <td mat-cell *matCellDef="let element"> {{element.dept_name}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element.cust_short_name}} </td>
                     </ng-container>
                   
                     <ng-container matColumnDef="Active">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header> Active </th>
-                      <td mat-cell *matCellDef="let element"> {{element.dept_enabled}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element.cust_enabled}} </td>
                     </ng-container>
                 
                     <ng-container matColumnDef="Address" >
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header > <Address></Address> </th>
-                        <td mat-cell *matCellDef="let element" > {{element.dept_id}} </td>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header > Address </th>
+                        <td mat-cell *matCellDef="let element" > {{element.address1}} </td>
                     </ng-container>
                 
                     <ng-container matColumnDef="City" >
                       <th mat-header-cell *matHeaderCellDef mat-sort-header >City</th>
-                      <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                      <td mat-cell *matCellDef="let element" > {{element.cust_city_code}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="State" >
                         <th mat-header-cell *matHeaderCellDef mat-sort-header >State</th>
-                        <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                        <td mat-cell *matCellDef="let element" > {{element.cust_state_code}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Country" >
                         <th mat-header-cell *matHeaderCellDef mat-sort-header >Country</th>
-                        <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                        <td mat-cell *matCellDef="let element" > {{element.cust_country_code}} </td>
                     </ng-container>
                 
                     <ng-container matColumnDef="ZipCode" >
                         <th mat-header-cell *matHeaderCellDef mat-sort-header >Zip Code</th>
-                        <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                        <td mat-cell *matCellDef="let element" > {{element.cust_zip_code}} </td>
                       </ng-container>
                       
                       <ng-container matColumnDef="Zone" >
                           <th mat-header-cell *matHeaderCellDef mat-sort-header >Zone</th>
-                          <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                          <td mat-cell *matCellDef="let element" > {{element.cust_zone}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="Phone" >
                             <th mat-header-cell *matHeaderCellDef mat-sort-header >Phone</th>
-                            <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                            <td mat-cell *matCellDef="let element" > {{element.cust_phone}} </td>
                           </ng-container>
 
                             <ng-container matColumnDef="EmailID" >
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header >Email</th>
-                                <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                                <td mat-cell *matCellDef="let element" > {{element.cust_emailid}} </td>
                               </ng-container>
 
-                              <ng-container matColumnDef="Extension" >
+                              <!-- <ng-container matColumnDef="Extension" >
                                   <th mat-header-cell *matHeaderCellDef mat-sort-header >Extension</th>
                                   <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
                                 </ng-container>
@@ -64,33 +64,34 @@
                                 <ng-container matColumnDef="WebAddress" >
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header >Web Address</th>
                                     <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
-                                  </ng-container>
+                                  </ng-container> -->
 
                                   <ng-container matColumnDef="CreatedBy" >
                                       <th mat-header-cell *matHeaderCellDef mat-sort-header >Created By</th>
-                                      <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                                      <td mat-cell *matCellDef="let element" > {{element.created_by}} </td>
                                     </ng-container>
 
                                     <ng-container matColumnDef="CreatedTime" >
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header >Created Time</th>
-                                        <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                                        <td mat-cell *matCellDef="let element" > {{element.created_date}} </td>
                                       </ng-container>
     
                                       <ng-container matColumnDef="CreatedDate" >
                                           <th mat-header-cell *matHeaderCellDef mat-sort-header >Created Date</th>
-                                          <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                                          <td mat-cell *matCellDef="let element" > {{element.created_date}} </td>
                                         </ng-container>
 
                                         <ng-container matColumnDef="Owner" >
                                             <th mat-header-cell *matHeaderCellDef mat-sort-header >Owner</th>
-                                            <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                                            <td mat-cell *matCellDef="let element" > {{element.owner_name}} </td>
                                           </ng-container>
-                    <!-- <ng-container matColumnDef="Action">
-                      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                      <mat-cell *matCellDef="let row">
-                        <button mat-icon-button (click)="EditDepartment(row)"><mat-icon>launch</mat-icon></button>
-                      </mat-cell>
-                    </ng-container> -->
+
+                                   <!-- <ng-container matColumnDef="Action">
+                                        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                        <mat-cell *matCellDef="let row">
+                                          <button mat-icon-button (click)="EditDepartment(row)"><mat-icon>launch</mat-icon></button>
+                                        </mat-cell>
+                                      </ng-container> -->
                 
                 
                          

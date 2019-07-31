@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, EventEmitter, Output, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, EventEmitter, Output, ElementRef, AfterViewInit } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
 import { MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
 import { Department } from '../shared/department.model';
@@ -17,7 +17,7 @@ import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
   encapsulation: ViewEncapsulation.None
 })
 
-export class DepartmentComponent implements OnInit {
+export class DepartmentComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['DepartmentName', 'Enabled', 'Action','Id', 'ScId'];
   //dataSource = new MatTableDataSource(ELEMENT_DATA);
 
@@ -39,19 +39,24 @@ export class DepartmentComponent implements OnInit {
     //this.dataSource.sort = this.sort;
     this.LoadData();
   }
+
+  
   
   LoadData() {
     this.Service.getAllDepartment().subscribe(  
       res => {  
-        this.dataSource = new MatTableDataSource();  
-        this.dataSource.data = res;  
-        this.dataSource.sort = this.sort;
-        
+        this.dptlist = res;
+        this.dataSource = new MatTableDataSource(this.dptlist);  
+        //this.dataSource.data = res;  
         this.Service.formModel.reset();
       },
       err => {
         console.log(err);
       });
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
   }
 
   onSubmit() {

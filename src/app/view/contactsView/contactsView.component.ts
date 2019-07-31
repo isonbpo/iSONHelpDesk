@@ -3,10 +3,7 @@ import { ViewEncapsulation } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { DataSource } from '@angular/cdk/table';
 import { FormControl } from '@angular/forms';
-
-
-
-
+import { Router } from '@angular/router';
 
 
 
@@ -17,7 +14,8 @@ import { FormControl } from '@angular/forms';
   encapsulation: ViewEncapsulation.None
 })
 export class ContactsViewComponent implements OnInit {
-  
+
+  constructor(private route:Router){}
 
   ngOnInit() {
     
@@ -28,13 +26,16 @@ export class ContactsViewComponent implements OnInit {
 
   addTab() {
     this.tabs.push('Add Contacts');
-
-    // if (selectAfterAdding) {
-    //   this.selected.setValue(this.tabs.length - 1);
-    // }
+    this.selected.setValue(this.tabs.length - 1);
   }
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
+  }
+
+  refresh()
+  {
+    this.route.navigateByUrl('/contactsList', {skipLocationChange: true}).then(()=>
+    this.route.navigate(["/contacts"])); 
   }
 }

@@ -19,6 +19,10 @@ import { ContactsViewComponent } from './view/contactsView/contactsView.componen
 import { AssetsViewComponent } from './view/assetsView/assetsView.component';
 import { TicketViewComponent } from './view/ticketView/ticketView.component';
 import { DocumentViewComponent } from './view/documentView/documentView.component';
+import { ContactsListComponent } from './view/contactsView/contacts-list/contacts-list.component';
+import { LocationListComponent } from './View/locationView/location-list/location-list.component';
+import { AssetsListComponent } from './view/assetsView/assets-list/assets-list.component';
+import { TicketListComponent } from './view/ticketView/ticket-list/ticket-list.component';
 
 
 
@@ -45,7 +49,11 @@ const routes: Routes = [
   { path: 'SoftwareType', component: SoftwareTypeComponent },
   { path: 'SoftwareCategory', component: SoftwareCategoryComponent },
   { path: 'Timezone', component: TimezoneComponent },
-  
+
+  { path: 'contactsList', component: ContactsListComponent },
+  { path: 'locationList', component: LocationListComponent },
+  { path: 'assetsList', component: AssetsListComponent },
+  { path: 'ticketList', component: TicketListComponent },
 
 ];
 

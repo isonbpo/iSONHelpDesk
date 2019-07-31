@@ -9,57 +9,57 @@
 
                     <ng-container matColumnDef="AssetStatus">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header> Asset Status </th>
-                      <td mat-cell *matCellDef="let element"> {{element.dept_name}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element.inv_warranty_end_date}} </td>
                     </ng-container>
                 
                     <ng-container matColumnDef="AssetProId" >
                       <th mat-header-cell *matHeaderCellDef mat-sort-header > Asset Product Id </th>
-                      <td mat-cell *matCellDef="let element" > {{element.dept_id}} </td>
+                      <td mat-cell *matCellDef="let element" > {{element.inv_product_id}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="AssetProName">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header> Asset Product Name </th>
-                      <td mat-cell *matCellDef="let element"> {{element.dept_enabled}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element.inv_product_name}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="AssetSerialNo">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header> Asset Serial No. </th>
-                      <td mat-cell *matCellDef="let element"> {{element.dept_enabled}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element.inv_serial_no}} </td>
                     </ng-container>
                 
                     <ng-container matColumnDef="OwnerName" >
                       <th mat-header-cell *matHeaderCellDef mat-sort-header >Owner Name</th>
-                      <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                      <td mat-cell *matCellDef="let element" > {{element.owner_name}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="RelatedToName" >
                       <th mat-header-cell *matHeaderCellDef mat-sort-header >Related To Name</th>
-                      <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                      <td mat-cell *matCellDef="let element" > {{element.related_to_name}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="WarrantyAmCtDate" >
                       <th mat-header-cell *matHeaderCellDef mat-sort-header >WarrantyAM Ct Date</th>
-                      <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                      <td mat-cell *matCellDef="let element" > {{element.inv_warranty_start_date}} </td>
                     </ng-container>
 
                    <ng-container matColumnDef="WarrantyAmcEndDate" >
                       <th mat-header-cell *matHeaderCellDef mat-sort-header >Warranty AMC End Date</th>
-                      <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                      <td mat-cell *matCellDef="let element" > {{element.inv_warranty_end_date}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="AssetInstallationDate" >
                       <th mat-header-cell *matHeaderCellDef mat-sort-header >Asset Installation Date</th>
-                      <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                      <td mat-cell *matCellDef="let element" > {{element.inv_installation_date}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="AssetSaleDate" >
                       <th mat-header-cell *matHeaderCellDef mat-sort-header >Asset Sale Date</th>
-                      <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                      <td mat-cell *matCellDef="let element" > {{element.inv_sale_date}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="RelatedTo" >
                       <th mat-header-cell *matHeaderCellDef mat-sort-header >Related To</th>
-                      <td mat-cell *matCellDef="let element" > {{element.dept_sc_id}} </td>
+                      <td mat-cell *matCellDef="let element" > {{element.related_to}} </td>
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
