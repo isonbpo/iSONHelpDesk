@@ -14,7 +14,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { TablesComponent } from './tables/tables.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
-import { MatSortModule, MatTableModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatRippleModule, MatOptionModule, MatSelectModule, MatPaginator, MatDialogModule, MatIconModule, MatExpansionModule, MatTabsModule, MatCheckboxModule, MatSidenavModule, MatToolbarModule, MatListModule } from '@angular/material';
+import { MatSortModule, MatTableModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatRippleModule, MatOptionModule, MatSelectModule, MatPaginator, MatDialogModule, MatIconModule, MatExpansionModule, MatTabsModule, MatCheckboxModule, MatSidenavModule, MatToolbarModule, MatListModule, MatDatepickerModule, MatNativeDateModule, MatRadioModule, MatFormFieldControl } from '@angular/material';
 import { DepartmentComponent } from './masterPages/department/department.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -39,7 +39,6 @@ import { CommonContactsComponent } from './commonViews/common-contacts/common-co
 import { CommonDocumentsComponent } from './commonViews/common-documents/common-documents.component';
 import { CommonHistoryComponent } from './commonViews/common-history/common-history.component';
 import { CommonTicketComponent } from './commonViews/common-ticket/common-ticket.component';
-import { GlobalAddComponent } from './commonViews/global-add/global-add.component';
 import { LocationViewComponent } from './view/locationView/locationView.component';
 import { LocationListComponent } from './View/locationView/location-list/location-list.component';
 import { ContactsViewComponent } from './view/contactsView/contactsView.component';
@@ -50,9 +49,9 @@ import { TicketViewComponent } from './view/ticketView/ticketView.component';
 import { TicketListComponent } from './view/ticketView/ticket-list/ticket-list.component';
 import { DocumentViewComponent } from './view/documentView/documentView.component';
 import { DocumentListComponent } from './view/documentView/document-list/document-list.component';
-
-
-
+import { ContactsGeneralComponent } from './commonViews/contacts-general/contacts-general.component';
+import { LocationGlobalComponent } from './commonViews/location-global/location-global.component';
+import { ContactsGlobalComponent } from './commonViews/contacts-global/contacts-global.component';
 
 
 
@@ -85,7 +84,6 @@ import { DocumentListComponent } from './view/documentView/document-list/documen
     CommonDocumentsComponent,
     CommonHistoryComponent,
     CommonTicketComponent,
-    GlobalAddComponent,
     LocationViewComponent,
     LocationListComponent,
     ContactsViewComponent,
@@ -95,7 +93,10 @@ import { DocumentListComponent } from './view/documentView/document-list/documen
     TicketViewComponent,
     TicketListComponent,
     DocumentViewComponent,
-    DocumentListComponent
+    DocumentListComponent,
+    ContactsGeneralComponent,
+    LocationGlobalComponent,
+    ContactsGlobalComponent
     ],
   imports: [
     BrowserModule,
@@ -124,7 +125,10 @@ import { DocumentListComponent } from './view/documentView/document-list/documen
     MatCheckboxModule,
     MatSidenavModule,
     MatListModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatRadioModule
     ],
   entryComponents:[],
   providers: [MasterPagesService],

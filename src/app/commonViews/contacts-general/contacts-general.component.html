@@ -1,0 +1,224 @@
+<form autocomplete="off">
+<div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="Sub-header">
+                <div class="row">  
+                    <div class="col-md-8">
+                    General
+                    </div>
+                    
+                    <div class="col-md-2 text-right">    
+                    <button type="submit" class="btn btn-success" mat-raised-button>Save</button>
+                    </div>
+                    <div class="col-md-2">    
+                            <button type="reset" class="btn btn-danger" mat-raised-button>Cancel</button>
+                    </div>
+                </div>
+            </div>    
+            <div class="card-body">
+                <div class="row setWidth">
+                  <div class="col-md-4"> 
+                    <mat-form-field>
+                        <input matInput placeholder="Created By" value="">
+                    </mat-form-field>
+                    </div>    
+                    <div class="col-md-4">
+                    <mat-form-field>
+                        <input matInput placeholder="Created At" >
+                    </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                      <mat-form-field>
+                        <input matInput placeholder="Contact Code" required>
+                      </mat-form-field>
+                    </div>
+                </div>
+    
+                <div class="row setWidth">
+                        <div class="col-md-4">
+                            <mat-form-field>
+                                <input matInput placeholder="Account" required>
+                            </mat-form-field>
+                          </div>    
+                          <div class="col-md-4">
+                            <mat-form-field>
+                                <mat-select placeholder="Contact Type">
+                                        <mat-option value="Y">Yes</mat-option>
+                                        <mat-option value="N">No</mat-option>
+                                </mat-select>                          
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-4">
+                            <mat-form-field>
+                              <input matInput placeholder="Employee Code" required>
+                            </mat-form-field>
+                          </div>
+                </div>    
+    
+                <div class="row setWidth">
+                        <div class="col-md-4">
+                          <mat-form-field>
+                                <mat-select placeholder="Contact Title">
+                                        <mat-option value="Y">Yes</mat-option>
+                                </mat-select>
+                          </mat-form-field>
+                          </div>    
+                          <div class="col-md-4">
+                          <mat-form-field>
+                                <mat-select placeholder="Time Zone">
+                                        <mat-option value="Y">Yes</mat-option>
+                                </mat-select>
+                          </mat-form-field>
+                          </div>
+                          <div class="col-md-4">
+                            <mat-form-field>
+                                <input matInput placeholder="Full Name" required>
+                            </mat-form-field>
+                          </div>
+                </div> 
+                
+                
+                <div class="row setWidth">
+                        <div class="col-md-4">
+                          <mat-form-field>
+                                <mat-select placeholder="Department">
+                                        <mat-option value="Y">Yes</mat-option>
+                                </mat-select>
+                          </mat-form-field>
+                          </div>    
+                          <div class="col-md-4">
+                                <mat-form-field>
+                                        <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+                                        <mat-datepicker-toggle matSuffix [for]="picker">
+                                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                          </div>
+                          <div class="col-md-4">
+                            <mat-form-field>
+                                    <mat-select placeholder="Designation">
+                                            <mat-option value="Y">Yes</mat-option>
+                                    </mat-select>
+                            </mat-form-field>
+                          </div>
+                </div> 
+                <div class="row setWidth">
+                        <div class="col-md-4">
+                          <mat-form-field>
+                                <input matInput [matDatepicker]="picker1" placeholder="Anniversary">
+                                <mat-datepicker-toggle matSuffix [for]="picker1">
+                                    </mat-datepicker-toggle>
+                                       <mat-datepicker #picker1>
+                                    </mat-datepicker>
+                          </mat-form-field>
+                          </div>    
+                          <div class="col-md-4">
+                          <mat-form-field>
+                                <mat-select placeholder="Team">
+                                        <mat-option value="Y">Yes</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-4">
+                            <mat-form-field>
+                                    <mat-select placeholder="Zone">
+                                            <mat-option value="Y">Yes</mat-option>
+                                    </mat-select>
+                            </mat-form-field>
+                          </div>
+                </div> 
+
+                <div class="row setWidth">
+                        <div class="col-md-4">
+                          <mat-form-field>
+                                <input matInput placeholder="Owner">
+                          </mat-form-field>
+                          </div>    
+                          <div class="col-md-4">
+                          <mat-form-field>
+                                <input matInput placeholder="Address">
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-4">
+                            <mat-form-field>
+                                    <mat-select placeholder="Country">
+                                            <mat-option value="Y">Yes</mat-option>
+                                    </mat-select>
+                            </mat-form-field>
+                          </div>
+                </div> 
+
+                <div class="row setWidth">
+                        <div class="col-md-4">
+                          <mat-form-field>
+                                <mat-select placeholder="State">
+                                        <mat-option value="Y">Yes</mat-option>
+                                </mat-select>
+                      </mat-form-field>
+                          </div>    
+                          <div class="col-md-4">
+                          <mat-form-field>
+                                <mat-select placeholder="City">
+                                        <mat-option value="Y">Yes</mat-option>
+                                </mat-select>
+                        </mat-form-field>
+                          </div>
+                          <div class="col-md-4">
+                            <mat-form-field>
+                                    <input matInput placeholder="Zipcode/Postal">
+                            </mat-form-field>
+                          </div>
+                </div> 
+                <div class="row setWidth">
+                        <div class="col-md-4">
+                          <mat-form-field>
+                                <input matInput placeholder="Email">
+                      </mat-form-field>
+                          </div>    
+                          <div class="col-md-4">
+                                <label>My Contacts</label>
+                                <mat-radio-group aria-label="My Contact">
+                                        <mat-radio-button value="1">Yes</mat-radio-button>
+                                        <mat-radio-button value="2">No</mat-radio-button>
+                                </mat-radio-group>
+                        
+                          </div>
+                          <div class="col-md-4">
+                            <mat-form-field>
+                                    <input matInput placeholder="Login Id">
+                            </mat-form-field>
+                          </div>
+                </div> 
+                <div class="row setWidth">
+                        <div class="col-md-4">
+                          <mat-form-field>
+                                <input type="password" matInput placeholder="Login Password">
+                      </mat-form-field>
+                          </div>    
+                          <div class="col-md-4">
+                            <mat-form-field>
+                                <mat-select placeholder="Login Role">
+                                        <mat-option value="Y">Yes</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-4">
+                            <mat-form-field>
+                                    <input matInput placeholder="Attach Signature">
+                            </mat-form-field>
+                          </div>
+                </div> 
+                <div class="row setWidth">
+                        <div class="col-md-4">
+                            <mat-form-field>
+                                <input type="password" matInput placeholder="Reporting To">
+                            </mat-form-field>
+                        </div>    
+                </div> 
+            </div>
+          </div>    
+      </div>
+    </div>
+</form>    

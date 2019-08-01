@@ -3,6 +3,7 @@ import { ViewEncapsulation } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { DataSource } from '@angular/cdk/table';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 
@@ -18,7 +19,8 @@ import { FormControl } from '@angular/forms';
 })
 export class DocumentViewComponent implements OnInit {
   
-
+  constructor(private route:Router){}
+  
   ngOnInit() {
     
   }
@@ -36,5 +38,11 @@ export class DocumentViewComponent implements OnInit {
 
   removeTab(index: number) {
     this.tabs.splice(index, 1);
+  }
+
+  refresh()
+  {
+    this.route.navigateByUrl('/documentList', {skipLocationChange: true}).then(()=>
+    this.route.navigate(["/document"])); 
   }
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Global } from 'src/app/shared/global.model';
+import { GlobalService } from 'src/app/shared/global.service';
 
 @Component({
   selector: 'app-location-general',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LocationGeneralComponent implements OnInit {
 
-  constructor() { }
+   dptlist: Global[];
+   dataavailbale: Boolean = false;
+   tempdpt: Global
+   dataSource :any;
+   
+
+   constructor(private Service:GlobalService){}
 
   ngOnInit() {
+    this.Service.getGlobal();
+    
   }
-
+  
 }

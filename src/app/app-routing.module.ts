@@ -23,6 +23,7 @@ import { ContactsListComponent } from './view/contactsView/contacts-list/contact
 import { LocationListComponent } from './View/locationView/location-list/location-list.component';
 import { AssetsListComponent } from './view/assetsView/assets-list/assets-list.component';
 import { TicketListComponent } from './view/ticketView/ticket-list/ticket-list.component';
+import { DocumentListComponent } from './view/documentView/document-list/document-list.component';
 
 
 
@@ -54,6 +55,7 @@ const routes: Routes = [
   { path: 'locationList', component: LocationListComponent },
   { path: 'assetsList', component: AssetsListComponent },
   { path: 'ticketList', component: TicketListComponent },
+  { path: 'documentList', component: DocumentListComponent },
 
 ];
 
