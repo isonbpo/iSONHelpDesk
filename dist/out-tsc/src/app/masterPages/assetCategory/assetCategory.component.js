@@ -1,10 +1,11 @@
 import * as tslib_1 from "tslib";
 import { Component, ViewChild } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
-import { MatTableDataSource, MatSort } from '@angular/material';
+import { MatTableDataSource, MatSort, MatTable } from '@angular/material';
 import { MasterPagesService } from '../shared/master-pages.service';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { AssetCategoryDialogBoxComponent } from './asset-category-dialog-box/asset-category-dialog-box.component';
 let AssetCategoryComponent = class AssetCategoryComponent {
     constructor(Service, route, dialog) {
         this.Service = Service;
@@ -19,8 +20,8 @@ let AssetCategoryComponent = class AssetCategoryComponent {
     }
     LoadData() {
         this.Service.getAllAssetCategory().subscribe(res => {
-            this.dataSource = new MatTableDataSource();
-            this.dataSource.data = res;
+            this.dptlist = res;
+            this.dataSource = new MatTableDataSource(this.dptlist);
             this.dataSource.sort = this.sort;
             this.Service.formModelAssetCategory.reset();
         }, err => {
@@ -33,19 +34,38 @@ let AssetCategoryComponent = class AssetCategoryComponent {
             this.LoadData();
         });
     }
-    EditDesignation(element) {
-        this.Service.populateFormDesig(element);
-        const dialogConfig = new MatDialogConfig();
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
-        dialogConfig.width = "60%";
-        //this.dialog.open(DesignationComponent,dialogConfig);
+    openDialog(action, obj) {
+        obj.action = action;
+        const dialogRef = this.dialog.open(AssetCategoryDialogBoxComponent, {
+            width: '550px',
+            data: obj
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result.event == 'Update') {
+                this.updateRowData(result.data);
+            }
+        });
+    }
+    updateRowData(row_obj) {
+        this.dataSource = this.dptlist.filter((value, key) => {
+            if (value.asset_category_id == row_obj.asset_category_id) {
+                value.asset_category_name = row_obj.asset_category_name;
+                value.asset_category_enabled = row_obj.asset_category_enabled;
+                value.asset_category_discription = row_obj.asset_category_discription;
+                this.Service.updateAssetCategory(value.asset_category_id, value.asset_category_name, value.asset_category_enabled, value.asset_category_discription).subscribe();
+            }
+            this.LoadData();
+        });
     }
 };
 tslib_1.__decorate([
     ViewChild(MatSort, { static: true }),
     tslib_1.__metadata("design:type", MatSort)
 ], AssetCategoryComponent.prototype, "sort", void 0);
+tslib_1.__decorate([
+    ViewChild(MatTable, { static: true }),
+    tslib_1.__metadata("design:type", MatTable)
+], AssetCategoryComponent.prototype, "table", void 0);
 AssetCategoryComponent = tslib_1.__decorate([
     Component({
         selector: 'app-assetCategory',

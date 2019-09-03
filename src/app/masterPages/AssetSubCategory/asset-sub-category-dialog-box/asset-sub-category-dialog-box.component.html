@@ -1,0 +1,37 @@
+<div class="card">
+    <div class="card-header">{{action}} Asset Sub Category</div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                    <mat-form-field >
+                            <mat-select [(ngModel)]="local_data.asset_category_id" placeholder="Asset Category">
+                                    <mat-option *ngFor="let assetcat of assetscategories" [value]="assetcat.asset_category_id">{{assetcat.asset_category_name}}</mat-option>
+                            </mat-select>
+                    </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field >
+                        <input matInput placeholder="Asset Sub Category Name" [(ngModel)]="local_data.asset_sub_category_name" required>
+                </mat-form-field>
+            </div>
+        </div>
+    <div class="row">
+        <div class="col-md-6">
+        <mat-form-field>
+                <mat-select placeholder="Select" [(ngModel)]="local_data.asset_sub_category_enabled" required>
+                        <mat-option value="Y">Yes</mat-option>
+                        <mat-option value="N">No</mat-option>
+                </mat-select>
+        </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <mat-form-field >
+                    <textarea matInput placeholder="Description" [(ngModel)]="local_data.asset_sub_category_discription" required></textarea>
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+<div class="text-right">
+<button mat-button (click)="doAction()" color="primary">{{action}}</button>
+<button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+</div>

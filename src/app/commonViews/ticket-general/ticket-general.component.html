@@ -1,0 +1,161 @@
+<form autocomplete="off" [formGroup]="TicketService.formModelTicket">
+        <div class="row">
+                <div class="col-lg-12 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="Sub-header">
+                        <div class="row">  
+                            <div class="col-md-10">
+                            General
+                            </div>
+                            
+                            <div class="col-md-2 text-right">    
+                            <button type="submit" class="btn btn-success" mat-raised-button (click)="onSubmit()">Save</button>
+                            </div>
+                            <!-- <div class="col-md-2">    
+                                    <button type="reset" class="btn btn-danger" mat-raised-button>Cancel</button>
+                            </div> -->
+                        </div>
+                    </div>    
+                    <div class="card-body">
+                     <div class="row">
+                        <div class="col-md-4"> 
+                              <mat-form-field *ngFor="let user of createDateAndBy">
+                                <input  matInput placeholder="Created By" [(ngModel)]="user.createdBy"  formControlName="created_by">
+                              </mat-form-field>
+                        </div>    
+                        <div class="col-md-4">
+                              <mat-form-field *ngFor="let user of createDateAndBy">
+                                <input matInput placeholder="Created At" [(ngModel)]="user.createdDate"  formControlName="created_date">
+                              </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field>
+                                <input matInput placeholder="Case No." formControlName="case_serial_number">
+                            </mat-form-field>
+                        </div>
+                     </div>
+            
+                        <div class="row">
+                                <div class="col-md-4">
+                                    <mat-form-field>
+                                            <mat-select formControlName="case_status_id" placeholder="Case Status" (selectionChange)="onChangeStatus($event.value)">
+                                                <mat-option *ngFor="let cs of caseStatusList" [value]="cs.status_id">{{cs.status_name}}</mat-option>
+                                            </mat-select>    
+                                    </mat-form-field>
+                                  </div>    
+                                  <div class="col-md-4">
+                                    <mat-form-field>
+                                        <mat-select formControlName="case_status_reason_id"  placeholder="Status Reason">
+                                                <mat-option *ngFor="let sr of statusReasonList" value="sr.reason_id">{{sr.reason_description}}</mat-option>
+                                        </mat-select>    
+                                        
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <mat-form-field>
+                                      <input matInput placeholder="Source ID">
+                                    </mat-form-field>
+                                  </div>
+                        </div>    
+            
+                        <div class="row">
+                                <div class="col-md-4">
+                                  <mat-form-field>
+                                        <input matInput placeholder="Case Owner">
+                                  </mat-form-field>
+                                  </div>    
+                                  <div class="col-md-4">
+                                  <mat-form-field>
+                                        <input matInput placeholder="Suject" formControlName="case_subject" required>
+                                  </mat-form-field>
+                                  </div>
+                                  <div class="col-md-4">
+                                        <mat-form-field>
+                                            <input matInput placeholder="Account">
+                                        </mat-form-field>
+                                  </div>    
+                                  
+                        </div> 
+
+                        <div class="row">
+                                <div class="col-md-4">
+                                    <mat-form-field>
+                                        <input matInput [matDatepicker]="picker" placeholder="Open Time" formControlName="first_open_time">
+                                        <mat-datepicker-toggle matSuffix [for]="picker">
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field>
+                                            <input matInput placeholder="Caller" formControlName="case_caller_name">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                        <mat-form-field>
+                                            <input matInput placeholder="Contact">
+                                        </mat-form-field>
+                                </div>    
+                        </div> 
+                        <div class="row">
+                                
+                                  <div class="col-md-4">
+                                  <mat-form-field>
+                                        <mat-select placeholder="Inventory">
+                                                <mat-option value="Y">Yes</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <mat-form-field>
+                                            <input matInput placeholder="Callback Number" formControlName="case_callback_number">
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="col-md-4">
+                                                <mat-form-field>
+                                                        <mat-select placeholder="Zone" #cmbZonetype >
+                                                                <mat-option *ngFor="let gd of zoneList" [value]="gd.type">{{gd.name}}</mat-option>
+                                                        </mat-select>    
+                                                </mat-form-field>
+                                  </div>    
+                        </div> 
+        
+                        <div class="row">
+                                
+                                  <div class="col-md-4">
+                                  <mat-form-field>
+                                        <mat-select formControlName="case_category_id" placeholder="Category" (selectionChange)="getActiveTicketSubCategoryList($event.value)">
+                                                <mat-option *ngFor="let tsc of ActiveTicketCategories" [value]="tsc.ticket_category_id">{{tsc.ticket_category_name}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <mat-form-field>
+                                        <mat-select formControlName="case_subcategory_id" placeholder="Sub Category">
+                                                <mat-option *ngFor="let tsc of ActiveTicketSubCategories" [value]="tsc.ticket_sub_category_id">{{tsc.ticket_sub_category_name}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="col-md-4">
+                                        <mat-form-field>
+                                           <input matInput [matDatepicker]="picker1" placeholder="Targeted Close Time" formControlName="target_end_time">
+                                           <mat-datepicker-toggle matSuffix [for]="picker1">
+                                           </mat-datepicker-toggle>
+                                           <mat-datepicker #picker1></mat-datepicker>
+                                        </mat-form-field>                                                
+                                  </div>    
+                                        
+                        </div> 
+        
+                        <div class="row">
+                                <div class="col-md-4">
+                                        <mat-form-field>
+                                            <textarea matInput placeholder="Description" formControlName="case_description"></textarea>
+                                        </mat-form-field>
+                                </div>
+                        </div> 
+                    </div>
+                  </div>    
+              </div>
+            </div>
+        </form>    

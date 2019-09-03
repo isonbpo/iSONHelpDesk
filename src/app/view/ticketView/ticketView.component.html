@@ -3,7 +3,7 @@
   <button type="submit"  mat-stroked-button color="primary" (click)="refresh()">Refresh</button>
   </div>
   <div class="p-1">
-  <button type="submit" mat-stroked-button class="btn btn-success" (click)="addTab()">Add</button>
+  <button type="submit" mat-stroked-button class="btn btn-success" (click)="openDialog('Add',{})">Add</button>
   </div>
   <div class="p-1">
   <button type="submit" mat-stroked-button class="btn btn-info">Edit</button>
@@ -13,24 +13,5 @@
   </div>
 </div>
 
-<mat-tab-group [selectedIndex]="selected.value"
-               (selectedIndexChange)="selected.setValue($event)">
-  <mat-tab *ngFor="let tab of tabs; let index = index" [label]="tab">
-      <ng-template mat-tab-label>
-          <span>{{tab}}</span>
-          <button [disabled]="tabs.length === 1" (click)="removeTab(index)">
-            <mat-icon>close</mat-icon>
-          </button>
-          <!-- <mat-icon>close</mat-icon> -->
-      </ng-template>
-      <app-ticket-list></app-ticket-list>
 
-    <!-- <button mat-raised-button
-            class="example-delete-tab-button"
-            [disabled]="tabs.length === 1"
-            (click)="removeTab(index)">
-      Delete Tab
-    </button> -->
-  
-  </mat-tab>
-</mat-tab-group>
+<app-ticket-list></app-ticket-list>

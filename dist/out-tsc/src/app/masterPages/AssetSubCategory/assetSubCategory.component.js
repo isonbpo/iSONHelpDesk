@@ -4,7 +4,7 @@ import { ViewEncapsulation } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { MasterPagesService } from '../shared/master-pages.service';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 let AssetSubCategoryComponent = class AssetSubCategoryComponent {
     constructor(Service, route, dialog) {
         this.Service = Service;
@@ -16,6 +16,7 @@ let AssetSubCategoryComponent = class AssetSubCategoryComponent {
     ngOnInit() {
         //this.dataSource.sort = this.sort;
         this.LoadData();
+        this.getMasterList();
     }
     LoadData() {
         this.Service.getAllAssetSubCategory().subscribe(res => {
@@ -33,13 +34,8 @@ let AssetSubCategoryComponent = class AssetSubCategoryComponent {
             this.LoadData();
         });
     }
-    EditDesignation(element) {
-        this.Service.populateFormDesig(element);
-        const dialogConfig = new MatDialogConfig();
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
-        dialogConfig.width = "60%";
-        //this.dialog.open(DesignationComponent,dialogConfig);
+    getMasterList() {
+        this.Service.getAllAssetCategory().subscribe(data => this.assetscategories = data);
     }
 };
 tslib_1.__decorate([

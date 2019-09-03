@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild, Input, EventEmitter, Output, ElementRef } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
-import { MatTableDataSource, MatSort} from '@angular/material';
+import { MatTableDataSource, MatSort, MatTable} from '@angular/material';
 import { MasterPagesService } from '../shared/master-pages.service';
 import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import { Designation } from '../shared/designation.model';
+import { DesignationtDialogBoxComponent } from './designationt-dialog-box/designationt-dialog-box.component';
 
 
 
@@ -19,14 +19,13 @@ import { Designation } from '../shared/designation.model';
 
 export class DesignationComponent implements OnInit {
   displayedColumns: string[] = ['DesignationName', 'Enabled', 'Action','Id'];
-  //dataSource = new MatTableDataSource(ELEMENT_DATA);
+  
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatTable,{static:true}) table: MatTable<any>;
+  
 
-  //@ViewChild('regForm') largeModal : ModalDirective;
-
-  dptlist: Designation[];
-  dataavailbale: Boolean = false;
+  dsglist: Designation[];
   tempdpt: Designation
   dataSource :any;
    
@@ -43,8 +42,8 @@ export class DesignationComponent implements OnInit {
   LoadData() {
     this.Service.getAllDesignation().subscribe(  
       res => {  
-        this.dataSource = new MatTableDataSource();  
-        this.dataSource.data = res;  
+        this.dsglist = res;
+        this.dataSource = new MatTableDataSource(this.dsglist);  
         this.dataSource.sort = this.sort;
         this.Service.formModelDesig.reset();
       },
@@ -67,16 +66,46 @@ export class DesignationComponent implements OnInit {
 
 
 
-  EditDesignation(element)
-  {
-    this.Service.populateFormDesig(element);
-     
-     const dialogConfig = new MatDialogConfig();
-     dialogConfig.disableClose = true;
-     dialogConfig.autoFocus = true;
-     dialogConfig.width = "60%";
-     this.dialog.open(DesignationComponent,dialogConfig);
+  openDialog(action,obj) {
+    obj.action = action;
+      const dialogRef = this.dialog.open(DesignationtDialogBoxComponent, {
+        width: '550px',
+        data:obj
+      });
+      
+      dialogRef.afterClosed().subscribe(result => {
+        if(result.event == 'Update'){
+          this.updateRowData(result.data);
+        }
+      });
+    }
+    
+    updateRowData(row_obj){
+      this.dataSource = this.dsglist.filter((value,key)=>{
+        if(value.desig_id == row_obj.desig_id){
+          value.desig_name = row_obj.desig_name;
+          value.desig_enabled = row_obj.desig_enabled;
+          this.Service.updateDesignation(value.desig_id,value.desig_name,value.desig_enabled).subscribe();        
+        }
+        this.LoadData();
+      });
+    }
 
-  }
+    getError(el) {
+      switch (el) {
+        case 'desig_name':
+          if (this.Service.formModelDesig.get('desig_name').hasError('required')) {
+            return 'Designation name is required';
+          }
+          break;
+        case 'desig_enabled':
+          if (this.Service.formModelDesig.get('desig_enabled').hasError('required')) {
+            return 'Status is required';
+          }
+          break;
+        default:
+          return '';
+      }
+    }
 
 }

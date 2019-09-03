@@ -13,7 +13,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { TablesComponent } from './tables/tables.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSortModule, MatTableModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatRippleModule, MatOptionModule, MatSelectModule, MatDialogModule, MatIconModule, MatExpansionModule, MatTabsModule, MatCheckboxModule, MatSidenavModule, MatToolbarModule, MatListModule } from '@angular/material';
+import { MatSortModule, MatTableModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatRippleModule, MatOptionModule, MatSelectModule, MatDialogModule, MatIconModule, MatExpansionModule, MatTabsModule, MatCheckboxModule, MatSidenavModule, MatToolbarModule, MatListModule, MatDatepickerModule, MatNativeDateModule, MatRadioModule } from '@angular/material';
 import { DepartmentComponent } from './masterPages/department/department.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -38,7 +38,6 @@ import { CommonContactsComponent } from './commonViews/common-contacts/common-co
 import { CommonDocumentsComponent } from './commonViews/common-documents/common-documents.component';
 import { CommonHistoryComponent } from './commonViews/common-history/common-history.component';
 import { CommonTicketComponent } from './commonViews/common-ticket/common-ticket.component';
-import { GlobalAddComponent } from './commonViews/global-add/global-add.component';
 import { LocationViewComponent } from './view/locationView/locationView.component';
 import { LocationListComponent } from './View/locationView/location-list/location-list.component';
 import { ContactsViewComponent } from './view/contactsView/contactsView.component';
@@ -49,6 +48,31 @@ import { TicketViewComponent } from './view/ticketView/ticketView.component';
 import { TicketListComponent } from './view/ticketView/ticket-list/ticket-list.component';
 import { DocumentViewComponent } from './view/documentView/documentView.component';
 import { DocumentListComponent } from './view/documentView/document-list/document-list.component';
+import { ContactsGeneralComponent } from './commonViews/contacts-general/contacts-general.component';
+import { LocationGlobalComponent } from './commonViews/location-global/location-global.component';
+import { ContactsGlobalComponent } from './commonViews/contacts-global/contacts-global.component';
+import { AssetsGlobalComponent } from './commonViews/assets-global/assets-global.component';
+import { AssetsGeneralComponent } from './commonViews/assets-general/assets-general.component';
+import { DocumentsGlobalComponent } from './commonViews/documents-global/documents-global.component';
+import { DocumentsGeneralComponent } from './commonViews/documents-general/documents-general.component';
+import { TicketGeneralComponent } from './commonViews/ticket-general/ticket-general.component';
+import { TicketGlobalComponent } from './commonViews/ticket-global/ticket-global.component';
+import { TicketCategoryComponent } from './masterPages/ticketCategory/ticketCategory.component';
+import { TicketSubCategoryComponent } from './masterPages/ticketSubCategory/ticketSubCategory.component';
+import { A11yModule } from '@angular/cdk/a11y';
+import { BidiModule } from '@angular/cdk/bidi';
+import { ObserversModule } from '@angular/cdk/observers';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { PlatformModule } from '@angular/cdk/platform';
+import { PortalModule } from '@angular/cdk/portal';
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
+import { CdkStepperModule } from '@angular/cdk/stepper';
+import { CdkTableModule } from '@angular/cdk/table';
+import { DepartmentDialogBoxComponent } from './masterPages/department/department-dialog-box/department-dialog-box.component';
+import { DesignationtDialogBoxComponent } from './masterPages/designation/designationt-dialog-box/designationt-dialog-box.component';
+import { RoleDialogBoxComponent } from './masterPages/role/role-dialog-box/role-dialog-box.component';
+import { AssetCategoryDialogBoxComponent } from './masterPages/assetCategory/asset-category-dialog-box/asset-category-dialog-box.component';
+import { AssetSubCategoryDialogBoxComponent } from './masterPages/assetSubCategory/asset-sub-category-dialog-box/asset-sub-category-dialog-box.component';
 let AppModule = class AppModule {
 };
 AppModule = tslib_1.__decorate([
@@ -81,7 +105,6 @@ AppModule = tslib_1.__decorate([
             CommonDocumentsComponent,
             CommonHistoryComponent,
             CommonTicketComponent,
-            GlobalAddComponent,
             LocationViewComponent,
             LocationListComponent,
             ContactsViewComponent,
@@ -91,7 +114,23 @@ AppModule = tslib_1.__decorate([
             TicketViewComponent,
             TicketListComponent,
             DocumentViewComponent,
-            DocumentListComponent
+            DocumentListComponent,
+            ContactsGeneralComponent,
+            LocationGlobalComponent,
+            ContactsGlobalComponent,
+            AssetsGlobalComponent,
+            AssetsGeneralComponent,
+            DocumentsGlobalComponent,
+            DocumentsGeneralComponent,
+            TicketGeneralComponent,
+            TicketGlobalComponent,
+            TicketCategoryComponent,
+            TicketSubCategoryComponent,
+            DepartmentDialogBoxComponent,
+            DesignationtDialogBoxComponent,
+            RoleDialogBoxComponent,
+            AssetCategoryDialogBoxComponent,
+            AssetSubCategoryDialogBoxComponent
         ],
         imports: [
             BrowserModule,
@@ -120,9 +159,28 @@ AppModule = tslib_1.__decorate([
             MatCheckboxModule,
             MatSidenavModule,
             MatListModule,
-            MatToolbarModule
+            MatToolbarModule,
+            MatDatepickerModule,
+            MatNativeDateModule,
+            MatRadioModule,
+            MatCheckboxModule,
+            A11yModule,
+            BidiModule,
+            ObserversModule,
+            OverlayModule,
+            PlatformModule,
+            PortalModule,
+            ScrollDispatchModule,
+            CdkStepperModule,
+            CdkTableModule,
         ],
-        entryComponents: [],
+        entryComponents: [
+            DepartmentDialogBoxComponent,
+            DesignationtDialogBoxComponent,
+            RoleDialogBoxComponent,
+            AssetCategoryDialogBoxComponent,
+            AssetSubCategoryDialogBoxComponent
+        ],
         providers: [MasterPagesService],
         bootstrap: [AppComponent]
     })

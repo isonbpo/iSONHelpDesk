@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MasterPagesService } from 'src/app/masterPages/shared/master-pages.service';
 
 @Component({
   selector: 'app-common-designation',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CommonDesignationComponent implements OnInit {
   displayedColumns: string[] = ['Designation','Level'];
-  constructor() { }
+  ActiveDesignations:{};
+
+
+  constructor(public MasterService : MasterPagesService) { }
 
   ngOnInit() {
+    this.getMasterList();
+  }
+
+  getMasterList()
+  {
+    this.MasterService.getActiveDesignation().subscribe(
+      data => {this.ActiveDesignations = data
+    }
+    );
   }
 
 }

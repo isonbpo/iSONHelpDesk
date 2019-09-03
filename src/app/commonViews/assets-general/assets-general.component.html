@@ -1,0 +1,214 @@
+<form [formGroup]="AssetService.formModelAsset" autocomplete="off">
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="Sub-header">
+            <div class="row">  
+                <div class="col-md-10">
+                General
+                </div>
+                
+                <div class="col-md-2 text-right">    
+                <button type="submit" class="btn btn-success" mat-raised-button (click)="onSubmit()">Save</button>
+                </div>
+                <!-- <div class="col-md-2">    
+                        <button type="reset" class="btn btn-danger" mat-raised-button>Cancel</button>
+                </div> -->
+            </div>
+        </div>    
+        <div class="card-body">
+            <div class="row">
+              <div class="col-md-4"> 
+                <mat-form-field *ngFor="let user of createDateAndBy">
+                    <input matInput placeholder="Created By" [(ngModel)]="user.createdBy"  formControlName="created_by">
+                </mat-form-field>
+                </div>    
+                <div class="col-md-4">
+                <mat-form-field *ngFor="let user of createDateAndBy">
+                    <input matInput placeholder="Created At" [(ngModel)]="user.createdDate"  formControlName="created_date">
+                </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field>
+                    <input matInput placeholder="Account/Vendor" formControlName="asset_vender_name">
+                  </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+                    <div class="col-md-4">
+                      <mat-form-field>
+                        <input matInput placeholder="Asset Owner" formControlName="owner_name">
+                      </mat-form-field>
+                      </div>    
+                      <div class="col-md-4">
+                        <mat-form-field>
+                              <mat-select formControlName="asset_product_type" placeholder="Asset Product Name">
+                                  <mat-option *ngFor="let pro of ActiveProducts" [value]="pro.product_id">{{pro.product_name}}</mat-option>
+                              </mat-select>
+                        </mat-form-field>
+                        </div>    
+                        <div class="col-md-4">
+                          <mat-form-field>
+                                  <input formControlName="inv_installation_date" matInput [matDatepicker]="picker" placeholder="Asset Installation date">
+                                  <mat-datepicker-toggle matSuffix [for]="picker">
+                                  </mat-datepicker-toggle>
+                                  <mat-datepicker #picker></mat-datepicker>
+                          </mat-form-field>
+                      </div>
+            </div>    
+
+            <div class="row">
+                      <div class="col-md-4">
+                            <!-- <mat-form-field>
+                                <input formControlName="" matInput placeholder="Asset Tag No.">
+                            </mat-form-field> -->
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <input formControlName="inv_warranty_start_date" matInput [matDatepicker]="picker1" placeholder="Asset Warranty Start date">
+                          <mat-datepicker-toggle matSuffix [for]="picker1">
+                          </mat-datepicker-toggle>
+                          <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                        </div>    
+                        <div class="col-md-4">
+                        <mat-form-field>
+                          <input formControlName="inv_warranty_end_date" matInput [matDatepicker]="picker2" placeholder="Asset Warranty End date">
+                          <mat-datepicker-toggle matSuffix [for]="picker2">
+                          </mat-datepicker-toggle>
+                          <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                        </div>
+                </div> 
+
+                <div class="row">
+                      <div class="col-md-4">
+                        <mat-form-field>
+                            <mat-select formControlName="inv_status" placeholder="Asset Status">
+                                <mat-option *ngFor="let gd of assetStatus" [value]="gd.name">{{gd.name}}</mat-option>
+                            </mat-select>    
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <input formControlName="inv_sale_date" matInput [matDatepicker]="picker3" placeholder="Asset Product Sale Date">
+                          <mat-datepicker-toggle matSuffix [for]="picker3">
+                          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                          </mat-datepicker-toggle>
+                          <mat-datepicker #picker3></mat-datepicker>
+                        </mat-form-field>
+                        </div>    
+                        <div class="col-md-4">
+                        <mat-form-field>
+                            <mat-select formControlName="asset_currency" placeholder="Asset Value">
+                                <mat-option *ngFor="let cur of currencies" [value]="cur.curreny_name">{{cur.curreny_name}} <span>:</span> {{cur.currency_value}} </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        </div>
+            </div> 
+
+            <div class="row">
+                  <div class="col-md-4">
+                      <mat-form-field>
+                        <input formControlName="asset_amount" matInput placeholder="Asset Amount">
+                      </mat-form-field>
+                  </div>    
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <input formControlName="asset_asset_make" matInput placeholder="Asset Make">
+                    </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                      <mat-form-field>
+                          <input formControlName="asset_model" matInput placeholder="Asset Model">
+                      </mat-form-field>
+                    </div>
+            </div> 
+
+
+            <div class="row">
+                  <div class="col-md-4">
+                      <mat-form-field>
+                        <input formControlName="asset_OEM_serial_number" matInput placeholder="Asset OEM Number">
+                      </mat-form-field>
+                    </div>   
+                    <div class="col-md-4">
+                      <mat-form-field>
+                        <input formControlName="asset_porpose_process" matInput placeholder="Asset Process/Purpose">
+                      </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                            <input formControlName="asset_issue_sparese" matInput placeholder="Asset Issue/Sparse">
+                        </mat-form-field>
+                      </div>
+            </div> 
+
+            <div class="row">
+                  <div class="col-md-4">
+                      <mat-form-field>
+                        <input formControlName="asset_owned_lease" matInput placeholder="Asset Own/Lease">
+                      </mat-form-field>
+                  </div>    
+                  <div class="col-md-4">
+                    <mat-form-field>
+                          <input formControlName="asset_purchase_date" matInput [matDatepicker]="picker4" placeholder="Asset Purchase Date">
+                          <mat-datepicker-toggle matSuffix [for]="picker4">
+  
+                          </mat-datepicker-toggle>
+                          <mat-datepicker #picker4></mat-datepicker>
+                    </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                      <mat-form-field>
+                          <mat-select formControlName="asset_category_id" placeholder="Asset Category">
+                              <mat-option *ngFor="let assetcat of ActiveAssetsCategories" [value]="assetcat.asset_category_id">{{assetcat.asset_category_name}}</mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                    </div>
+            </div> 
+
+            <div class="row">
+                  <div class="col-md-4">
+                      <mat-form-field>
+                          <mat-select formControlName="asset_sub_category_id" placeholder="Asset Sub Category">
+                              <mat-option *ngFor="let assetsubcat of ActiveAssetsSubCategories" [value]="assetsubcat.asset_sub_category_id">{{assetsubcat.asset_sub_category_name}}</mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                  </div> 
+                  <div class="col-md-4">
+                    <mat-form-field>
+                        <mat-select formControlName="asset_software_type_id" placeholder="Asset Software Type">
+                            <mat-option *ngFor="let softType of ActiveSoftwareTypes" [value]="softType.software_type_id">{{softType.software_type_name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                      <mat-form-field>
+                          <mat-select formControlName="asset_software_category_id" placeholder="Asset Software Category">
+                              <mat-option *ngFor="let softCat of ActiveSoftwareCategories" [value]="softCat.software_category_id">{{softCat.software_category_name}}</mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                    </div>
+            </div> 
+
+            <div class="row">
+                      <div class="col-md-4">
+                          <mat-form-field>
+                                <mat-select formControlName="asset_product_type_id" placeholder="Asset Product Type">
+                                    <mat-option *ngFor="let proType of ActiveProductTypes" [value]="proType.product_type_id">{{proType.product_type_name}}</mat-option>
+                                </mat-select>
+                          </mat-form-field>
+                      </div>   
+                      <div class="col-md-4">
+                        <mat-form-field>
+                              <textarea formControlName="asset_desc" matInput placeholder="Asset Description"></textarea>
+                        </mat-form-field>
+                      </div>
+            </div>
+        </div>
+      </div>    
+  </div>
+</div>
+</form>

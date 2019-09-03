@@ -1,7 +1,7 @@
 import * as tslib_1 from "tslib";
 import { Component, ViewChild } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
-import { MatTableDataSource, MatSort } from '@angular/material';
+import { MatTableDataSource, MatSort, MatTable } from '@angular/material';
 import { MasterPagesService } from '../shared/master-pages.service';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -46,6 +46,10 @@ tslib_1.__decorate([
     ViewChild(MatSort, { static: true }),
     tslib_1.__metadata("design:type", MatSort)
 ], TeamComponent.prototype, "sort", void 0);
+tslib_1.__decorate([
+    ViewChild(MatTable, { static: true }),
+    tslib_1.__metadata("design:type", MatTable)
+], TeamComponent.prototype, "table", void 0);
 TeamComponent = tslib_1.__decorate([
     Component({
         selector: 'app-team',

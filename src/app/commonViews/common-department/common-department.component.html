@@ -13,8 +13,7 @@
                         <div class="col-md-4">
                           <mat-form-field>
                                 <mat-select placeholder="Department Name">
-                                        <mat-option value="Y">Yes</mat-option>
-                                        <mat-option value="N">No</mat-option>
+                                    <mat-option *ngFor="let dpt of ActiveDepartments" [value]="dpt.dept_id">{{dpt.dept_name}}</mat-option>
                                 </mat-select>
                           </mat-form-field>
                           </div>    

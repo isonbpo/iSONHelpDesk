@@ -1,18 +1,17 @@
 import * as tslib_1 from "tslib";
-var DesignationComponent_1;
 import { Component, ViewChild } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
-import { MatTableDataSource, MatSort } from '@angular/material';
+import { MatTableDataSource, MatSort, MatTable } from '@angular/material';
 import { MasterPagesService } from '../shared/master-pages.service';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-let DesignationComponent = DesignationComponent_1 = class DesignationComponent {
+import { MatDialog } from '@angular/material/dialog';
+import { DesignationtDialogBoxComponent } from './designationt-dialog-box/designationt-dialog-box.component';
+let DesignationComponent = class DesignationComponent {
     constructor(Service, route, dialog) {
         this.Service = Service;
         this.route = route;
         this.dialog = dialog;
         this.displayedColumns = ['DesignationName', 'Enabled', 'Action', 'Id'];
-        this.dataavailbale = false;
     }
     ngOnInit() {
         //this.dataSource.sort = this.sort;
@@ -20,8 +19,8 @@ let DesignationComponent = DesignationComponent_1 = class DesignationComponent {
     }
     LoadData() {
         this.Service.getAllDesignation().subscribe(res => {
-            this.dataSource = new MatTableDataSource();
-            this.dataSource.data = res;
+            this.dsglist = res;
+            this.dataSource = new MatTableDataSource(this.dsglist);
             this.dataSource.sort = this.sort;
             this.Service.formModelDesig.reset();
         }, err => {
@@ -34,20 +33,38 @@ let DesignationComponent = DesignationComponent_1 = class DesignationComponent {
             this.LoadData();
         });
     }
-    EditDesignation(element) {
-        this.Service.populateFormDesig(element);
-        const dialogConfig = new MatDialogConfig();
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
-        dialogConfig.width = "60%";
-        this.dialog.open(DesignationComponent_1, dialogConfig);
+    openDialog(action, obj) {
+        obj.action = action;
+        const dialogRef = this.dialog.open(DesignationtDialogBoxComponent, {
+            width: '550px',
+            data: obj
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result.event == 'Update') {
+                this.updateRowData(result.data);
+            }
+        });
+    }
+    updateRowData(row_obj) {
+        this.dataSource = this.dsglist.filter((value, key) => {
+            if (value.desig_id == row_obj.desig_id) {
+                value.desig_name = row_obj.desig_name;
+                value.desig_enabled = row_obj.desig_enabled;
+                this.Service.updateDesignation(value.desig_id, value.desig_name, value.desig_enabled).subscribe();
+            }
+            this.LoadData();
+        });
     }
 };
 tslib_1.__decorate([
     ViewChild(MatSort, { static: true }),
     tslib_1.__metadata("design:type", MatSort)
 ], DesignationComponent.prototype, "sort", void 0);
-DesignationComponent = DesignationComponent_1 = tslib_1.__decorate([
+tslib_1.__decorate([
+    ViewChild(MatTable, { static: true }),
+    tslib_1.__metadata("design:type", MatTable)
+], DesignationComponent.prototype, "table", void 0);
+DesignationComponent = tslib_1.__decorate([
     Component({
         selector: 'app-designation',
         templateUrl: './designation.component.html',

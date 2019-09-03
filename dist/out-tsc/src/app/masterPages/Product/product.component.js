@@ -16,6 +16,7 @@ let ProductComponent = class ProductComponent {
     ngOnInit() {
         //this.dataSource.sort = this.sort;
         this.LoadData();
+        this.getMasterList();
     }
     LoadData() {
         this.Service.getAllProducts().subscribe(res => {
@@ -32,6 +33,9 @@ let ProductComponent = class ProductComponent {
             //this.toastr.success('Department Added Successfully', 'Department');
             this.LoadData();
         });
+    }
+    getMasterList() {
+        this.Service.getAllProductType().subscribe(data => this.productTypes = data);
     }
     EditDesignation(element) {
         this.Service.populateFormDesig(element);

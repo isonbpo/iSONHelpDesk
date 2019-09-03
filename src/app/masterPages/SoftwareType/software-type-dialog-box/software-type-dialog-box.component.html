@@ -1,0 +1,30 @@
+<div class="card">
+        <div class="card-header">{{action}} Software Type</div>
+        <div class="card-body">
+            <div class="row">
+    <div class="col-md-6">
+    <mat-form-field>
+            <input matInput placeholder="Software Type Name" [(ngModel)]="local_data.software_type_name" required>
+    </mat-form-field>
+    </div>
+    <div class="col-md-6">
+        <mat-form-field >
+                <mat-select placeholder="Select" [(ngModel)]="local_data.software_type_enabled" required>
+                        <mat-option value="Y">Yes</mat-option>
+                        <mat-option value="N">No</mat-option>
+                </mat-select>
+        </mat-form-field>
+    </div>
+    </div>
+        <div class="row">
+            <div class="col-md-6">
+            <mat-form-field>
+                    <textarea matInput placeholder="Software Type Discription"  [(ngModel)]="local_data.software_type_discription" required></textarea>
+            </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="text-right">
+    <button mat-button (click)="doAction()" color="primary">{{action}}</button>
+    <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+    </div>

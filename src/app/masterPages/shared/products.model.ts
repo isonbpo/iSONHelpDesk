@@ -1,4 +1,6 @@
 export class Products {
+    product_type_id : string;
+    product_type_name : string;
     product_id :string;
     product_name :string;
     product_type:string;

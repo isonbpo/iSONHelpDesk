@@ -19,6 +19,13 @@ import { ContactsViewComponent } from './view/contactsView/contactsView.componen
 import { AssetsViewComponent } from './view/assetsView/assetsView.component';
 import { TicketViewComponent } from './view/ticketView/ticketView.component';
 import { DocumentViewComponent } from './view/documentView/documentView.component';
+import { ContactsListComponent } from './view/contactsView/contacts-list/contacts-list.component';
+import { LocationListComponent } from './View/locationView/location-list/location-list.component';
+import { AssetsListComponent } from './view/assetsView/assets-list/assets-list.component';
+import { TicketListComponent } from './view/ticketView/ticket-list/ticket-list.component';
+import { DocumentListComponent } from './view/documentView/document-list/document-list.component';
+import { TicketCategoryComponent } from './masterPages/ticketCategory/ticketCategory.component';
+import { TicketSubCategoryComponent } from './masterPages/ticketSubCategory/ticketSubCategory.component';
 const routes = [
     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
     { path: 'dashboard', component: DashboardComponent },
@@ -39,6 +46,13 @@ const routes = [
     { path: 'SoftwareType', component: SoftwareTypeComponent },
     { path: 'SoftwareCategory', component: SoftwareCategoryComponent },
     { path: 'Timezone', component: TimezoneComponent },
+    { path: 'TicketCategory', component: TicketCategoryComponent },
+    { path: 'TicketSubCategory', component: TicketSubCategoryComponent },
+    { path: 'contactsList', component: ContactsListComponent },
+    { path: 'locationList', component: LocationListComponent },
+    { path: 'assetsList', component: AssetsListComponent },
+    { path: 'ticketList', component: TicketListComponent },
+    { path: 'documentList', component: DocumentListComponent },
 ];
 let AppRoutingModule = class AppRoutingModule {
 };

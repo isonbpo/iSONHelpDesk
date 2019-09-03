@@ -3,10 +3,9 @@ import { ViewEncapsulation } from '@angular/core';
 import { MatTableDataSource, MatSort} from '@angular/material';
 import { MasterPagesService } from '../shared/master-pages.service';
 import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { AssetSubCategory } from '../shared/asset-sub-category.model';
-
+import { AssetSubCategoryDialogBoxComponent } from './asset-sub-category-dialog-box/asset-sub-category-dialog-box.component';
 
 
 
@@ -28,22 +27,22 @@ export class AssetSubCategoryComponent implements OnInit {
   dataavailbale: Boolean = false;
   tempdpt: AssetSubCategory
   dataSource :any;
-   
+  assetscategories:{}; 
 
   constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog){}
   
 
 
   ngOnInit() {
-    //this.dataSource.sort = this.sort;
     this.LoadData();
+    this.getMasterList();
   }
   
   LoadData() {
     this.Service.getAllAssetSubCategory().subscribe(  
       res => {  
-        this.dataSource = new MatTableDataSource();  
-        this.dataSource.data = res;  
+        this.dptlist = res;
+        this.dataSource = new MatTableDataSource(this.dptlist);  
         this.dataSource.sort = this.sort;
         this.Service.formModelAssetSubCategory.reset();
       },
@@ -57,25 +56,69 @@ export class AssetSubCategoryComponent implements OnInit {
     this.Service.addAssetSubCategory().subscribe(
       res=>
         {
-          //this.toastr.success('Department Added Successfully', 'Department');
           this.LoadData();
-          
         });
   }
 
-
-
-
-  EditDesignation(element)
+  getMasterList()
   {
-    this.Service.populateFormDesig(element);
-     
-     const dialogConfig = new MatDialogConfig();
-     dialogConfig.disableClose = true;
-     dialogConfig.autoFocus = true;
-     dialogConfig.width = "60%";
-     //this.dialog.open(DesignationComponent,dialogConfig);
-
+    this.Service.getAllAssetCategory().subscribe(
+      data => this.assetscategories = data);
   }
 
+  openDialog(action,obj) {
+    obj.action = action;
+      const dialogRef = this.dialog.open(AssetSubCategoryDialogBoxComponent, {
+        width: '550px',
+        data:obj
+        
+      });
+      
+      dialogRef.afterClosed().subscribe(result => {
+        
+        if(result.event == 'Update'){
+          this.updateRowData(result.data);
+        }
+      });
+    }
+    
+    updateRowData(row_obj){
+      this.dataSource = this.dptlist.filter((value,key)=>{
+        if(value.asset_sub_category_id == row_obj.asset_sub_category_id){
+          value.asset_category_id = row_obj.asset_category_id;
+          value.asset_category_name = row_obj.asset_category_name;
+          value.asset_sub_category_name = row_obj.asset_sub_category_name;
+          value.asset_sub_category_enabled = row_obj.asset_sub_category_enabled;
+          value.asset_sub_category_discription = row_obj.asset_sub_category_discription;
+          this.Service.updateAssetSubCategory(value.asset_category_id, value.asset_category_name, value.asset_sub_category_id,value.asset_sub_category_name,value.asset_sub_category_enabled, value.asset_sub_category_discription).subscribe();        
+        }
+        this.LoadData();
+      });
+    }
+    getError(el) {
+      switch (el) {
+        case 'asset_category_name':
+          if (this.Service.formModelAssetSubCategory.get('asset_category_name').hasError('required')) {
+            return 'Asset Category name is required';
+          }
+          break;
+          case 'asset_sub_category_name':
+            if (this.Service.formModelAssetSubCategory.get('asset_sub_category_name').hasError('required')) {
+              return 'Status is required';
+          }
+          break;
+        case 'asset_sub_category_enabled':
+          if (this.Service.formModelAssetSubCategory.get('asset_sub_category_enabled').hasError('required')) {
+            return 'Status is required';
+          }
+          break;
+          case 'asset_sub_category_discription':
+            if (this.Service.formModelAssetSubCategory.get('asset_sub_category_discription').hasError('required')) {
+              return 'Discription is required';
+          }
+          break;
+        default:
+          return '';
+      }
+    }  
 }

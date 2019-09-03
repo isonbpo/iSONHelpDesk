@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild, Input, EventEmitter, Output, ElementRef } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
-import { MatTableDataSource, MatSort} from '@angular/material';
+import { MatTableDataSource, MatSort, MatTable} from '@angular/material';
 import { MasterPagesService } from '../shared/master-pages.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { SoftwareType } from '../shared/software-type.model';
+import { SoftwareTypeDialogBoxComponent } from './software-type-dialog-box/software-type-dialog-box.component';
 
 
 
@@ -23,7 +24,7 @@ export class SoftwareTypeComponent implements OnInit {
   
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
-
+  @ViewChild(MatTable,{static:true}) table: MatTable<any>;
   
   dptlist: SoftwareType[];
   dataavailbale: Boolean = false;
@@ -43,8 +44,8 @@ export class SoftwareTypeComponent implements OnInit {
   LoadData() {
     this.Service.getAllSoftwareType().subscribe(  
       res => {  
-        this.dataSource = new MatTableDataSource();  
-        this.dataSource.data = res;  
+        this.dptlist = res;
+        this.dataSource = new MatTableDataSource(this.dptlist);  
         this.dataSource.sort = this.sort;
         this.Service.formModelSoftwareType.reset();
       },
@@ -64,19 +65,56 @@ export class SoftwareTypeComponent implements OnInit {
         });
   }
 
+  openDialog(action,obj) {
+    obj.action = action;
+      
+      const dialogRef = this.dialog.open(SoftwareTypeDialogBoxComponent, {
+        width: '550px',
+        data:obj
+        
+      });
+      
+      dialogRef.afterClosed().subscribe(result => {
+        
+        if(result.event == 'Update'){
+          this.updateRowData(result.data);
+        }
+      });
+    }
 
+    updateRowData(row_obj){
+      this.dataSource = this.dptlist.filter((value,key)=>{
+        
+        
+        if(value.software_type_id == row_obj.software_type_id){
+          value.software_type_name = row_obj.software_type_name;
+          value.software_type_enabled = row_obj.software_type_enabled;
+          value.software_type_discription = row_obj.software_type_discription;
+          this.Service.updateSoftwareType(value.software_type_id,value.software_type_name,value.software_type_enabled,value.software_type_discription).subscribe();        
+        }
+        this.LoadData();
+      });
+    }
 
-
-  EditDesignation(element)
-  {
-    this.Service.populateFormDesig(element);
-     
-     const dialogConfig = new MatDialogConfig();
-     dialogConfig.disableClose = true;
-     dialogConfig.autoFocus = true;
-     dialogConfig.width = "60%";
-     //this.dialog.open(DesignationComponent,dialogConfig);
-
-  }
-
+    getError(el) {
+      switch (el) {
+        case 'software_type_name':
+          if (this.Service.formModelSoftwareType.get('software_type_name').hasError('required')) {
+            return 'Software Type name is required';
+          }
+          break;
+        case 'software_type_enabled':
+          if (this.Service.formModelSoftwareType.get('software_type_enabled').hasError('required')) {
+            return 'Status is required';
+          }
+          break;
+        case 'software_type_discription':
+            if (this.Service.formModelSoftwareType.get('software_type_discription').hasError('required')) {
+              return 'Discription is required';
+            }
+          break;
+        default:
+          return '';
+      }
+    }
 }

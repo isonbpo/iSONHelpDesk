@@ -4,7 +4,8 @@ import { ViewEncapsulation } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { MasterPagesService } from '../shared/master-pages.service';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { RoleDialogBoxComponent } from './role-dialog-box/role-dialog-box.component';
 let RoleComponent = class RoleComponent {
     constructor(Service, route, dialog) {
         this.Service = Service;
@@ -19,8 +20,8 @@ let RoleComponent = class RoleComponent {
     }
     LoadData() {
         this.Service.getAllRole().subscribe(res => {
-            this.dataSource = new MatTableDataSource();
-            this.dataSource.data = res;
+            this.dptlist = res;
+            this.dataSource = new MatTableDataSource(this.dptlist);
             this.dataSource.sort = this.sort;
             this.Service.formModelRole.reset();
         }, err => {
@@ -33,13 +34,28 @@ let RoleComponent = class RoleComponent {
             this.LoadData();
         });
     }
-    EditDesignation(element) {
-        this.Service.populateFormDesig(element);
-        const dialogConfig = new MatDialogConfig();
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
-        dialogConfig.width = "60%";
-        //this.dialog.open(DesignationComponent,dialogConfig);
+    openDialog(action, obj) {
+        obj.action = action;
+        const dialogRef = this.dialog.open(RoleDialogBoxComponent, {
+            width: '550px',
+            data: obj
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result.event == 'Update') {
+                this.updateRowData(result.data);
+            }
+        });
+    }
+    updateRowData(row_obj) {
+        this.dataSource = this.dptlist.filter((value, key) => {
+            if (value.role_id == row_obj.role_id) {
+                value.role_name = row_obj.role_name;
+                value.role_description = row_obj.role_description;
+                value.role_enabled = row_obj.role_enabled;
+                this.Service.updateRole(value.role_id, value.role_name, value.role_enabled, value.role_description).subscribe();
+            }
+            this.LoadData();
+        });
     }
 };
 tslib_1.__decorate([

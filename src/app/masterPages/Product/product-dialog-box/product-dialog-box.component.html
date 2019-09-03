@@ -1,0 +1,52 @@
+<div class="card">
+    <div class="card-header">{{action}} Product</div>
+    <div class="card-body">
+        <div class="row">
+<div class="col-md-4">
+<mat-form-field>
+<input placeholder="Product Name" matInput [(ngModel)]="local_data.product_name">
+</mat-form-field>
+</div>
+<div class="col-md-4">
+    <mat-form-field >
+        <mat-select [(ngModel)]="local_data.product_type_id" placeholder="Product Type">
+                <mat-option *ngFor="let proType of productTypes" [value]="proType.product_type_id">{{proType.product_type_name}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<div class="col-md-4">
+        <mat-form-field >
+                <input matInput placeholder="Vender Name" [(ngModel)]="local_data.product_vender_name">
+        </mat-form-field>
+</div>
+</div>
+    <div class="row">
+        <div class="col-md-4">
+        <mat-form-field>
+            <input matInput placeholder="Manufacturer Name" [(ngModel)]="local_data.product_manufacturer_name">    
+        </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field >
+                <input matInput placeholder="Part No." [(ngModel)]="local_data.product_part_no">
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+                <mat-select placeholder="Select"  [(ngModel)]="local_data.product_enabled">
+                        <mat-option value="Y">Yes</mat-option>
+                        <mat-option value="N">No</mat-option>
+                </mat-select>
+       </div>
+    </div>
+    <div class="row">
+            <div class="col-md-4">
+            <mat-form-field>
+                    <textarea matInput placeholder="Part Description" [(ngModel)]="local_data.product_part_discription" required></textarea>
+            </mat-form-field>
+            </div>
+    </div>
+</div>
+<div class="text-right">
+<button mat-button (click)="doAction()" color="primary">{{action}}</button>
+<button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+</div>

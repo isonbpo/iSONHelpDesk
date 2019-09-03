@@ -5,28 +5,50 @@
     <form #form="ngForm" [formGroup]="Service.formModelAssetSubCategory" autocomplete="off" (submit)="onSubmit()">  
     <div class="card-body">
     <div class="row setWidth">
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-select formControlName="asset_category_name" placeholder="Asset Category">
+                    <mat-option *ngFor="let assetcat of assetscategories" [value]="assetcat.asset_category_id">{{assetcat.asset_category_name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="Service.formModelAssetSubCategory.controls['asset_category_name'].invalid">
+                  {{getError('asset_category_name')}}
+                </mat-error>
+            </mat-form-field>
+        </div>
     <div class="col-md-4">
     <mat-form-field>
       <input matInput placeholder="Asset Sub Category Name" formControlName="asset_sub_category_name" required>
+      <mat-error *ngIf="Service.formModelAssetSubCategory.controls['asset_sub_category_name'].invalid">
+        {{getError('asset_sub_category_name')}}
+      </mat-error>
     </mat-form-field>
     </div>    
-    <div class="col-md-4">
-      <mat-form-field>
-          <mat-select placeholder="Select" formControlName="asset_sub_category_enabled" required>
-              <mat-option value="Y">Yes</mat-option>
-              <mat-option value="N">No</mat-option>
-          </mat-select>
-      </mat-form-field>
-    </div>
+
     <div class="col-md-2">
         <button type="submit" mat-raised-button color="primary">Add</button>
     </div>
     <div class="col-md-2">
         <button type="reset" mat-raised-button color="warn">Cancel</button>
     </div>
+  </div>
+  <div class="row setWidth">
+    <div class="col-md-4">
+        <mat-form-field>
+            <mat-select placeholder="Select" formControlName="asset_sub_category_enabled" required>
+                <mat-option value="Y">Yes</mat-option>
+                <mat-option value="N">No</mat-option>
+            </mat-select>
+            <mat-error *ngIf="Service.formModelAssetSubCategory.controls['asset_sub_category_enabled'].invalid">
+              {{getError('asset_sub_category_enabled')}}
+            </mat-error>
+        </mat-form-field>
+      </div>
     <div class="col-md-4">
       <mat-form-field>
-        <textarea matInput placeholder="Textarea" formControlName="asset_sub_category_discription" required></textarea>
+        <textarea matInput placeholder="Description" formControlName="asset_sub_category_discription" required></textarea>
+        <mat-error *ngIf="Service.formModelAssetSubCategory.controls['asset_sub_category_discription'].invalid">
+          {{getError('asset_sub_category_discription')}}
+        </mat-error>
       </mat-form-field>
       
       </div>    
@@ -69,10 +91,10 @@
     </ng-container>
 
     <ng-container matColumnDef="Action">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
-        <td (click)="EditDesignation(element)" mat-cell *matCellDef="let element">
-            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-        </td>
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element">
+      <button mat-icon-button (click)="openDialog('Update',element)"><mat-icon>launch</mat-icon></button>        
+      </mat-cell>
     </ng-container>
 
 

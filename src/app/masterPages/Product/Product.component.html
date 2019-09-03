@@ -2,42 +2,64 @@
   <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-header">Product</div>
-    <form #form="ngForm" [formGroup]="Service.formModelProducts" autocomplete="off" (submit)="onSubmit()">  
+    <form #form="ngForm" [formGroup]="Service.formModelProducts" autocomplete="off" (submit)="onSubmit()">
     <div class="card-body">
     <div class="row setWidth">
     <div class="col-md-4">
     <mat-form-field>
       <input matInput placeholder="Product Name" formControlName="product_name" required>
+      <mat-error *ngIf="Service.formModelProducts.controls['product_name'].invalid">
+        {{getError('product_name')}}
+      </mat-error>
     </mat-form-field>
     </div>    
     <div class="col-md-4">
       <mat-form-field>
-        <input matInput placeholder="Product Type" formControlName="product_type" required>
-      </mat-form-field>
+        <mat-select formControlName="product_type_name" placeholder="Product Type">
+            <mat-option *ngFor="let proType of productTypes" [value]="proType.product_type_id">{{proType.product_type_name}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="Service.formModelProducts.controls['product_type_name'].invalid">
+          {{getError('product_type_name')}}
+        </mat-error>
+    </mat-form-field>
+
+
     </div>
     <div class="col-md-4">
       <mat-form-field>
         <input matInput placeholder="Vender Name" formControlName="product_vender_name" required>
+        <mat-error *ngIf="Service.formModelProducts.controls['product_vender_name'].invalid">
+          {{getError('product_vender_name')}}
+        </mat-error>
       </mat-form-field>
     </div>
   </div>
   <div class="row setWidth">
     <div class="col-md-4">
-       <mat-form-field>
+      <mat-form-field>
           <input matInput placeholder="Manufacturer Name" formControlName="product_manufacturer_name" required>
-       </mat-form-field>
+          <mat-error *ngIf="Service.formModelProducts.controls['product_manufacturer_name'].invalid">
+            {{getError('product_manufacturer_name')}}
+          </mat-error>
+      </mat-form-field>
     </div>
     <div class="col-md-4">
         <mat-form-field>
            <input matInput placeholder="Part No." formControlName="product_part_no" required>
-        </mat-form-field>
+           <mat-error *ngIf="Service.formModelProducts.controls['product_part_no'].invalid">
+            {{getError('product_part_no')}}
+           </mat-error>
+          </mat-form-field>
      </div>
     <div class="col-md-4">
       <mat-form-field>
-          <mat-select placeholder="Select" formControlName="product_enabled" required>
+          <mat-select placeholder="Select Status" formControlName="product_enabled" required>
               <mat-option value="Y">Yes</mat-option>
               <mat-option value="N">No</mat-option>
           </mat-select>
+          <mat-error *ngIf="Service.formModelProducts.controls['product_enabled'].invalid">
+            {{getError('product_enabled')}}
+          </mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -45,10 +67,13 @@
     <div class="col-md-4">
         <mat-form-field>
           <textarea matInput placeholder="Part Discription" formControlName="product_part_discription" required></textarea>
+          <mat-error *ngIf="Service.formModelProducts.controls['product_part_discription'].invalid">
+            {{getError('product_part_discription')}}
+          </mat-error>
         </mat-form-field>
     </div>
       
-    </div>    
+  </div>    
     </div>
     <div class="card-footer">
         <div class="row setWidth">
@@ -119,10 +144,10 @@
     </ng-container>
 
     <ng-container matColumnDef="Action">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
-        <td (click)="EditDesignation(element)" mat-cell *matCellDef="let element">
-            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-        </td>
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-icon-button (click)="openDialog('Update',element)"><mat-icon>launch</mat-icon></button>        
+      </mat-cell>
     </ng-container>
          
            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

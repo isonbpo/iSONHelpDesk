@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
-import { MatTableDataSource, MatSort } from '@angular/material';
+import { MatTableDataSource, MatSort, MatDialog } from '@angular/material';
 import { DataSource } from '@angular/cdk/table';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AssetsGlobalComponent } from 'src/app/commonViews/assets-global/assets-global.component';
 
 
 
@@ -19,7 +20,7 @@ import { Router } from '@angular/router';
 })
 export class AssetsViewComponent implements OnInit {
   
-  constructor(private route:Router){}
+  constructor(private route:Router,public dialog: MatDialog){}
   
   ngOnInit() {
     
@@ -44,5 +45,34 @@ export class AssetsViewComponent implements OnInit {
   {
     this.route.navigateByUrl('/assetsList', {skipLocationChange: true}).then(()=>
     this.route.navigate(["/assets"])); 
+  }
+
+  openDialog(action,obj) {
+    obj.action = action;
+    const dialogRef = this.dialog.open(AssetsGlobalComponent, {
+      width: '800px',
+      data:obj
+    });
+ 
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.event == 'Add'){
+        this.addRowData(result.data);
+      }
+      // else if(result.event == 'Update'){
+      //   this.updateRowData(result.data);
+      // }else if(result.event == 'Delete'){
+      //   this.deleteRowData(result.data);
+      // }
+    });
+  }
+  
+  addRowData(row_obj){
+    // var d = new Date();
+    // this.dataSource.push({
+    //   id:d.getTime(),
+    //   name:row_obj.name
+    // });
+    // this.table.renderRows();
+    
   }
 }

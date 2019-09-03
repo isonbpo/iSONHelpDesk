@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-location-global',
@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./location-global.component.scss']
 })
 export class LocationGlobalComponent implements OnInit {
-
+  @Input() showMePartially: boolean;
   constructor() { }
 
   ngOnInit() {

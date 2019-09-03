@@ -52,6 +52,34 @@ import { DocumentListComponent } from './view/documentView/document-list/documen
 import { ContactsGeneralComponent } from './commonViews/contacts-general/contacts-general.component';
 import { LocationGlobalComponent } from './commonViews/location-global/location-global.component';
 import { ContactsGlobalComponent } from './commonViews/contacts-global/contacts-global.component';
+import { AssetsGlobalComponent } from './commonViews/assets-global/assets-global.component';
+import { AssetsGeneralComponent } from './commonViews/assets-general/assets-general.component';
+import { DocumentsGlobalComponent } from './commonViews/documents-global/documents-global.component';
+import { DocumentsGeneralComponent } from './commonViews/documents-general/documents-general.component';
+import { TicketGeneralComponent } from './commonViews/ticket-general/ticket-general.component';
+import { TicketGlobalComponent } from './commonViews/ticket-global/ticket-global.component';
+import { TicketCategoryComponent } from './masterPages/ticketCategory/ticketCategory.component';
+import { TicketSubCategoryComponent } from './masterPages/ticketSubCategory/ticketSubCategory.component';
+import { A11yModule } from '@angular/cdk/a11y';
+import { BidiModule } from '@angular/cdk/bidi';
+import { ObserversModule } from '@angular/cdk/observers';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { PlatformModule } from '@angular/cdk/platform';
+import { PortalModule } from '@angular/cdk/portal';
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
+import { CdkStepperModule } from '@angular/cdk/stepper';
+import { CdkTableModule } from '@angular/cdk/table';
+import { DepartmentDialogBoxComponent } from './masterPages/department/department-dialog-box/department-dialog-box.component';
+import { DesignationtDialogBoxComponent } from './masterPages/designation/designationt-dialog-box/designationt-dialog-box.component';
+import { RoleDialogBoxComponent } from './masterPages/role/role-dialog-box/role-dialog-box.component';
+import { AssetCategoryDialogBoxComponent } from './masterPages/assetCategory/asset-category-dialog-box/asset-category-dialog-box.component';
+import { ProductDialogBoxComponent } from './masterPages/Product/product-dialog-box/product-dialog-box.component';
+import { ProductTypeDialogBoxComponent } from './masterPages/ProductType/product-type-dialog-box/product-type-dialog-box.component';
+import { SoftwareTypeDialogBoxComponent } from './masterPages/SoftwareType/software-type-dialog-box/software-type-dialog-box.component';
+import { TeamDialogBoxComponent } from './masterPages/Team/team-dialog-box/team-dialog-box.component';
+import { AssetSubCategoryDialogBoxComponent } from './masterPages/AssetSubCategory/asset-sub-category-dialog-box/asset-sub-category-dialog-box.component';
+import { TicketSubCategoryDialogBoxComponent } from './masterPages/ticketSubCategory/ticket-sub-category-dialog-box/ticket-sub-category-dialog-box.component';
+
 
 
 
@@ -96,8 +124,26 @@ import { ContactsGlobalComponent } from './commonViews/contacts-global/contacts-
     DocumentListComponent,
     ContactsGeneralComponent,
     LocationGlobalComponent,
-    ContactsGlobalComponent
-    ],
+    ContactsGlobalComponent,
+    AssetsGlobalComponent,
+    AssetsGeneralComponent,
+    DocumentsGlobalComponent,
+    DocumentsGeneralComponent,
+    TicketGeneralComponent,
+    TicketGlobalComponent,
+    TicketCategoryComponent,
+    TicketSubCategoryComponent,
+    DepartmentDialogBoxComponent,
+    DesignationtDialogBoxComponent,
+    RoleDialogBoxComponent,
+    AssetCategoryDialogBoxComponent,
+    ProductDialogBoxComponent,
+    ProductTypeDialogBoxComponent,
+    SoftwareTypeDialogBoxComponent,
+    TeamDialogBoxComponent,
+    AssetSubCategoryDialogBoxComponent,
+    TicketSubCategoryDialogBoxComponent
+],
   imports: [
     BrowserModule,
     RouterModule,
@@ -128,9 +174,35 @@ import { ContactsGlobalComponent } from './commonViews/contacts-global/contacts-
     MatToolbarModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatRadioModule
+    MatRadioModule,
+    MatCheckboxModule,
+    A11yModule,
+    BidiModule,
+    ObserversModule,
+    OverlayModule,
+    PlatformModule,
+    PortalModule,
+    ScrollDispatchModule,
+    CdkStepperModule,
+    CdkTableModule,
     ],
-  entryComponents:[],
+  entryComponents:[
+    DepartmentDialogBoxComponent,
+    DesignationtDialogBoxComponent,
+    RoleDialogBoxComponent,
+    AssetCategoryDialogBoxComponent,
+    ProductDialogBoxComponent,
+    ProductTypeDialogBoxComponent,
+    SoftwareTypeDialogBoxComponent,
+    TeamDialogBoxComponent,
+    AssetSubCategoryDialogBoxComponent,
+    TicketSubCategoryDialogBoxComponent,
+    LocationGlobalComponent,
+    ContactsGlobalComponent,
+    AssetsGlobalComponent,
+    TicketGlobalComponent,
+    DocumentsGlobalComponent
+    ],
   providers: [MasterPagesService],
   bootstrap: [AppComponent]
  

@@ -37,6 +37,8 @@ let MasterPagesService = class MasterPagesService {
             asset_category_discription: ['', Validators.required]
         });
         this.formModelProducts = this.fb.group({
+            product_type_id: ['', Validators.required],
+            product_type_name: ['', Validators.required],
             product_id: ['', Validators.required],
             product_name: ['', Validators.required],
             product_type: ['', Validators.required],
@@ -67,6 +69,8 @@ let MasterPagesService = class MasterPagesService {
             software_category_discription: ['', Validators.required]
         });
         this.formModelAssetSubCategory = this.fb.group({
+            asset_category_id: ['', Validators.required],
+            asset_category: ['', Validators.required],
             asset_sub_category_id: ['', Validators.required],
             asset_sub_category_name: ['', Validators.required],
             asset_sub_category_enabled: ['', Validators.required],
@@ -76,6 +80,20 @@ let MasterPagesService = class MasterPagesService {
             timezone_id: ['', Validators.required],
             timezone_name: ['', Validators.required],
             timezone_timespan_minutes: ['', Validators.required]
+        });
+        this.formModelTicketCategory = this.fb.group({
+            ticket_category_id: ['', Validators.required],
+            ticket_category_name: ['', Validators.required],
+            ticket_category_enabled: ['', Validators.required],
+            ticket_category_discription: ['', Validators.required]
+        });
+        this.formModelTicketSubCategory = this.fb.group({
+            ticket_category_id: ['', Validators.required],
+            ticket_category: ['', Validators.required],
+            ticket_sub_category_id: ['', Validators.required],
+            ticket_sub_category_name: ['', Validators.required],
+            ticket_sub_category_enabled: ['', Validators.required],
+            ticket_sub_category_discription: ['', Validators.required]
         });
     }
     getAllDepartment() {
@@ -88,6 +106,14 @@ let MasterPagesService = class MasterPagesService {
         };
         return this.http.post(this.rootURL + '/department/CreateDepartment', body);
     }
+    updateDepartment(dept_id, dept_name, dept_enabled) {
+        var body = {
+            dept_id: dept_id,
+            dept_name: dept_name,
+            dept_enabled: dept_enabled,
+        };
+        return this.http.post(this.rootURL + '/department/UpdateDepartment', body);
+    }
     populateForm(Department) {
         this.formModel.setValue(Department);
     }
@@ -96,6 +122,9 @@ let MasterPagesService = class MasterPagesService {
     }
     editDepartment(dept_id) {
         return this.http.get(this.rootURL + '/department/EditDepartment?dept_id=' + dept_id);
+    }
+    getActiveDepartment() {
+        return this.http.get(this.rootURL + '/ActiveData/ActiveDepartmentList');
     }
     getAllDesignation() {
         return this.http.get(this.rootURL + '/Designation/DesignationList');
@@ -107,6 +136,15 @@ let MasterPagesService = class MasterPagesService {
         };
         return this.http.post(this.rootURL + '/designation/CreateDesignation', body);
     }
+    updateDesignation(desig_id, desig_name, desig_enabled) {
+        var body = {
+            desig_id: desig_id,
+            desig_name: desig_name,
+            desig_enabled: desig_enabled,
+        };
+        console.log(body);
+        return this.http.post(this.rootURL + '/designation/UpdateDesignation', body);
+    }
     populateFormDesig(Designation) {
         this.formModelDesig.setValue(Designation);
     }
@@ -115,6 +153,9 @@ let MasterPagesService = class MasterPagesService {
     }
     editDesignation(desig_id) {
         return this.http.get(this.rootURL + '/designation/EditDesignation?desig_id=' + desig_id);
+    }
+    getActiveDesignation() {
+        return this.http.get(this.rootURL + '/ActiveData/ActiveDesignationList');
     }
     getAllTeam() {
         return this.http.get(this.rootURL + '/Team/TeamList');
@@ -132,6 +173,9 @@ let MasterPagesService = class MasterPagesService {
     editTeam(team_id) {
         return this.http.get(this.rootURL + '/team/EditTeam?team_id=' + team_id);
     }
+    getActiveTeam() {
+        return this.http.get(this.rootURL + '/ActiveData/ActiveTeamList');
+    }
     getAllRole() {
         return this.http.get(this.rootURL + '/Role/RoleList');
     }
@@ -143,11 +187,23 @@ let MasterPagesService = class MasterPagesService {
         };
         return this.http.post(this.rootURL + '/role/CreateRole', body);
     }
+    updateRole(role_id, role_name, role_enabled, role_description) {
+        var body = {
+            role_id: role_id,
+            role_name: role_name,
+            role_enabled: role_enabled,
+            role_description: role_description,
+        };
+        return this.http.post(this.rootURL + '/role/UpdateRole', body);
+    }
     deleteRole(role_id) {
         return this.http.delete(this.rootURL + '/role/DeleteRole?role_id=' + role_id);
     }
     editRole(role_id) {
         return this.http.get(this.rootURL + '/role/EditRole?role_id=' + role_id);
+    }
+    getActiveRole() {
+        return this.http.get(this.rootURL + '/ActiveData/ActiveRoleList');
     }
     getAllAssetCategory() {
         return this.http.get(this.rootURL + '/AssetCategory/AssetCategoryList');
@@ -158,8 +214,16 @@ let MasterPagesService = class MasterPagesService {
             asset_category_discription: this.formModelAssetCategory.value.asset_category_discription,
             asset_category_enabled: this.formModelAssetCategory.value.asset_category_enabled
         };
-        console.log(body);
         return this.http.post(this.rootURL + '/AssetCategory/CreateAssetCategory', body);
+    }
+    updateAssetCategory(asset_category_id, asset_category_name, asset_category_enabled, asset_category_discription) {
+        var body = {
+            asset_category_id: asset_category_id,
+            asset_category_name: asset_category_name,
+            asset_category_discription: asset_category_discription,
+            asset_category_enabled: asset_category_enabled
+        };
+        return this.http.post(this.rootURL + '/AssetCategory/UpdateAssetCategory', body);
     }
     deleteAssetCategory(asset_category_id) {
         return this.http.delete(this.rootURL + '/AssetCategory/DeleteAssetCategory?asset_category_id=' + asset_category_id);
@@ -167,11 +231,15 @@ let MasterPagesService = class MasterPagesService {
     editAssetCategory(asset_category_id) {
         return this.http.get(this.rootURL + '/AssetCategory/EditAssetCategory?asset_category_id=' + asset_category_id);
     }
+    getActiveAssetCategory() {
+        return this.http.get(this.rootURL + '/ActiveData/ActiveAssetCategoryList');
+    }
     getAllProducts() {
         return this.http.get(this.rootURL + '/Products/ProductsList');
     }
     addProduct() {
         var body = {
+            product_type_id: this.formModelProducts.value.product_type_name,
             product_name: this.formModelProducts.value.product_name,
             product_type: this.formModelProducts.value.product_type,
             product_vender_name: this.formModelProducts.value.product_vender_name,
@@ -180,6 +248,7 @@ let MasterPagesService = class MasterPagesService {
             product_part_discription: this.formModelProducts.value.product_part_discription,
             product_enabled: this.formModelProducts.value.product_enabled
         };
+        console.log(body.product_type_id);
         return this.http.post(this.rootURL + '/products/CreateProducts', body);
     }
     deleteProducts(product_id) {
@@ -187,6 +256,9 @@ let MasterPagesService = class MasterPagesService {
     }
     editProducts(product_id) {
         return this.http.get(this.rootURL + '/products/EditProducts?product_id=' + product_id);
+    }
+    getActiveProducts() {
+        return this.http.get(this.rootURL + '/ActiveData/ActiveProductsList');
     }
     getAllProductType() {
         return this.http.get(this.rootURL + '/ProductType/ProductsTypeList');
@@ -207,6 +279,9 @@ let MasterPagesService = class MasterPagesService {
     editProductType(product_type_id) {
         return this.http.get(this.rootURL + '/producttype/EditProductType?product_type_id=' + product_type_id);
     }
+    getActiveProductType() {
+        return this.http.get(this.rootURL + '/ActiveData/ActiveProductsTypeList');
+    }
     getAllSoftwareType() {
         return this.http.get(this.rootURL + '/SoftwareType/SoftwareTypeList');
     }
@@ -223,6 +298,9 @@ let MasterPagesService = class MasterPagesService {
     }
     editSoftwareType(software_type_id) {
         return this.http.get(this.rootURL + '/SoftwareType/EditSoftwareType?software_type_id=' + software_type_id);
+    }
+    getActiveSoftwareType() {
+        return this.http.get(this.rootURL + '/ActiveData/ActiveSoftwareTypeList');
     }
     getAllSoftwareCategory() {
         return this.http.get(this.rootURL + '/SoftwareCategory/SoftwareCategoryList');
@@ -241,22 +319,39 @@ let MasterPagesService = class MasterPagesService {
     editSoftwareCategory(software_category_id) {
         return this.http.get(this.rootURL + '/SoftwareCategory/EditSoftwareCategory?software_category_id=' + software_category_id);
     }
+    getActiveSoftwareCategory() {
+        return this.http.get(this.rootURL + '/ActiveData/ActiveSoftwareCategoryList');
+    }
     getAllAssetSubCategory() {
         return this.http.get(this.rootURL + '/AssetSubCategory/AssetSubCategoryList');
     }
     addAssetSubCategory() {
         var body = {
+            asset_category_id: this.formModelAssetSubCategory.value.asset_category,
             asset_sub_category_name: this.formModelAssetSubCategory.value.asset_sub_category_name,
             asset_sub_category_enabled: this.formModelAssetSubCategory.value.asset_sub_category_enabled,
             asset_sub_category_discription: this.formModelAssetSubCategory.value.asset_sub_category_discription,
         };
         return this.http.post(this.rootURL + '/AssetSubCategory/CreateAssetSubCategory', body);
     }
+    // updateAssetSubCategory(asset_sub_category_id:string,asset_sub_category_name:string,asset_sub_category_enabled:string,asset_sub_category_discription:string) {
+    //   var body = {
+    //     asset_sub_category_id:asset_sub_category_id,
+    //     asset_sub_category_name: asset_sub_category_name,
+    //     asset_sub_category_discription:asset_sub_category_discription,
+    //     asset_sub_category_enabled: asset_sub_category_enabled
+    //   };
+    //   console.log(body);
+    //   return this.http.post(this.rootURL + '/AssetSubCategory/UpdateAssetSubCategory', body);
+    // }
     deleteAssetSubCategory(asset_sub_category_id) {
         return this.http.delete(this.rootURL + '/AssetSubCategory/DeleteAssetSubCategory?asset_sub_category_id=' + asset_sub_category_id);
     }
     editAssetSubCategory(asset_sub_category_id) {
         return this.http.get(this.rootURL + '/AssetSubCategory/EditAssetSubCategory?asset_sub_category_id=' + asset_sub_category_id);
+    }
+    getActiveAssetSubCategory() {
+        return this.http.get(this.rootURL + '/ActiveData/ActiveAssetSubCategoryList');
     }
     getAllTimeZone() {
         return this.http.get(this.rootURL + '/TimeZone/TimeZoneList');
@@ -273,6 +368,50 @@ let MasterPagesService = class MasterPagesService {
     }
     editTimeZone(timezone_id) {
         return this.http.get(this.rootURL + '/TimeZone/EditTimeZone?timezone_id=' + timezone_id);
+    }
+    getActiveTimeZone() {
+        return this.http.get(this.rootURL + '/ActiveData/ActiveTimeZoneList');
+    }
+    getAllTicketCategory() {
+        return this.http.get(this.rootURL + '/TicketCategory/TicketCategoryList');
+    }
+    addTicketCategory() {
+        var body = {
+            ticket_category_name: this.formModelTicketCategory.value.ticket_category_name,
+            ticket_category_discription: this.formModelTicketCategory.value.ticket_category_discription,
+            ticket_category_enabled: this.formModelTicketCategory.value.ticket_category_enabled
+        };
+        return this.http.post(this.rootURL + '/TicketCategory/CreateTicketCategory', body);
+    }
+    deleteTicketCategory(ticket_category_id) {
+        return this.http.delete(this.rootURL + '/TicketCategory/DeleteTicketCategory?ticket_category_id=' + ticket_category_id);
+    }
+    editTicketCategory(ticket_category_id) {
+        return this.http.get(this.rootURL + '/TicketCategory/EditTicketCategory?ticket_category_id=' + ticket_category_id);
+    }
+    getActiveTicketCategory() {
+        return this.http.get(this.rootURL + '/ActiveData/ActiveTicketCategoryList');
+    }
+    getAllTicketSubCategory() {
+        return this.http.get(this.rootURL + '/TicketSubCategory/TicketSubCategoryList');
+    }
+    addTicketSubCategory() {
+        var body = {
+            ticket_category_id: this.formModelTicketSubCategory.value.ticket_category,
+            ticket_sub_category_name: this.formModelTicketSubCategory.value.ticket_sub_category_name,
+            ticket_sub_category_enabled: this.formModelTicketSubCategory.value.ticket_sub_category_enabled,
+            ticket_sub_category_discription: this.formModelTicketSubCategory.value.ticket_sub_category_discription,
+        };
+        return this.http.post(this.rootURL + '/TicketSubCategory/CreateTicketSubCategory', body);
+    }
+    deleteTicketSubCategory(ticket_sub_category_id) {
+        return this.http.delete(this.rootURL + '/TicketSubCategory/DeleteTicketSubCategory?ticket_sub_category_id=' + ticket_sub_category_id);
+    }
+    editTicketSubCategory(ticket_sub_category_id) {
+        return this.http.get(this.rootURL + '/TicketSubCategory/EditTicketSubCategory?ticket_sub_category_id=' + ticket_sub_category_id);
+    }
+    getActiveTicketSubCategory(ticket_category_id) {
+        return this.http.get(this.rootURL + '/ActiveData/ActiveTicketSubCategoryList?ticket_category_id=' + ticket_category_id);
     }
 };
 MasterPagesService = tslib_1.__decorate([

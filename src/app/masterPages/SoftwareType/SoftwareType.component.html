@@ -8,6 +8,9 @@
     <div class="col-md-4">
     <mat-form-field>
       <input matInput placeholder="Software Type Name" formControlName="software_type_name" required>
+      <mat-error *ngIf="Service.formModelSoftwareType.controls['software_type_name'].invalid">
+        {{getError('software_type_name')}}
+      </mat-error>
     </mat-form-field>
     </div>    
     <div class="col-md-4">
@@ -16,11 +19,17 @@
                 <mat-option value="Y">Yes</mat-option>
                 <mat-option value="N">No</mat-option>
             </mat-select>
+            <mat-error *ngIf="Service.formModelSoftwareType.controls['software_type_enabled'].invalid">
+              {{getError('software_type_enabled')}}
+            </mat-error>
         </mat-form-field>
       </div>
     <div class="col-md-4">
         <mat-form-field>
           <textarea matInput placeholder="Software Type Discription" formControlName="software_type_discription" required></textarea>
+          <mat-error *ngIf="Service.formModelSoftwareType.controls['software_type_discription'].invalid">
+            {{getError('software_type_discription')}}
+          </mat-error>
         </mat-form-field>
   </div>
 
@@ -74,10 +83,10 @@
     </ng-container>
 
     <ng-container matColumnDef="Action">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
-        <td (click)="EditDesignation(element)" mat-cell *matCellDef="let element">
-            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-        </td>
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-icon-button (click)="openDialog('Update',element)"><mat-icon>launch</mat-icon></button>        
+      </mat-cell>
     </ng-container>
 
            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

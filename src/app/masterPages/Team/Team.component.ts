@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild, Input, EventEmitter, Output, ElementRef } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
-import { MatTableDataSource, MatSort} from '@angular/material';
+import { MatTableDataSource, MatSort, MatTable} from '@angular/material';
 import { MasterPagesService } from '../shared/master-pages.service';
 import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
+
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { Team } from '../shared/Team.model';
+import { TeamDialogBoxComponent } from './team-dialog-box/team-dialog-box.component';
 
 
 
@@ -22,7 +23,7 @@ export class TeamComponent implements OnInit {
   
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
-
+  @ViewChild(MatTable,{static:true}) table: MatTable<any>;
   
   dptlist: Team[];
   dataavailbale: Boolean = false;
@@ -33,17 +34,15 @@ export class TeamComponent implements OnInit {
   constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog){}
   
 
-
   ngOnInit() {
-    //this.dataSource.sort = this.sort;
     this.LoadData();
   }
   
   LoadData() {
     this.Service.getAllTeam().subscribe(  
       res => {  
-        this.dataSource = new MatTableDataSource();  
-        this.dataSource.data = res;  
+        this.dptlist = res;
+        this.dataSource = new MatTableDataSource(this.dptlist);  
         this.dataSource.sort = this.sort;
         this.Service.formModelTeam.reset();
       },
@@ -53,29 +52,56 @@ export class TeamComponent implements OnInit {
   }
 
   onSubmit() {
-    
     this.Service.addTeam().subscribe(
       res=>
         {
-          //this.toastr.success('Department Added Successfully', 'Department');
           this.LoadData();
-          
         });
   }
-
-
-
-
-  EditDesignation(element)
-  {
-    this.Service.populateFormDesig(element);
-     
-     const dialogConfig = new MatDialogConfig();
-     dialogConfig.disableClose = true;
-     dialogConfig.autoFocus = true;
-     dialogConfig.width = "60%";
-     //this.dialog.open(DesignationComponent,dialogConfig);
-
-  }
-
+  
+  openDialog(action,obj) {
+    obj.action = action;
+      
+      const dialogRef = this.dialog.open(TeamDialogBoxComponent, {
+        width: '550px',
+        data:obj
+        
+      });
+      
+      dialogRef.afterClosed().subscribe(result => {
+        
+        if(result.event == 'Update'){
+          this.updateRowData(result.data);
+        }
+      });
+    }
+    
+    updateRowData(row_obj){
+      this.dataSource = this.dptlist.filter((value,key)=>{
+        
+        if(value.team_id == row_obj.team_id){
+          value.team_name = row_obj.team_name;
+          value.team_enabled = row_obj.team_enabled;
+          this.Service.updateTeam(value.team_id,value.team_name,value.team_enabled).subscribe();        
+        }
+        this.LoadData();
+      });
+    }
+    
+    getError(el) {
+      switch (el) {
+        case 'team_name':
+          if (this.Service.formModelTeam.get('team_name').hasError('required')) {
+            return 'Team name is required';
+          }
+          break;
+        case 'team_enabled':
+          if (this.Service.formModelTeam.get('team_enabled').hasError('required')) {
+            return 'Status is required';
+          }
+          break;
+        default:
+          return '';
+      }
+    }
 }

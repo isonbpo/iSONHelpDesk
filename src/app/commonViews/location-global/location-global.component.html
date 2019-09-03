@@ -39,14 +39,14 @@
                                 <app-common-team></app-common-team>
                         </mat-tab>
                         <mat-tab label="Ticket">
-                            
+                                <app-ticket-list></app-ticket-list>
                         </mat-tab>
                         <mat-tab label="Documents">
                                 <ng-template mat-tab-label>
                                         <mat-icon>file_copy</mat-icon>
                                         <span>Documents</span>
-                                 </ng-template>
-                            <app-common-documents></app-common-documents>
+                                </ng-template>
+                                <app-document-list></app-document-list>
                         </mat-tab>
                         <mat-tab label="Asset History">
                                 <ng-template mat-tab-label>
@@ -59,6 +59,7 @@
                                         <mat-icon>ac_unit</mat-icon>
                                         <span>Asset</span>
                                  </ng-template>
+                                 <app-assets-list></app-assets-list>
                         </mat-tab>
                         <mat-tab label="Contacts">
                                 <ng-template mat-tab-label>

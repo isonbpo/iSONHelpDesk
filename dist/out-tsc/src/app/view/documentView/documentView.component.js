@@ -2,8 +2,10 @@ import * as tslib_1 from "tslib";
 import { Component } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 let DocumentViewComponent = class DocumentViewComponent {
-    constructor() {
+    constructor(route) {
+        this.route = route;
         this.tabs = ['General'];
         this.selected = new FormControl(0);
     }
@@ -18,6 +20,9 @@ let DocumentViewComponent = class DocumentViewComponent {
     removeTab(index) {
         this.tabs.splice(index, 1);
     }
+    refresh() {
+        this.route.navigateByUrl('/documentList', { skipLocationChange: true }).then(() => this.route.navigate(["/document"]));
+    }
 };
 DocumentViewComponent = tslib_1.__decorate([
     Component({
@@ -25,7 +30,8 @@ DocumentViewComponent = tslib_1.__decorate([
         templateUrl: './documentView.component.html',
         styleUrls: [],
         encapsulation: ViewEncapsulation.None
-    })
+    }),
+    tslib_1.__metadata("design:paramtypes", [Router])
 ], DocumentViewComponent);
 export { DocumentViewComponent };
 //# sourceMappingURL=documentView.component.js.map

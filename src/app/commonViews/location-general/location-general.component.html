@@ -1,108 +1,136 @@
+<form [formGroup]="LocationService.formModelLocation" autocomplete="off">
 <div class="row">
     <div class="col-lg-12 grid-margin stretch-card">
       <div class="card">
         <div class="Sub-header">
             <div class="row">  
-                <div class="col-md-8">
+                <div class="col-md-10">
                 General
                 </div>
                 
                 <div class="col-md-2 text-right">    
-                <button type="submit" class="btn btn-success" mat-raised-button>Save</button>
+                <button type="submit" class="btn btn-success" (click)="onSubmit()" mat-raised-button>Save</button>
                 </div>
-                <div class="col-md-2">    
+                <!-- <div class="col-md-2">    
                         <button type="reset" class="btn btn-danger" mat-raised-button>Cancel</button>
-                </div>
+                </div> -->
             </div>
         </div>    
+
         <div class="card-body">
             <div class="row setWidth">
               <div class="col-md-4"> 
-                <mat-form-field>
-                    <input matInput placeholder="Created By" value="tz.createdBy">
+                <mat-form-field *ngFor="let user of createDateAndBy">
+                    <input  matInput placeholder="Created By" [(ngModel)]="user.createdBy"  formControlName="created_by">
                 </mat-form-field>
                 </div>    
                 <div class="col-md-4">
-                <mat-form-field>
-                    <input matInput placeholder="Created At" >
+                <mat-form-field *ngFor="let user of createDateAndBy">
+                    <input matInput placeholder="Created At" [(ngModel)]="user.createdDate"  formControlName="created_date">
                 </mat-form-field>
                 </div>
                 <div class="col-md-4">
-                  <mat-form-field>
-                    <input matInput placeholder="Account Code" required>
+                  <mat-form-field *ngFor="let user of createDateAndBy">
+                    <input matInput placeholder="Account Code" [(ngModel)]="user.accountCode"  formControlName="transaction_number">
                   </mat-form-field>
                 </div>
             </div>
 
             <div class="row setWidth">
-                    <div class="col-md-4">
+                  <div class="col-md-4">
                       <mat-form-field>
-                            <mat-select placeholder="Account Type" required>
-                                    <mat-option value="Y">Yes</mat-option>
-                                    <mat-option value="N">No</mat-option>
-                            </mat-select>
+                          <mat-select formControlName="cust_type" placeholder="Account Type" id="cmbAccountType" required>
+                              <mat-option *ngFor="let gd of accountTypeList" [value]="gd.name">{{gd.name}}</mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="LocationService.formModelLocation.controls['cust_type'].invalid">
+                            {{getError('cust_type')}}
+                          </mat-error>            
                       </mat-form-field>
-                      </div>    
-                      <div class="col-md-4">
+                  </div>    
+                  <div class="col-md-4">
                       <mat-form-field>
-                          <input matInput placeholder="Account Name" required>
+                          <input formControlName="cust_name" matInput placeholder="Account Name" required>
+                          <mat-error *ngIf="LocationService.formModelLocation.controls['cust_name'].invalid">
+                            {{getError('cust_name')}}
+                          </mat-error>
                       </mat-form-field>
-                      </div>
-                      <div class="col-md-4">
+                  </div>
+                  <div class="col-md-4">
                         <mat-form-field>
-                          <input matInput placeholder="Account Short Name">
+                          <input formControlName="cust_short_name"  matInput placeholder="Account Short Name" required>
+                          <mat-error *ngIf="LocationService.formModelLocation.controls['cust_short_name'].invalid">
+                            {{getError('cust_short_name')}}
+                          </mat-error>
                         </mat-form-field>
-                      </div>
+                  </div>
             </div>    
 
             <div class="row setWidth">
-                    <div class="col-md-4">
-                      <mat-form-field>
-                            <mat-select placeholder="Zone">
-                                    <mat-option value="Y">Yes</mat-option>
-                            </mat-select>
-                      </mat-form-field>
-                      </div>    
+                <div class="col-md-4">
+                    <mat-form-field>
+                        <mat-select formControlName="cust_zone" placeholder="Zone" #cmbZonetype required>
+                                <mat-option *ngFor="let gd of zoneList" [value]="gd.name">{{gd.name}}</mat-option>
+                        </mat-select>    
+                        <mat-error *ngIf="LocationService.formModelLocation.controls['cust_zone'].invalid">
+                          {{getError('cust_zone')}}
+                        </mat-error>
+                    </mat-form-field>
+                  </div>
                       <div class="col-md-4">
                       <mat-form-field>
-                          <input matInput placeholder="Address">
+                          <input formControlName="cust_address1" matInput placeholder="Address" required>
+                          <mat-error *ngIf="LocationService.formModelLocation.controls['cust_address1'].invalid">
+                            {{getError('cust_address1')}}
+                          </mat-error>
                       </mat-form-field>
                       </div>
                       <div class="col-md-4">
                         <mat-form-field>
-                                <mat-select placeholder="Country">
-                                        <mat-option value="Y">Yes</mat-option>
-                                        <mat-option value="N">No</mat-option>
-                                </mat-select>
+                            <mat-select formControlName="cust_country_code" (selectionChange)="onChangeCountry($event.value)" placeholder="Country" required>
+                                <mat-option *ngFor="let country of countries" [value]="country.country_id">{{country.country_name}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="LocationService.formModelLocation.controls['cust_country_code'].invalid">
+                              {{getError('cust_country_code')}}
+                            </mat-error>
                         </mat-form-field>
                       </div>
+  
             </div> 
             
             
             <div class="row setWidth">
-                    <div class="col-md-4">
-                      <mat-form-field>
-                            <mat-select placeholder="State">
-                                    <mat-option value="Y">Yes</mat-option>
-                                    <mat-option value="N">No</mat-option>
-                            </mat-select>
-                      </mat-form-field>
-                      </div>    
+                <div class="col-md-4">
+                    <mat-form-field>
+                        <mat-select formControlName="cust_state_code" (selectionChange)="onChangeState($event.value)" placeholder="State" required>
+                            <mat-option *ngFor="let state of states" [value]="state.state_code">{{state.state_name}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="LocationService.formModelLocation.controls['cust_state_code'].invalid">
+                          {{getError('cust_state_code')}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>  
                       <div class="col-md-4">
                       <mat-form-field>
-                            <mat-select placeholder="City">
-                                    <mat-option value="Y">Yes</mat-option>
-                                    <mat-option value="N">No</mat-option>
+                          <mat-select formControlName="cust_city_code" placeholder="City" required>
+                              <mat-option *ngFor="let city of cities" [value]="city.city_code">{{city.city_name}}</mat-option>
                             </mat-select>
+                            <mat-error *ngIf="LocationService.formModelLocation.controls['cust_city_code'].invalid">
+                              {{getError('cust_city_code')}}
+                            </mat-error>
                       </mat-form-field>
                       </div>
                       <div class="col-md-4">
                         <mat-form-field>
-                                <input matInput placeholder="Zipcode/PostalCode">
+                                <input formControlName="cust_zip_code" matInput placeholder="Zipcode/PostalCode" required>
+                                <mat-error *ngIf="LocationService.formModelLocation.controls['cust_zip_code'].invalid">
+                                  {{getError('cust_zip_code')}}
+                                </mat-error>
                         </mat-form-field>
                       </div>
             </div> 
         </div>
+        
       </div>    
   </div>
 </div>
+</form>

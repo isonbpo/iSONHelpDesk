@@ -1,0 +1,48 @@
+<div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                  <div class="card-body">
+                    <mat-tab-group dynamicHeight>
+                        <mat-tab label="General">
+                              <ng-template mat-tab-label>
+                                      <mat-icon>location_on</mat-icon>
+                                      <span>General</span>
+                               </ng-template>
+                               <app-assets-general></app-assets-general>
+                        </mat-tab>
+                          <mat-tab label="Ticket">
+                              <app-ticket-list></app-ticket-list>
+                          </mat-tab>
+                          <mat-tab label="History">
+                              <ng-template mat-tab-label>
+                              <mat-icon>history</mat-icon>
+                              <span>History</span>
+                              </ng-template>
+                            <app-common-history></app-common-history>
+                          </mat-tab>
+                          <mat-tab label="Documents">
+                              <ng-template mat-tab-label>
+                                      <mat-icon>file_copy</mat-icon>
+                                      <span>Documents</span>
+                              </ng-template>
+                              <app-documentView></app-documentView>
+                          </mat-tab>
+                          <mat-tab label="Software Type">
+                              <ng-template mat-tab-label>
+                                      <mat-icon>file_copy</mat-icon>
+                                      <span>Software Type</span>
+                              </ng-template>
+                              <app-SoftwareType></app-SoftwareType>
+                          </mat-tab>
+                          <mat-tab label="Account">
+                              <ng-template mat-tab-label>
+                                      <mat-icon>file_copy</mat-icon>
+                                      <span>Account</span>
+                              </ng-template>
+                              <app-locationView></app-locationView>
+                          </mat-tab>
+                        </mat-tab-group>
+                  </div>  
+              </div>
+        </div>
+  </div>

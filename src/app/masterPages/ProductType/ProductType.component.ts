@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild, Input, EventEmitter, Output, ElementRef } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
-import { MatTableDataSource, MatSort} from '@angular/material';
+import { MatTableDataSource, MatSort, MatTable} from '@angular/material';
 import { MasterPagesService } from '../shared/master-pages.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { ProductType } from '../shared/product-type.model';
+import { ProductTypeDialogBoxComponent } from './product-type-dialog-box/product-type-dialog-box.component';
 
 
 
@@ -22,7 +23,7 @@ export class ProductTypeComponent implements OnInit {
   
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
-
+  @ViewChild(MatTable,{static:true}) table: MatTable<any>;
   
   dptlist: ProductType[];
   dataavailbale: Boolean = false;
@@ -44,8 +45,8 @@ export class ProductTypeComponent implements OnInit {
     
     this.Service.getAllProductType().subscribe(  
       res => {  
-        this.dataSource = new MatTableDataSource();  
-        this.dataSource.data = res;  
+        this.dptlist = res;
+        this.dataSource = new MatTableDataSource(this.dptlist);  
         this.dataSource.sort = this.sort;
         this.Service.formModelProductType.reset();
       },
@@ -59,25 +60,77 @@ export class ProductTypeComponent implements OnInit {
     this.Service.addProductType().subscribe(
       res=>
         {
-          //this.toastr.success('Department Added Successfully', 'Department');
           this.LoadData();
-          
         });
   }
 
+  openDialog(action,obj) {
+    obj.action = action;
+      
+      const dialogRef = this.dialog.open(ProductTypeDialogBoxComponent, {
+        width: '800px',
+        data:obj
+        
+      });
+      
+      dialogRef.afterClosed().subscribe(result => {
+        
+        if(result.event == 'Update'){
+          this.updateRowData(result.data);
+        }
+      });
+    }
 
+    updateRowData(row_obj){
+      this.dataSource = this.dptlist.filter((value,key)=>{
+        if(value.product_type_id == row_obj.product_type_id){
+          value.product_type_name = row_obj.product_type_name;
+          value.product_type = row_obj.product_type;
+          value.product_category_name = row_obj.product_category_name;
+          value.product_discription = row_obj.product_discription;
+          value.product_type_enabled = row_obj.product_type_enabled;
 
+          this.Service.updateProductType(value.product_type_id,value.product_type_name,value.product_type,value.product_category_name,value.product_discription,value.product_type_enabled).subscribe();        
+        }
+        this.LoadData();
+      });
+    }
 
-  EditDesignation(element)
-  {
-    this.Service.populateFormDesig(element);
-     
-     const dialogConfig = new MatDialogConfig();
-     dialogConfig.disableClose = true;
-     dialogConfig.autoFocus = true;
-     dialogConfig.width = "60%";
-     //this.dialog.open(DesignationComponent,dialogConfig);
-
-  }
+    getError(el) {
+      switch (el) {
+        case 'product_type_name':
+          if (this.Service.formModelProductType.get('product_type_name').hasError('required')) {
+            return 'Product Type name is required';
+          }
+          break;
+        case 'product_type':
+          if (this.Service.formModelProductType.get('product_type').hasError('required')) {
+            return 'Product Type is required';
+          }
+          break;
+          case 'product_vender_name':
+            if (this.Service.formModelProducts.get('product_vender_name').hasError('required')) {
+              return 'Vender name is required';
+          }
+          break;
+          case 'product_category_name':
+            if (this.Service.formModelProductType.get('product_category_name').hasError('required')) {
+              return 'Category is required';
+          }
+          break;
+          case 'product_discription':
+            if (this.Service.formModelProductType.get('product_discription').hasError('required')) {
+              return 'Discription is required';
+          }
+          break;
+          case 'product_type_enabled':
+            if (this.Service.formModelProductType.get('product_type_enabled').hasError('required')) {
+              return 'Status is required';
+          }
+          break;
+        default:
+          return '';
+      }
+    }    
 
 }
