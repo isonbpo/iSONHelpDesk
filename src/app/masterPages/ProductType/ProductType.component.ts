@@ -7,6 +7,7 @@ import { NgForm } from '@angular/forms';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { ProductType } from '../shared/product-type.model';
 import { ProductTypeDialogBoxComponent } from './product-type-dialog-box/product-type-dialog-box.component';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -31,7 +32,7 @@ export class ProductTypeComponent implements OnInit {
   dataSource :any;
    
 
-  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog){}
+  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog, private toastr:ToastrService){}
   
 
 
@@ -61,6 +62,7 @@ export class ProductTypeComponent implements OnInit {
       res=>
         {
           this.LoadData();
+          this.toastr.success('Added Successfully','Product Type');
         });
   }
 
@@ -89,8 +91,8 @@ export class ProductTypeComponent implements OnInit {
           value.product_category_name = row_obj.product_category_name;
           value.product_discription = row_obj.product_discription;
           value.product_type_enabled = row_obj.product_type_enabled;
-
           this.Service.updateProductType(value.product_type_id,value.product_type_name,value.product_type,value.product_category_name,value.product_discription,value.product_type_enabled).subscribe();        
+          this.toastr.info('Updated Successfully','Product Type')
         }
         this.LoadData();
       });

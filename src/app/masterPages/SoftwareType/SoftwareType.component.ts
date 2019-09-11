@@ -7,6 +7,7 @@ import { NgForm } from '@angular/forms';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { SoftwareType } from '../shared/software-type.model';
 import { SoftwareTypeDialogBoxComponent } from './software-type-dialog-box/software-type-dialog-box.component';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -32,7 +33,7 @@ export class SoftwareTypeComponent implements OnInit {
   dataSource :any;
    
 
-  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog){}
+  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog,private toastr:ToastrService){}
   
 
 
@@ -59,7 +60,7 @@ export class SoftwareTypeComponent implements OnInit {
     this.Service.addSoftwareType().subscribe(
       res=>
         {
-          //this.toastr.success('Department Added Successfully', 'Department');
+          this.toastr.success('Added Successfully', 'Software Type');
           this.LoadData();
           
         });
@@ -91,6 +92,7 @@ export class SoftwareTypeComponent implements OnInit {
           value.software_type_enabled = row_obj.software_type_enabled;
           value.software_type_discription = row_obj.software_type_discription;
           this.Service.updateSoftwareType(value.software_type_id,value.software_type_name,value.software_type_enabled,value.software_type_discription).subscribe();        
+          this.toastr.info('Updated Successfully','Software Type');
         }
         this.LoadData();
       });

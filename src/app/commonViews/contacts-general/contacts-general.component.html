@@ -1,6 +1,4 @@
 <form [formGroup]="ContactService.formModelContacts" autocomplete="off">
-    <div class="row">
-            <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="Sub-header">
                     <div class="row">  
@@ -29,69 +27,82 @@
                         </mat-form-field>
                         </div>
                         <div class="col-md-4">
-                          <mat-form-field>
-                            <input matInput placeholder="Contact Code" formControlName="crm_contact_code" required>
+                          <mat-form-field *ngFor="let user of createDateAndBy">
+                            <input matInput placeholder="Contact Code" [(ngModel)]="user.contactCode"  formControlName="transaction_number">
                           </mat-form-field>
                         </div>
                     </div>
         
                     <div class="row ">
                             <div class="col-md-4">
-                                <!-- <mat-form-field>
+                                <mat-form-field>
                                     <input matInput placeholder="Account" required>
-                                </mat-form-field> -->
+                                    
+                                </mat-form-field>
                               </div>    
                               <div class="col-md-4">
                                 <mat-form-field>
                                     <mat-select placeholder="Contact Type" formControlName="contact_type_id">
-                                            <mat-option *ngFor="let gd of contactType" [value]="gd.name">{{gd.name}}</mat-option>
+                                            <mat-option *ngFor="let gd of contactType" [value]="gd.id">{{gd.name}}</mat-option>
                                     </mat-select>                          
+                                    <mat-error *ngIf="ContactService.formModelContacts.controls['contact_type_id'].invalid">
+                                      {{getError('contact_type_id')}}
+                                    </mat-error>            
                                 </mat-form-field>
                               </div>
                               <div class="col-md-4">
-                                <!-- <mat-form-field>
-                                  <input matInput placeholder="Employee Code" required>
-                                </mat-form-field> -->
+                                <mat-form-field>
+                                      <mat-select placeholder="Contact Title" formControlName="contact_title">
+                                              <mat-option *ngFor="let gd of contactTitle" [value]="gd.name">{{gd.name}}</mat-option>
+                                      </mat-select> 
+                                      <mat-error *ngIf="ContactService.formModelContacts.controls['contact_title'].invalid">
+                                        {{getError('contact_title')}}
+                                      </mat-error>   
+                                </mat-form-field>
                               </div>
                     </div>    
         
                     <div class="row ">
-                            <div class="col-md-4">
-                              <mat-form-field>
-                                    <mat-select placeholder="Contact Title" formControlName="contact_title">
-                                            <mat-option *ngFor="let gd of contactTitle" [value]="gd.name">{{gd.name}}</mat-option>
-                                    </mat-select>    
-                              </mat-form-field>
-                              </div>    
                               <div class="col-md-4">
                                    <mat-form-field>
                                             <mat-select formControlName="contact_timezone_id" placeholder="Timezone">
                                                     <mat-option *ngFor="let timezone of timezones" [value]="timezone.timezone_id">{{timezone.timezone_name}}</mat-option>
                                             </mat-select>
+                                            <mat-error *ngIf="ContactService.formModelContacts.controls['contact_timezone_id'].invalid">
+                                              {{getError('contact_timezone_id')}}
+                                            </mat-error>
                                     </mat-form-field>
                               </div>
                               <div class="col-md-4">
                                 <mat-form-field>
                                     <input formControlName="contact_full_name" matInput placeholder="Full Name" required>
+                                    <mat-error *ngIf="ContactService.formModelContacts.controls['contact_full_name'].invalid">
+                                      {{getError('contact_full_name')}}
+                                    </mat-error>
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4">
+                                <mat-form-field>
+                                              <mat-select formControlName="contact_dept_id" placeholder="Department">
+                                                      <mat-option *ngFor="let dpt of ActiveDepartments" [value]="dpt.dept_id">{{dpt.dept_name}}</mat-option>
+                                              </mat-select>
+                                              <mat-error *ngIf="ContactService.formModelContacts.controls['contact_dept_id'].invalid">
+                                                {{getError('contact_dept_id')}}
+                                              </mat-error>
                                 </mat-form-field>
                               </div>
                     </div> 
                     
-                    
                     <div class="row ">
                             <div class="col-md-4">
-                              <mat-form-field>
-                                            <mat-select formControlName="contact_dept_id" placeholder="Department">
-                                                    <mat-option *ngFor="let dpt of ActiveDepartments" [value]="dpt.dept_id">{{dpt.dept_name}}</mat-option>
-                                            </mat-select>
-                              </mat-form-field>
-                              </div>    
-                              <div class="col-md-4">
                                     <mat-form-field>
                                             <input formControlName="contact_birthday" matInput [matDatepicker]="DOB" placeholder="Date of Birth">
                                             <mat-datepicker-toggle matSuffix [for]="DOB">
                                             </mat-datepicker-toggle>
                                             <mat-datepicker #DOB></mat-datepicker>
+                                            <mat-error *ngIf="ContactService.formModelContacts.controls['contact_birthday'].invalid">
+                                              {{getError('contact_birthday')}}
+                                            </mat-error>
                                     </mat-form-field>
                               </div>
                               <div class="col-md-4">
@@ -99,42 +110,58 @@
                                     <mat-select formControlName="contact_desig_id" placeholder="Designation">
                                        <mat-option *ngFor="let desig of ActiveDesignations" [value]="desig.desig_id">{{desig.desig_name}}</mat-option>
                                     </mat-select>
+                                    <mat-error *ngIf="ContactService.formModelContacts.controls['contact_desig_id'].invalid">
+                                      {{getError('contact_desig_id')}}
+                                    </mat-error>
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4">
+                                <mat-form-field>
+                                      <mat-select formControlName="contact_team_id" placeholder="Team">
+                                         <mat-option *ngFor="let team of ActiveTeams" [value]="team.team_id">{{team.team_name}}</mat-option>
+                                      </mat-select>
+                                      <mat-error *ngIf="ContactService.formModelContacts.controls['contact_team_id'].invalid">
+                                        {{getError('contact_team_id')}}
+                                      </mat-error>
                                 </mat-form-field>
                               </div>
                     </div> 
                     <div class="row ">
                               <div class="col-md-4">
-                              <mat-form-field>
-                                    <mat-select formControlName="contact_team_id" placeholder="Team">
-                                       <mat-option *ngFor="let team of ActiveTeams" [value]="team.team_id">{{team.team_name}}</mat-option>
-                                    </mat-select>
-                              </mat-form-field>
-                              </div>
-                              <div class="col-md-4">
                                 <mat-form-field>
                                     <mat-select placeholder="Zone" formControlName="contact_zone">
                                             <mat-option *ngFor="let gd of zone" [value]="gd.name">{{gd.name}}</mat-option>
-                                    </mat-select>    
+                                    </mat-select>
+                                    <mat-error *ngIf="ContactService.formModelContacts.controls['contact_zone'].invalid">
+                                      {{getError('contact_zone')}}
+                                    </mat-error>    
                                 </mat-form-field>
                               </div>
                               <div class="col-md-4">
                                   <mat-form-field>
                                         <input formControlName="owner_name" matInput placeholder="Owner">
+
                                   </mat-form-field>
                               </div>    
+                              <div class="col-md-4">
+                                <mat-form-field>
+                                      <input formControlName="contact_address1" matInput placeholder="Address">
+                                      <mat-error *ngIf="ContactService.formModelContacts.controls['contact_address1'].invalid">
+                                        {{getError('contact_address1')}}
+                                      </mat-error> 
+                                  </mat-form-field>
+                              </div>
                     </div> 
     
                     <div class="row ">
-                            <div class="col-md-4">
-                              <mat-form-field>
-                                    <input formControlName="contact_address1" matInput placeholder="Address">
-                                </mat-form-field>
-                            </div>
                             <div class="col-md-4">
                                 <mat-form-field>
                                     <mat-select formControlName="contact_country_code" (selectionChange)="onChangeCountry($event.value)" placeholder="Country">
                                           <mat-option *ngFor="let country of countries" [value]="country.country_id">{{country.country_name}}</mat-option>
                                     </mat-select>
+                                    <mat-error *ngIf="ContactService.formModelContacts.controls['contact_country_code'].invalid">
+                                      {{getError('contact_country_code')}}
+                                    </mat-error>
                                 </mat-form-field>
                             </div>
                             <div class="col-md-4">
@@ -142,39 +169,57 @@
                                     <mat-select formControlName="contact_state_code" (selectionChange)="onChangeState($event.value)" placeholder="State">
                                         <mat-option *ngFor="let state of states" [value]="state.state_code">{{state.state_name}}</mat-option>
                                     </mat-select>
+                                    <mat-error *ngIf="ContactService.formModelContacts.controls['contact_state_code'].invalid">
+                                      {{getError('contact_state_code')}}
+                                    </mat-error>
                                 </mat-form-field>
                             </div> 
-
+                            <div class="col-md-4">
+                              <mat-form-field>
+                                  <mat-select formControlName="contact_city_code" placeholder="City">
+                                  <mat-option *ngFor="let city of cities" [value]="city.city_code">{{city.city_name}}</mat-option>
+                                  </mat-select>
+                                  <mat-error *ngIf="ContactService.formModelContacts.controls['contact_city_code'].invalid">
+                                    {{getError('contact_city_code')}}
+                                  </mat-error>
+                              </mat-form-field>
+                            </div>
                     </div> 
     
                     <div class="row ">
                               <div class="col-md-4">
                                 <mat-form-field>
-                                    <mat-select formControlName="contact_city_code" placeholder="City">
-                                    <mat-option *ngFor="let city of cities" [value]="city.city_code">{{city.city_name}}</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                              </div>
-                              <div class="col-md-4">
-                                <mat-form-field>
                                         <input formControlName="contact_zip_code" matInput placeholder="Zipcode/Postal">
+                                        <mat-error *ngIf="ContactService.formModelContacts.controls['contact_zip_code'].invalid">
+                                          {{getError('contact_zip_code')}}
+                                        </mat-error>
                                 </mat-form-field>
                               </div>
                               <div class="col-md-4">
                                   <mat-form-field>
                                         <input formControlName="contact_emailid" matInput placeholder="Email">
+                                        <mat-error *ngIf="ContactService.formModelContacts.controls['contact_emailid'].invalid">
+                                          {{getError('contact_emailid')}}
+                                        </mat-error>
                                   </mat-form-field>
                               </div>    
-                    </div> 
-                    <div class="row ">
                               <div class="col-md-4">
                                 <mat-form-field>
                                         <input formControlName="contact_login_id" matInput placeholder="Login Id">
+                                        <mat-error *ngIf="ContactService.formModelContacts.controls['contact_login_id'].invalid">
+                                          {{getError('contact_login_id')}}
+                                        </mat-error>
                                 </mat-form-field>
                               </div>
+                    </div> 
+                    <div class="row ">
+                             
                               <div class="col-md-4">
                                   <mat-form-field>
                                         <input formControlName="contact_password" type="password" matInput placeholder="Login Password">
+                                        <mat-error *ngIf="ContactService.formModelContacts.controls['contact_password'].invalid">
+                                          {{getError('contact_password')}}
+                                        </mat-error>
                                   </mat-form-field>
                               </div>
                               <div class="col-md-4">
@@ -182,27 +227,22 @@
                                       <mat-select formControlName="contact_role_id" placeholder="Login Role">
                                               <mat-option *ngFor="let role of ActiveRoles" [value]="role.role_id">{{role.role_name}}</mat-option>
                                       </mat-select>
-                                                       
+                                      <mat-error *ngIf="ContactService.formModelContacts.controls['contact_role_id'].invalid">
+                                        {{getError('contact_role_id')}}
+                                      </mat-error>
                                   </mat-form-field>
                               </div>
+                              <!-- <div class="col-md-4">
+                                <mat-form-field>
+                                  <mat-select placeholder="Reporting To" formControlName="cust_reportingtocolumn" >
+                                    <mat-option></mat-option>
+                                  </mat-select>
+                                  <mat-error *ngIf="ContactService.formModelContacts.controls['cust_reportingtocolumn'].invalid">
+                                    {{getError('cust_reportingtocolumn')}}
+                                  </mat-error>
+                                </mat-form-field>
+                            </div>     -->
                     </div> 
-                    <div class="row ">
-                              <div class="col-md-4">
-                                <!-- <mat-form-field>
-                                        <input matInput placeholder="Attach Signature">
-                                </mat-form-field> -->
-                              </div>
-                              <div class="col-md-4">
-                                  <!-- <mat-form-field>
-                                    <mat-select placeholder="Reporting To">
-                                      <mat-option></mat-option>
-                                    </mat-select>
-                                  </mat-form-field> -->
-                              </div>    
-                    </div> 
-                    
                 </div>
               </div>    
-          </div>
-        </div>
     </form>

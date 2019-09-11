@@ -1,45 +1,56 @@
-<mat-toolbar color="" class="example-toolbar">
-
-	
-		<div class="logo-manage text-center">
-				
+	<mat-toolbar>
+			<div class="logo-manage text-center">
 						<a class="navbar-brand brand-logo" href="index.html">
 						  <img src="assets/images/isonLogo.png" alt="logo" height="220px" width="60px"/>
 						</a>
-		</div>
-		<button mat-icon-button (click)="isExpanded = !isExpanded"><mat-icon>menu</mat-icon></button>
+			</div>
+			<button mat-icon-button (click)="isExpanded = !isExpanded"><mat-icon>menu</mat-icon></button>
 	
-</mat-toolbar>
+			<span style="flex: 1 1 auto;"></span>
+	
+			<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+					<mat-icon>more_vert</mat-icon>
+				  </button>
+				  <mat-menu #menu="matMenu">
+					<button mat-menu-item>
+					  <mat-icon>account_circle</mat-icon>
+					  <span>Log Out</span>
+					</button>
+				  </mat-menu>
+	</mat-toolbar>
 	<mat-sidenav-container class="example-container" autosize>
 		<mat-sidenav #sidenav class="example-sidenav" mode="side" opened="true" (mouseenter)="mouseenter()" (mouseleave)="mouseleave()">
 			<mat-nav-list>
 				<mat-list-item>
+							<img mat-card-image src="../../assets/images/dashboard.png" class="img-size">
 							<span class="full-width" *ngIf="isExpanded || isShowing" routerLink="/dashboard" routerLinkActive="active">Dashboard</span>
-							<mat-icon mat-list-icon>home</mat-icon>
+							
 				</mat-list-item>
 				<mat-list-item>
+						<img mat-card-image src="../../assets/images/location.png"  class="img-size">
 						<span class="full-width" *ngIf="isExpanded || isShowing" routerLink="/location" routerLinkActive="active">Location</span>
-						<mat-icon mat-list-icon>location_on</mat-icon>
+						
 				</mat-list-item>
 				<mat-list-item>
+						<img mat-card-image src="../../assets/images/contacts.png"  class="img-size">
 						<span class="full-width" *ngIf="isExpanded || isShowing" routerLink="/contacts" routerLinkActive="active">Contacts</span>
-						<mat-icon mat-list-icon>home</mat-icon>
 				</mat-list-item>
 				<mat-list-item>
+						<img mat-card-image src="../../assets/images/asset.png"  class="img-size">
 						<span class="full-width" *ngIf="isExpanded || isShowing" routerLink="/assets" routerLinkActive="active">Assets</span>
-						<mat-icon mat-list-icon>home</mat-icon>
+						
 				</mat-list-item>
 				<mat-list-item>
+						<img mat-card-image src="../../assets/images/ticket.png"  class="img-size">
 						<span class="full-width" *ngIf="isExpanded || isShowing" routerLink="/ticket" routerLinkActive="active">Ticket</span>
-						<mat-icon mat-list-icon>home</mat-icon>
 				</mat-list-item>
 				<mat-list-item>
+						<img mat-card-image src="../../assets/images/document.png"  class="img-size">
 						<span class="full-width" *ngIf="isExpanded || isShowing" routerLink="/document" routerLinkActive="active">Documents</span>
-						<mat-icon mat-list-icon>home</mat-icon>
 				</mat-list-item>
 				<mat-list-item (click)="showSubmenu = !showSubmenu" class="parent">
+					<img mat-card-image src="../../assets/images/configuration.png"  class="img-size">
 					<span class="full-width" *ngIf="isExpanded || isShowing">Configuration</span>
-					<mat-icon mat-list-icon>home</mat-icon>
 					<mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}" *ngIf="isExpanded || isShowing">expand_more</mat-icon>
 				</mat-list-item>
 				<div class="submenu" [ngClass]="{'expanded' : showSubmenu}" *ngIf="isShowing || isExpanded">

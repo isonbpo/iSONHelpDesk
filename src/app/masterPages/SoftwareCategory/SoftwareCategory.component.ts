@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { SoftwareCategory } from '../shared/software-category.model';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -31,7 +32,7 @@ export class SoftwareCategoryComponent implements OnInit {
   dataSource :any;
    
 
-  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog){}
+  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog, private toastr:ToastrService){}
   
 
 
@@ -58,7 +59,7 @@ export class SoftwareCategoryComponent implements OnInit {
     this.Service.addSoftwareCategory().subscribe(
       res=>
         {
-          //this.toastr.success('Department Added Successfully', 'Department');
+          this.toastr.success('Added Successfully', 'Software Category');
           this.LoadData();
           
         });

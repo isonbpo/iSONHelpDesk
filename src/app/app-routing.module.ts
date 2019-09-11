@@ -26,6 +26,7 @@ import { TicketListComponent } from './view/ticketView/ticket-list/ticket-list.c
 import { DocumentListComponent } from './view/documentView/document-list/document-list.component';
 import { TicketCategoryComponent } from './masterPages/ticketCategory/ticketCategory.component';
 import { TicketSubCategoryComponent } from './masterPages/ticketSubCategory/ticketSubCategory.component';
+import { LoginComponent } from './login/login.component';
 
 
 
@@ -61,6 +62,8 @@ const routes: Routes = [
   { path: 'assetsList', component: AssetsListComponent },
   { path: 'ticketList', component: TicketListComponent },
   { path: 'documentList', component: DocumentListComponent },
+
+  { path: 'login', component: LoginComponent },
 
 ];
 

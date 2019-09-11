@@ -62,6 +62,59 @@ let AssetsViewServiceService = class AssetsViewServiceService {
     getAllAssetsList() {
         return this.http.get(this.rootURL + '/Asset/AssetList');
     }
+    addAsset() {
+        var body = {
+            inv_status: this.formModelAsset.value.inv_status,
+            // inv_product_id	 : this.formModelAsset.value.inv_product_id,
+            inv_product_name: this.formModelAsset.value.inv_product_name,
+            inv_serial_no: this.formModelAsset.value.inv_serial_no,
+            // owner_id	 : this.formModelAsset.value.owner_id,
+            // related_to_id	 : this.formModelAsset.value.related_to_id,
+            // related_to_name	 : this.formModelAsset.value.related_to_name,
+            inv_warranty_start_date: this.formModelAsset.value.inv_warranty_start_date,
+            inv_warranty_end_date: this.formModelAsset.value.inv_warranty_end_date,
+            // inv_contract_start_date	 : this.formModelAsset.value.inv_contract_start_date,
+            inv_installation_date: this.formModelAsset.value.inv_installation_date,
+            inv_sale_date: this.formModelAsset.value.inv_sale_date,
+            // created_ip	 : this.formModelAsset.value.created_ip,
+            // created_by	 : this.formModelAsset.value.created_by,
+            created_date: this.formModelAsset.value.created_date,
+            // modified_by	 : this.formModelAsset.value.modified_by,
+            // modified_date	 : this.formModelAsset.value.modified_date,
+            // modified_ip	 : this.formModelAsset.value.modified_ip,
+            // last_activity_date	 : this.formModelAsset.value.last_activity_date,
+            // Useable	 : this.formModelAsset.value.Useable,
+            // custom_tab_name	 : this.formModelAsset.value.custom_tab_name,
+            // custom_tab_url	 : this.formModelAsset.value.custom_tab_url,
+            owner_name: this.formModelAsset.value.owner_name,
+            // related_to	 : this.formModelAsset.value.related_to,
+            // transaction_number	 : this.formModelAsset.value.transaction_number,
+            // udf_machine_expiry_date	 : this.formModelAsset.value.udf_machine_expiry_date,
+            asset_category_id: this.formModelAsset.value.asset_category_id,
+            asset_category: this.formModelAsset.value.asset_category,
+            asset_sub_category_id: this.formModelAsset.value.asset_sub_category_id,
+            asset_sub_category: this.formModelAsset.value.asset_sub_category,
+            asset_product_type: this.formModelAsset.value.asset_product_type,
+            asset_vender_name: this.formModelAsset.value.asset_vender_name,
+            // asset_vender_id	 : this.formModelAsset.value.asset_vender_id,
+            asset_software_type_id: this.formModelAsset.value.asset_software_type_id,
+            asset_software_type: this.formModelAsset.value.asset_software_type,
+            asset_software_category_id: this.formModelAsset.value.asset_software_category_id,
+            asset_software_category: this.formModelAsset.value.asset_software_category,
+            asset_asset_make: this.formModelAsset.value.asset_asset_make,
+            asset_model: this.formModelAsset.value.asset_model,
+            asset_OEM_serial_number: this.formModelAsset.value.asset_OEM_serial_number,
+            asset_issue_sparese: this.formModelAsset.value.asset_issue_sparese,
+            asset_porpose_process: this.formModelAsset.value.asset_porpose_process,
+            asset_owned_lease: this.formModelAsset.value.asset_owned_lease,
+            asset_purchase_date: this.formModelAsset.value.asset_purchase_date,
+            asset_amount: this.formModelAsset.value.asset_amount,
+            asset_currency: this.formModelAsset.value.asset_currency,
+            asset_product_type_id: this.formModelAsset.value.asset_product_type_id,
+            asset_desc: this.formModelAsset.value.asset_desc,
+        };
+        return this.http.post(this.rootURL + '/Asset/AddAsset', body);
+    }
 };
 AssetsViewServiceService = tslib_1.__decorate([
     Injectable({

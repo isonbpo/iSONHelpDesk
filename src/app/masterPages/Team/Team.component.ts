@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { Team } from '../shared/Team.model';
 import { TeamDialogBoxComponent } from './team-dialog-box/team-dialog-box.component';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -31,7 +32,7 @@ export class TeamComponent implements OnInit {
   dataSource :any;
    
 
-  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog){}
+  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog,private toastr:ToastrService){}
   
 
   ngOnInit() {
@@ -55,6 +56,7 @@ export class TeamComponent implements OnInit {
     this.Service.addTeam().subscribe(
       res=>
         {
+          this.toastr.success('Added Successfully','Team');
           this.LoadData();
         });
   }
@@ -83,6 +85,7 @@ export class TeamComponent implements OnInit {
           value.team_name = row_obj.team_name;
           value.team_enabled = row_obj.team_enabled;
           this.Service.updateTeam(value.team_id,value.team_name,value.team_enabled).subscribe();        
+          this.toastr.info('Updated Successfully','Team');
         }
         this.LoadData();
       });

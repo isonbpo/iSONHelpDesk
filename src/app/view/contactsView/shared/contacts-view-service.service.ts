@@ -20,7 +20,7 @@ export class ContactsViewServiceService {
   
    formModelContacts = this.fb.group({
       id : ['', Validators.required],
-      // transaction_number : ['', Validators.required],
+      transaction_number : ['', Validators.required],
       // related_to : ['', Validators.required],
       // related_to_name : ['', Validators.required],
       // related_to_id : ['', Validators.required],
@@ -68,7 +68,7 @@ export class ContactsViewServiceService {
       // contact_show_popup : ['', Validators.required],
       // Useable : ['', Validators.required],
       // contact_phone : ['', Validators.required],
-       contact_emailid : ['', Validators.required],
+       contact_emailid : ['', Validators.required, Validators.email],
       // custom_tab_name : ['', Validators.required],
       // custom_tab_url : ['', Validators.required],
       contact_role_id : ['', Validators.required],
@@ -86,7 +86,7 @@ export class ContactsViewServiceService {
 
   addContact() {
     var body = {
-      // transaction_number : this.formModelContacts.value.transaction_number,
+      transaction_number : this.formModelContacts.value.transaction_number,
       // related_to : this.formModelContacts.value.related_to,
       // related_to_name : this.formModelContacts.value.related_to_name,
       // related_to_id : this.formModelContacts.value.related_to_id,

@@ -1,9 +1,12 @@
-import { Component, OnInit, ElementRef, AfterViewInit, ViewChild, Inject, Optional } from '@angular/core';
+import { Component, OnInit, ElementRef, AfterViewInit, ViewChild, Inject, Optional, Input } from '@angular/core';
 import { GlobalService } from 'src/app/shared/global.service';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { LocationViewServiceService } from 'src/app/View/locationView/shared/location-view-service.service';
+import { ToastrService } from 'ngx-toastr';
+import { LocationViewComponent } from 'src/app/view/locationView/locationView.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-location-general',
@@ -21,21 +24,11 @@ export class LocationGeneralComponent implements OnInit {
   accountTypeList:{};
   zoneList:{};
   createDateAndBy:{};
-
-  constructor(private Service:GlobalService, private LocationService : LocationViewServiceService ){}
+  
+  constructor(private router:Router ,private Service:GlobalService, private LocationService : LocationViewServiceService, private toastr : ToastrService ){}
 
   ngOnInit() {
     this.getCountryList();
-
-    // this.createAccountForm = new FormGroup({
-    //   country: new FormControl(''),
-    //   state: new FormControl(''),
-    //   city: new FormControl(''),
-    //   AccountType:new FormControl(''),
-    //   zonetype:new FormControl(''),
-    //   CreatedBy:new FormControl('')
-    // });
-
     this.getAccountTypeList('ACCTYPE'); 
     this.getZoneList('CUSTZONE');
     this.getCreateByAndDate();
@@ -45,6 +38,7 @@ export class LocationGeneralComponent implements OnInit {
      this.LocationService.addLocation().subscribe(
        res=>
          {
+          this.toastr.success('Added Successfully','Location');
          });
    }
 
@@ -54,6 +48,8 @@ getCountryList()
     data => this.countries = data
   );
 }
+
+
 
 onChangeCountry(country_id: number) {
   if (country_id) {
@@ -113,7 +109,7 @@ getError(el) {
   switch (el) {
     case 'cust_type':
       if (this.LocationService.formModelLocation.get('cust_type').hasError('required')) {
-        return 'Account Type is required';
+        return 'Please select the Account Type';
       }
       break;
     case 'cust_name':
@@ -158,7 +154,7 @@ getError(el) {
       break;
       case 'cust_zip_code':
         if (this.LocationService.formModelLocation.get('cust_zip_code').hasError('required')) {
-          return 'Enter the Zipcode';
+          return 'Zipcode is required';
       }
       break;
     default:

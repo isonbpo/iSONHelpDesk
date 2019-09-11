@@ -6,11 +6,13 @@ import { MasterPagesService } from '../shared/master-pages.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AssetCategoryDialogBoxComponent } from './asset-category-dialog-box/asset-category-dialog-box.component';
+import { ToastrService } from 'ngx-toastr';
 let AssetCategoryComponent = class AssetCategoryComponent {
-    constructor(Service, route, dialog) {
+    constructor(Service, route, dialog, toastr) {
         this.Service = Service;
         this.route = route;
         this.dialog = dialog;
+        this.toastr = toastr;
         this.displayedColumns = ['AssetCategoryName', 'AssetCategoryDiscription', 'Enabled', 'Action', 'Id'];
         this.dataavailbale = false;
     }
@@ -30,7 +32,7 @@ let AssetCategoryComponent = class AssetCategoryComponent {
     }
     onSubmit() {
         this.Service.addAssetCategory().subscribe(res => {
-            //this.toastr.success('Department Added Successfully', 'Department');
+            this.toastr.success('Added Successfully', 'Asset Category');
             this.LoadData();
         });
     }
@@ -53,9 +55,31 @@ let AssetCategoryComponent = class AssetCategoryComponent {
                 value.asset_category_enabled = row_obj.asset_category_enabled;
                 value.asset_category_discription = row_obj.asset_category_discription;
                 this.Service.updateAssetCategory(value.asset_category_id, value.asset_category_name, value.asset_category_enabled, value.asset_category_discription).subscribe();
+                this.toastr.info('Updated Successfully', 'Asset Category');
             }
             this.LoadData();
         });
+    }
+    getError(el) {
+        switch (el) {
+            case 'asset_category_name':
+                if (this.Service.formModelAssetCategory.get('asset_category_name').hasError('required')) {
+                    return 'Asset Category name is required';
+                }
+                break;
+            case 'asset_category_enabled':
+                if (this.Service.formModelAssetCategory.get('asset_category_enabled').hasError('required')) {
+                    return 'Status is required';
+                }
+                break;
+            case 'asset_category_discription':
+                if (this.Service.formModelAssetCategory.get('asset_category_discription').hasError('required')) {
+                    return 'Discription is required';
+                }
+                break;
+            default:
+                return '';
+        }
     }
 };
 tslib_1.__decorate([
@@ -73,7 +97,7 @@ AssetCategoryComponent = tslib_1.__decorate([
         styleUrls: [],
         encapsulation: ViewEncapsulation.None
     }),
-    tslib_1.__metadata("design:paramtypes", [MasterPagesService, Router, MatDialog])
+    tslib_1.__metadata("design:paramtypes", [MasterPagesService, Router, MatDialog, ToastrService])
 ], AssetCategoryComponent);
 export { AssetCategoryComponent };
 //# sourceMappingURL=assetCategory.component.js.map

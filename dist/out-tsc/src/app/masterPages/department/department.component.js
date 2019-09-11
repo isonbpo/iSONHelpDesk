@@ -6,11 +6,13 @@ import { MasterPagesService } from '../shared/master-pages.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DepartmentDialogBoxComponent } from './department-dialog-box/department-dialog-box.component';
+import { ToastrService } from 'ngx-toastr';
 let DepartmentComponent = class DepartmentComponent {
-    constructor(Service, rout, dialog) {
+    constructor(Service, rout, dialog, toastr) {
         this.Service = Service;
         this.rout = rout;
         this.dialog = dialog;
+        this.toastr = toastr;
         this.displayedColumns = ['DepartmentName', 'Enabled', 'Action', 'Id', 'ScId'];
     }
     ngOnInit() {
@@ -28,6 +30,7 @@ let DepartmentComponent = class DepartmentComponent {
     }
     onSubmit() {
         this.Service.addDepartment().subscribe(res => {
+            this.toastr.success('Added Successfully', 'Department');
             this.LoadData();
         });
     }
@@ -49,9 +52,30 @@ let DepartmentComponent = class DepartmentComponent {
                 value.dept_name = row_obj.dept_name;
                 value.dept_enabled = row_obj.dept_enabled;
                 this.Service.updateDepartment(value.dept_id, value.dept_name, value.dept_enabled).subscribe();
+                this.toastr.info('Updated Successfully', 'Department');
             }
             this.LoadData();
         });
+    }
+    //Searching Filter in whole table  
+    applyFilter(filterValue) {
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+    getError(el) {
+        switch (el) {
+            case 'dept_name':
+                if (this.Service.formModel.get('dept_name').hasError('required')) {
+                    return 'Department Name Required';
+                }
+                break;
+            case 'dept_enabled':
+                if (this.Service.formModel.get('dept_enabled').hasError('required')) {
+                    return 'Status is required';
+                }
+                break;
+            default:
+                return '';
+        }
     }
 };
 tslib_1.__decorate([
@@ -69,7 +93,7 @@ DepartmentComponent = tslib_1.__decorate([
         styleUrls: [],
         encapsulation: ViewEncapsulation.None
     }),
-    tslib_1.__metadata("design:paramtypes", [MasterPagesService, Router, MatDialog])
+    tslib_1.__metadata("design:paramtypes", [MasterPagesService, Router, MatDialog, ToastrService])
 ], DepartmentComponent);
 export { DepartmentComponent };
 //# sourceMappingURL=department.component.js.map

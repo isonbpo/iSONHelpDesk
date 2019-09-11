@@ -5,11 +5,13 @@ import { MatTableDataSource, MatSort } from '@angular/material';
 import { MasterPagesService } from '../shared/master-pages.service';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 let SoftwareCategoryComponent = class SoftwareCategoryComponent {
-    constructor(Service, route, dialog) {
+    constructor(Service, route, dialog, toastr) {
         this.Service = Service;
         this.route = route;
         this.dialog = dialog;
+        this.toastr = toastr;
         this.displayedColumns = ['SoftwareCategoryName', 'SoftwareDiscription', 'Enabled', 'Action', 'Id'];
         this.dataavailbale = false;
     }
@@ -29,7 +31,7 @@ let SoftwareCategoryComponent = class SoftwareCategoryComponent {
     }
     onSubmit() {
         this.Service.addSoftwareCategory().subscribe(res => {
-            //this.toastr.success('Department Added Successfully', 'Department');
+            this.toastr.success('Added Successfully', 'Software Category');
             this.LoadData();
         });
     }
@@ -53,7 +55,7 @@ SoftwareCategoryComponent = tslib_1.__decorate([
         styleUrls: [],
         encapsulation: ViewEncapsulation.None
     }),
-    tslib_1.__metadata("design:paramtypes", [MasterPagesService, Router, MatDialog])
+    tslib_1.__metadata("design:paramtypes", [MasterPagesService, Router, MatDialog, ToastrService])
 ], SoftwareCategoryComponent);
 export { SoftwareCategoryComponent };
 //# sourceMappingURL=SoftwareCategory.component.js.map

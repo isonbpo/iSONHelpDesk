@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { Products } from '../shared/products.model';
 import { ProductDialogBoxComponent } from './product-dialog-box/product-dialog-box.component';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -30,7 +31,7 @@ export class ProductComponent implements OnInit {
   dataSource :any;
   productTypes : {}; 
 
-  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog){}
+  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog, private toastr:ToastrService){}
   
 
 
@@ -60,7 +61,7 @@ export class ProductComponent implements OnInit {
     this.Service.addProduct().subscribe(
       res=>
         {
-          //this.toastr.success('Department Added Successfully', 'Department');
+          this.toastr.success('Added Successfully', 'Product');
           this.LoadData();
           
         });
@@ -105,6 +106,7 @@ export class ProductComponent implements OnInit {
           
           this.Service.updateProducts(value.product_id,value.product_name,value.product_type_id,value.product_vender_name,value.product_manufacturer_name
             ,value.product_part_no,value.product_enabled,value.product_part_discription).subscribe();        
+            this.toastr.info('Updated Successfully', 'Product');
         }
         this.LoadData();
       });

@@ -33,7 +33,6 @@ let GlobalService = class GlobalService {
         return this.http.get(this.rootURL + '/Global/CaseStatusList');
     }
     getStatusReasonList(status_id) {
-        console.log("I am in Service");
         return this.http.get(this.rootURL + '/Global/StatusReasonList?status_id=' + status_id);
     }
 };

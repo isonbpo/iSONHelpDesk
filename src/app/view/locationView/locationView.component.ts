@@ -33,6 +33,7 @@ export class LocationViewComponent implements OnInit {
     obj.action = action;
     const dialogRef = this.dialog.open(LocationGlobalComponent, {
       width: '800px',
+      
       data:obj
     });
  

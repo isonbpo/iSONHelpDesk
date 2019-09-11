@@ -12,7 +12,6 @@ import { FooterComponent } from './footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TablesComponent } from './tables/tables.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSortModule, MatTableModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatRippleModule, MatOptionModule, MatSelectModule, MatDialogModule, MatIconModule, MatExpansionModule, MatTabsModule, MatCheckboxModule, MatSidenavModule, MatToolbarModule, MatListModule, MatDatepickerModule, MatNativeDateModule, MatRadioModule } from '@angular/material';
 import { DepartmentComponent } from './masterPages/department/department.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -72,7 +71,15 @@ import { DepartmentDialogBoxComponent } from './masterPages/department/departmen
 import { DesignationtDialogBoxComponent } from './masterPages/designation/designationt-dialog-box/designationt-dialog-box.component';
 import { RoleDialogBoxComponent } from './masterPages/role/role-dialog-box/role-dialog-box.component';
 import { AssetCategoryDialogBoxComponent } from './masterPages/assetCategory/asset-category-dialog-box/asset-category-dialog-box.component';
-import { AssetSubCategoryDialogBoxComponent } from './masterPages/assetSubCategory/asset-sub-category-dialog-box/asset-sub-category-dialog-box.component';
+import { ProductDialogBoxComponent } from './masterPages/Product/product-dialog-box/product-dialog-box.component';
+import { ProductTypeDialogBoxComponent } from './masterPages/ProductType/product-type-dialog-box/product-type-dialog-box.component';
+import { SoftwareTypeDialogBoxComponent } from './masterPages/SoftwareType/software-type-dialog-box/software-type-dialog-box.component';
+import { TeamDialogBoxComponent } from './masterPages/Team/team-dialog-box/team-dialog-box.component';
+import { AssetSubCategoryDialogBoxComponent } from './masterPages/AssetSubCategory/asset-sub-category-dialog-box/asset-sub-category-dialog-box.component';
+import { TicketSubCategoryDialogBoxComponent } from './masterPages/ticketSubCategory/ticket-sub-category-dialog-box/ticket-sub-category-dialog-box.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TicketCategoryDialogBoxComponent } from './masterPages/ticketCategory/ticket-category-dialog-box/ticket-category-dialog-box.component';
 let AppModule = class AppModule {
 };
 AppModule = tslib_1.__decorate([
@@ -130,9 +137,17 @@ AppModule = tslib_1.__decorate([
             DesignationtDialogBoxComponent,
             RoleDialogBoxComponent,
             AssetCategoryDialogBoxComponent,
-            AssetSubCategoryDialogBoxComponent
+            ProductDialogBoxComponent,
+            ProductTypeDialogBoxComponent,
+            SoftwareTypeDialogBoxComponent,
+            TeamDialogBoxComponent,
+            AssetSubCategoryDialogBoxComponent,
+            TicketSubCategoryDialogBoxComponent,
+            TicketCategoryDialogBoxComponent
         ],
         imports: [
+            BrowserAnimationsModule,
+            ToastrModule.forRoot(),
             BrowserModule,
             RouterModule,
             AppRoutingModule,
@@ -179,7 +194,18 @@ AppModule = tslib_1.__decorate([
             DesignationtDialogBoxComponent,
             RoleDialogBoxComponent,
             AssetCategoryDialogBoxComponent,
-            AssetSubCategoryDialogBoxComponent
+            ProductDialogBoxComponent,
+            ProductTypeDialogBoxComponent,
+            SoftwareTypeDialogBoxComponent,
+            TeamDialogBoxComponent,
+            AssetSubCategoryDialogBoxComponent,
+            TicketSubCategoryDialogBoxComponent,
+            LocationGlobalComponent,
+            ContactsGlobalComponent,
+            AssetsGlobalComponent,
+            TicketGlobalComponent,
+            DocumentsGlobalComponent,
+            TicketCategoryDialogBoxComponent
         ],
         providers: [MasterPagesService],
         bootstrap: [AppComponent]

@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { TimeZone } from '../shared/time-zone.model';
-
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -19,7 +19,7 @@ import { TimeZone } from '../shared/time-zone.model';
 
 export class TimezoneComponent implements OnInit {
   
-  displayedColumns: string[] = ['TimeZoneName','TimeZoneTimeSpan', 'Action','Id'];
+  displayedColumns: string[] = ['TimeZoneName','TimeZoneTimeSpan','Id'];
   
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -31,7 +31,7 @@ export class TimezoneComponent implements OnInit {
   dataSource :any;
    
 
-  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog){}
+  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog, private toastr : ToastrService){}
   
 
 
@@ -58,25 +58,27 @@ export class TimezoneComponent implements OnInit {
     this.Service.addTimeZone().subscribe(
       res=>
         {
-          //this.toastr.success('Department Added Successfully', 'Department');
+          this.toastr.success('Added Successfully', 'Timezone');
           this.LoadData();
-          
         });
   }
 
 
-
-
-  EditDesignation(element)
-  {
-    this.Service.populateFormDesig(element);
-     
-     const dialogConfig = new MatDialogConfig();
-     dialogConfig.disableClose = true;
-     dialogConfig.autoFocus = true;
-     dialogConfig.width = "60%";
-     //this.dialog.open(DesignationComponent,dialogConfig);
-
-  }
+  getError(el) {
+    switch (el) {
+      case 'timezone_name':
+        if (this.Service.formModelTimeZone.get('timezone_name').hasError('required')) {
+          return 'Please enter the Timezone';
+        }
+      break;
+      case 'timezone_timespan_minutes':
+        if (this.Service.formModelTimeZone.get('timezone_timespan_minutes').hasError('required')) {
+          return 'Please enter the Timespan';
+        }
+      break;
+      default:
+        return '';
+    }
+  }  
 
 }

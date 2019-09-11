@@ -5,7 +5,8 @@ import { MasterPagesService } from '../shared/master-pages.service';
 import { Router } from '@angular/router';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { TicketCategory } from '../shared/ticket-category.model';
-
+import { ToastrService } from 'ngx-toastr';
+import { TicketCategoryDialogBoxComponent } from './ticket-category-dialog-box/ticket-category-dialog-box.component';
 
 
 
@@ -29,7 +30,7 @@ export class TicketCategoryComponent implements OnInit {
   dataSource :any;
   
 
-  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog){}
+  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog,private toastr:ToastrService){}
   
 
 
@@ -40,10 +41,10 @@ export class TicketCategoryComponent implements OnInit {
   LoadData() {
     this.Service.getAllTicketCategory().subscribe(  
       res => {  
-        this.dataSource = new MatTableDataSource();  
-        this.dataSource.data = res;  
+        this.dptlist = res;
+        this.dataSource = new MatTableDataSource(this.dptlist);  
         this.dataSource.sort = this.sort;
-        this.Service.formModelAssetCategory.reset();
+        this.Service.formModelTicketCategory.reset();
       },
       err => {
         console.log(err);
@@ -54,9 +55,41 @@ export class TicketCategoryComponent implements OnInit {
     this.Service.addTicketCategory().subscribe(
       res=>
         {
+          this.toastr.success('Added Successfully','Ticket Category');
           this.LoadData();
         });
   }
+
+  openDialog(action,obj) {
+    
+    obj.action = action;
+      
+    const dialogRef = this.dialog.open(TicketCategoryDialogBoxComponent, {
+        width: '550px',
+        data:obj
+      });
+      
+      dialogRef.afterClosed().subscribe(result => {
+        if(result.event == 'Update'){
+          this.updateRowData(result.data);
+        }
+      });
+    }
+    
+    updateRowData(row_obj){
+
+      this.dataSource = this.dptlist.filter((value,key)=>{
+        console.log(this.dataSource);
+        if(value.ticket_category_id == row_obj.ticket_category_id){
+          
+           value.ticket_category_name = row_obj.ticket_category_name;
+           value.ticket_category_enabled = row_obj.ticket_category_enabled;
+           value.ticket_category_discription = row_obj.ticket_category_discription;
+           this.Service.updateTicketCategory(value.ticket_category_id,value.ticket_category_name, value.ticket_category_enabled,value.ticket_category_discription).subscribe();                this.toastr.info('Updated Successfully','Ticket Sub Category');
+        }
+        this.LoadData();
+      });
+    }
 
   getError(el) {
     switch (el) {

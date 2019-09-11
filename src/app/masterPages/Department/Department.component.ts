@@ -6,9 +6,7 @@ import { MasterPagesService } from '../shared/master-pages.service';
 import { Router } from '@angular/router';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { DepartmentDialogBoxComponent } from './department-dialog-box/department-dialog-box.component';
-
-
-
+import {ToastrService} from 'ngx-toastr';
 
 
 @Component({
@@ -29,7 +27,7 @@ export class DepartmentComponent implements OnInit {
   dataSource :any;
   
 
-  constructor(private Service:MasterPagesService, private rout:Router, public dialog: MatDialog){}
+  constructor(private Service:MasterPagesService, private rout:Router, public dialog: MatDialog, private toastr:ToastrService){}
   
   ngOnInit() {
       this.LoadData();
@@ -52,21 +50,19 @@ export class DepartmentComponent implements OnInit {
     this.Service.addDepartment().subscribe(
       res=>
         {
+          this.toastr.success('Added Successfully','Department');
           this.LoadData();
         });
   }
 
  openDialog(action,obj) {
   obj.action = action;
-    
     const dialogRef = this.dialog.open(DepartmentDialogBoxComponent, {
       width: '550px',
       data:obj
-      
     });
     
     dialogRef.afterClosed().subscribe(result => {
-      
       if(result.event == 'Update'){
         this.updateRowData(result.data);
       }
@@ -80,6 +76,7 @@ export class DepartmentComponent implements OnInit {
         value.dept_name = row_obj.dept_name;
         value.dept_enabled = row_obj.dept_enabled;
         this.Service.updateDepartment(value.dept_id,value.dept_name,value.dept_enabled).subscribe();        
+        this.toastr.info('Updated Successfully','Department');
       }
       this.LoadData();
     });

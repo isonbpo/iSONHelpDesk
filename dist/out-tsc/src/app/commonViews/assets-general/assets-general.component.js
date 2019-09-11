@@ -1,26 +1,28 @@
 import * as tslib_1 from "tslib";
 import { Component } from '@angular/core';
 import { MasterPagesService } from 'src/app/masterPages/shared/master-pages.service';
-import { FormGroup, FormControl } from '@angular/forms';
 import { GlobalService } from 'src/app/shared/global.service';
+import { AssetsViewServiceService } from 'src/app/view/assetsView/shared/assets-view-service.service';
 let AssetsGeneralComponent = class AssetsGeneralComponent {
-    constructor(Service, MPService) {
+    constructor(Service, MPService, AssetService) {
         this.Service = Service;
         this.MPService = MPService;
+        this.AssetService = AssetService;
     }
     ngOnInit() {
         this.getMasterList();
         this.getCurrencyList();
-        this.createAssetForm = new FormGroup({
-            product: new FormControl(''),
-            currency: new FormControl(''),
-            assetscategory: new FormControl(''),
-            assetssubcategory: new FormControl(''),
-            softwareType: new FormControl(''),
-            softwareCategory: new FormControl(''),
-            productType: new FormControl('')
-        });
+        //   this.createAssetForm = new FormGroup({
+        //     product: new FormControl(''),
+        //     currency:new FormControl(''),
+        //     assetscategory:new FormControl(''),
+        //     assetssubcategory:new FormControl(''),
+        //     softwareType:new FormControl(''),
+        //     softwareCategory:new FormControl(''),
+        //     productType:new FormControl('')
+        // });
         this.globaldropDown();
+        this.getCreateByAndDate();
     }
     getCurrencyList() {
         this.Service.getCurrencyList().subscribe(data => this.currencies = data);
@@ -38,6 +40,17 @@ let AssetsGeneralComponent = class AssetsGeneralComponent {
             this.assetStatus = data;
         });
     }
+    getCreateByAndDate() {
+        this.Service.getCreateByDate().subscribe(data => {
+            this.createDateAndBy = data;
+            console.log(data);
+        });
+    }
+    onSubmit() {
+        console.log("hiii");
+        this.AssetService.addAsset().subscribe(res => {
+        });
+    }
 };
 AssetsGeneralComponent = tslib_1.__decorate([
     Component({
@@ -45,7 +58,7 @@ AssetsGeneralComponent = tslib_1.__decorate([
         templateUrl: './assets-general.component.html',
         styleUrls: ['./assets-general.component.scss']
     }),
-    tslib_1.__metadata("design:paramtypes", [GlobalService, MasterPagesService])
+    tslib_1.__metadata("design:paramtypes", [GlobalService, MasterPagesService, AssetsViewServiceService])
 ], AssetsGeneralComponent);
 export { AssetsGeneralComponent };
 //# sourceMappingURL=assets-general.component.js.map

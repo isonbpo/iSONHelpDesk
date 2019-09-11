@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { AssetSubCategory } from '../shared/asset-sub-category.model';
 import { AssetSubCategoryDialogBoxComponent } from './asset-sub-category-dialog-box/asset-sub-category-dialog-box.component';
-
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -29,7 +29,7 @@ export class AssetSubCategoryComponent implements OnInit {
   dataSource :any;
   assetscategories:{}; 
 
-  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog){}
+  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog,private toastr:ToastrService){}
   
 
 
@@ -57,6 +57,7 @@ export class AssetSubCategoryComponent implements OnInit {
       res=>
         {
           this.LoadData();
+          this.toastr.success('Added Successfully','Asset Sub Category');
         });
   }
 
@@ -75,7 +76,6 @@ export class AssetSubCategoryComponent implements OnInit {
       });
       
       dialogRef.afterClosed().subscribe(result => {
-        
         if(result.event == 'Update'){
           this.updateRowData(result.data);
         }
@@ -91,6 +91,7 @@ export class AssetSubCategoryComponent implements OnInit {
           value.asset_sub_category_enabled = row_obj.asset_sub_category_enabled;
           value.asset_sub_category_discription = row_obj.asset_sub_category_discription;
           this.Service.updateAssetSubCategory(value.asset_category_id, value.asset_category_name, value.asset_sub_category_id,value.asset_sub_category_name,value.asset_sub_category_enabled, value.asset_sub_category_discription).subscribe();        
+          this.toastr.info('Updated Successfully','Asset Sub Category');
         }
         this.LoadData();
       });

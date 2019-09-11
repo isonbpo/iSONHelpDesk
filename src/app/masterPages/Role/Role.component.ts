@@ -7,6 +7,7 @@ import { NgForm } from '@angular/forms';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { Role } from '../shared/role.model';
 import { RoleDialogBoxComponent } from './role-dialog-box/role-dialog-box.component';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -31,7 +32,7 @@ export class RoleComponent implements OnInit {
   dataSource :any;
    
 
-  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog){}
+  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog, private toastr:ToastrService){}
   
 
 
@@ -58,7 +59,7 @@ export class RoleComponent implements OnInit {
     this.Service.addRole().subscribe(
       res=>
         {
-          //this.toastr.success('Department Added Successfully', 'Department');
+          this.toastr.success('Added Successfully', 'Role');
           this.LoadData();
           
         });
@@ -92,6 +93,7 @@ export class RoleComponent implements OnInit {
           value.role_description = row_obj.role_description;
           value.role_enabled = row_obj.role_enabled;
           this.Service.updateRole(value.role_id,value.role_name,value.role_enabled,value.role_description).subscribe();        
+          this.toastr.info('Updated Successfully','Role')
         }
         this.LoadData();
       });

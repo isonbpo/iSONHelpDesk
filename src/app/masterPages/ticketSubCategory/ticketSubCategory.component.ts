@@ -7,6 +7,7 @@ import { NgForm } from '@angular/forms';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { TicketSubCategory } from '../shared/ticket-sub-category.model';
 import { TicketSubCategoryDialogBoxComponent } from './ticket-sub-category-dialog-box/ticket-sub-category-dialog-box.component';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -31,7 +32,7 @@ export class TicketSubCategoryComponent implements OnInit {
   dataSource :any;
   Activeticketscategories:{}; 
 
-  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog){}
+  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog, private toastr:ToastrService){}
   
 
 
@@ -59,8 +60,8 @@ export class TicketSubCategoryComponent implements OnInit {
     this.Service.addTicketSubCategory().subscribe(
       res=>
         {
+          this.toastr.success('Added Successfully','Ticket Sub Category')
           this.LoadData();
-          
         });
   }
 
@@ -97,7 +98,8 @@ export class TicketSubCategoryComponent implements OnInit {
           value.ticket_sub_category_enabled = row_obj.ticket_sub_category_enabled;
           value.ticket_sub_category_discription = row_obj.ticket_sub_category_discription;
           this.Service.updateTicketSubCategory(value.ticket_category_id,value.ticket_sub_category_id,
-            value.ticket_sub_category_name, value.ticket_sub_category_enabled,value.ticket_sub_category_discription).subscribe();        
+          value.ticket_sub_category_name, value.ticket_sub_category_enabled,value.ticket_sub_category_discription).subscribe();        
+          this.toastr.info('Updated Successfully','Ticket Sub Category');
         }
         this.LoadData();
       });

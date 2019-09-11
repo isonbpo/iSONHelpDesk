@@ -34,29 +34,10 @@ export class ContactsGeneralComponent implements OnInit {
     this.getCountryList();
     this.getMasterList();
     this.getTimezoneList();
-    
-    // this.createContactForm = this.formBuilder.group({
-    //   country:'',
-    //   state: '',
-    //   city: '',
-    //   timezone : '',
-    //   department_name : '',
-    //   designation : '',
-    //   team:'',
-    //   role:'',
-    //   //role:new FormControl(''),
-    //   dateJoined: ''
-      
-    // });
-
     this.getContactTypeList('CNTTYPE');
     this.getContactTitleList('TITLE');
     this.getZoneList('CUSTZONE');
-    this.getCreateByAndDate();
-  
-    this.formGroup = this.formBuilder.group({
-      dateJoined: ''
-    });
+    this.getCreateByAndDate(); 
   }
 
   
@@ -120,8 +101,6 @@ getContactTypeList(dynamicParameter)
   this.Service.getGlobalDropDown(dynamicParameter).subscribe(
     data=>{
       this.contactType = data
-      console.log("data");
-      console.log(data);
   }
   );
 }
@@ -161,6 +140,119 @@ onSubmit() {
     res=>
       {
       });
+}
+
+
+getError(el) {
+  switch (el) {
+    case 'contact_type_id':
+      if (this.ContactService.formModelContacts.get('contact_type_id').hasError('required')) {
+        return 'Please select the Contact Type';
+      }
+      break;
+    case 'contact_title':
+      if (this.ContactService.formModelContacts.get('contact_title').hasError('required')) {
+        return 'Please select the Contact Title';
+      }
+      break;
+      case 'contact_timezone_id':
+        if (this.ContactService.formModelContacts.get('contact_timezone_id').hasError('required')) {
+          return 'Please select the Timezone';
+      }
+      break;
+      case 'contact_full_name':
+        if (this.ContactService.formModelContacts.get('contact_full_name').hasError('required')) {
+          return 'Please Enter the Full Name';
+      }
+      break;
+      case 'contact_dept_id':
+        if (this.ContactService.formModelContacts.get('contact_dept_id').hasError('required')) {
+          return 'Please select the Department';
+      }
+      break;
+      case 'cust_address1':
+        if (this.ContactService.formModelContacts.get('cust_address1').hasError('required')) {
+          return 'Enter the address';
+      }
+      break;
+      case 'contact_birthday':
+        if (this.ContactService.formModelContacts.get('contact_birthday').hasError('required')) {
+          return 'Please select the DOB';
+      }
+      break;
+      case 'contact_desig_id':
+        if (this.ContactService.formModelContacts.get('contact_desig_id').hasError('required')) {
+          return 'Please select the Designation';
+      }
+      break;
+      case 'contact_team_id':
+        if (this.ContactService.formModelContacts.get('contact_team_id').hasError('required')) {
+          return 'Please select the Team';
+      }
+      break;
+      case 'contact_zone':
+        if (this.ContactService.formModelContacts.get('contact_zone').hasError('required')) {
+          return 'Please select the Zone';
+      }
+      break;
+      case 'owner_name':
+        if (this.ContactService.formModelContacts.get('owner_name').hasError('required')) {
+          return 'Please select the Zone';
+      }
+      break;
+      case 'contact_address1':
+        if (this.ContactService.formModelContacts.get('contact_address1').hasError('required')) {
+          return 'Please enter the Address';
+      }
+      break;
+      case 'contact_country_code':
+        if (this.ContactService.formModelContacts.get('contact_country_code').hasError('required')) {
+          return 'Please select the Country';
+      }
+      break;
+      case 'contact_state_code':
+        if (this.ContactService.formModelContacts.get('contact_state_code').hasError('required')) {
+          return 'Please select the State';
+      }
+      break;
+      case 'contact_city_code':
+        if (this.ContactService.formModelContacts.get('contact_city_code').hasError('required')) {
+          return 'Please select the City';
+      }
+      break;
+      case 'contact_zip_code':
+        if (this.ContactService.formModelContacts.get('contact_zip_code').hasError('required')) {
+          return 'Please enter the Zipcode';
+      }
+      break;
+      case 'contact_emailid':
+        if (this.ContactService.formModelContacts.get('contact_emailid').hasError('required')) {
+          return 'Please enter the Email Id';
+      }
+      break;
+      case 'contact_login_id':
+        if (this.ContactService.formModelContacts.get('contact_login_id').hasError('required')) {
+          return 'Please Enter the Login Id';
+      }
+      break;
+      case 'contact_password':
+        if (this.ContactService.formModelContacts.get('contact_password').hasError('required')) {
+          return 'Please enter the Password';
+      }
+      break;
+      case 'contact_role_id':
+        if (this.ContactService.formModelContacts.get('contact_role_id').hasError('required')) {
+          return 'Please select the City';
+      }
+      // break;
+      // case 'cust_reportingtocolumn':
+      //   if (this.ContactService.formModelContacts.get('cust_reportingtocolumn').hasError('required')) {
+      //     return 'Please select the City';
+      // }
+      break;
+    default:
+      return '';
+  }
 }
 
 }

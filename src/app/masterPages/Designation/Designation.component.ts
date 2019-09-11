@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import { Designation } from '../shared/designation.model';
 import { DesignationtDialogBoxComponent } from './designationt-dialog-box/designationt-dialog-box.component';
-
+import {ToastrService} from 'ngx-toastr';
 
 
 
@@ -30,7 +30,7 @@ export class DesignationComponent implements OnInit {
   dataSource :any;
    
 
-  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog){}
+  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog, private toastr:ToastrService){}
   
 
 
@@ -57,9 +57,8 @@ export class DesignationComponent implements OnInit {
     this.Service.addDesignation().subscribe(
       res=>
         {
-          //this.toastr.success('Department Added Successfully', 'Department');
+          this.toastr.success('Added Successfully', 'Designation');
           this.LoadData();
-          
         });
   }
 
@@ -86,6 +85,7 @@ export class DesignationComponent implements OnInit {
           value.desig_name = row_obj.desig_name;
           value.desig_enabled = row_obj.desig_enabled;
           this.Service.updateDesignation(value.desig_id,value.desig_name,value.desig_enabled).subscribe();        
+          this.toastr.info('Updated Successfully', 'Designation');
         }
         this.LoadData();
       });

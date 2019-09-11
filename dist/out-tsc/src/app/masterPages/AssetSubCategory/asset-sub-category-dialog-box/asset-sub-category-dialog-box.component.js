@@ -1,10 +1,13 @@
 import * as tslib_1 from "tslib";
-import { Component, Optional, Inject } from '@angular/core';
+import { Component, Inject, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MasterPagesService } from '../../shared/master-pages.service';
 let AssetSubCategoryDialogBoxComponent = class AssetSubCategoryDialogBoxComponent {
-    constructor(dialogRef, data) {
+    constructor(Service, dialogRef, data) {
+        this.Service = Service;
         this.dialogRef = dialogRef;
         this.data = data;
+        console.log(data);
         this.local_data = Object.assign({}, data);
         this.action = this.local_data.action;
     }
@@ -14,6 +17,15 @@ let AssetSubCategoryDialogBoxComponent = class AssetSubCategoryDialogBoxComponen
     closeDialog() {
         this.dialogRef.close({ event: 'Cancel' });
     }
+    ngOnInit() {
+        this.getMasterList();
+    }
+    getMasterList() {
+        this.Service.getAllAssetCategory().subscribe(data => {
+            this.assetscategories = data;
+            console.log(data);
+        });
+    }
 };
 AssetSubCategoryDialogBoxComponent = tslib_1.__decorate([
     Component({
@@ -21,8 +33,9 @@ AssetSubCategoryDialogBoxComponent = tslib_1.__decorate([
         templateUrl: './asset-sub-category-dialog-box.component.html',
         styleUrls: ['./asset-sub-category-dialog-box.component.scss']
     }),
-    tslib_1.__param(1, Optional()), tslib_1.__param(1, Inject(MAT_DIALOG_DATA)),
-    tslib_1.__metadata("design:paramtypes", [MatDialogRef, Array])
+    tslib_1.__param(2, Optional()), tslib_1.__param(2, Inject(MAT_DIALOG_DATA)),
+    tslib_1.__metadata("design:paramtypes", [MasterPagesService,
+        MatDialogRef, Array])
 ], AssetSubCategoryDialogBoxComponent);
 export { AssetSubCategoryDialogBoxComponent };
 //# sourceMappingURL=asset-sub-category-dialog-box.component.js.map

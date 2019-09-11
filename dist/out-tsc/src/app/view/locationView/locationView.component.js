@@ -1,42 +1,49 @@
 import * as tslib_1 from "tslib";
 import { Component, ViewChild } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { MatTable, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import { LocationGeneralComponent } from 'src/app/commonViews/location-general/location-general.component';
+import { LocationGlobalComponent } from 'src/app/commonViews/location-global/location-global.component';
 let LocationViewComponent = class LocationViewComponent {
-    constructor(route) {
+    constructor(route, dialog) {
         this.route = route;
-        this.showVar = true;
-        this.tabs = ['General'];
-        this.selected = new FormControl(0);
+        this.dialog = dialog;
     }
     ngOnInit() {
-    }
-    toggleChild() {
-        this.showVar = !this.showVar;
-    }
-    addTab() {
-        this.tabs.push('Add Location');
-        this.showVar = !this.showVar;
-        console.log(this.showVar);
-        this.selected.setValue(this.tabs.length - 1);
-    }
-    removeTab(index) {
-        this.tabs.splice(index, 1);
     }
     refresh() {
         this.route.navigateByUrl('/locationList', { skipLocationChange: true }).then(() => this.route.navigate(["/location"]));
     }
+    openDialog(action, obj) {
+        obj.action = action;
+        const dialogRef = this.dialog.open(LocationGlobalComponent, {
+            width: '800px',
+            data: obj
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result.event == 'Add') {
+                this.addRowData(result.data);
+            }
+            // else if(result.event == 'Update'){
+            //   this.updateRowData(result.data);
+            // }else if(result.event == 'Delete'){
+            //   this.deleteRowData(result.data);
+            // }
+        });
+    }
+    addRowData(row_obj) {
+        // var d = new Date();
+        // this.dataSource.push({
+        //   id:d.getTime(),
+        //   name:row_obj.name
+        // });
+        // this.table.renderRows();
+    }
 };
 tslib_1.__decorate([
-    ViewChild(LocationGeneralComponent, { static: true }),
-    tslib_1.__metadata("design:type", Object)
-], LocationViewComponent.prototype, "tabsComponent", void 0);
-tslib_1.__decorate([
-    ViewChild('personEdit', { static: true }),
-    tslib_1.__metadata("design:type", Object)
-], LocationViewComponent.prototype, "editPersonTemplate", void 0);
+    ViewChild(MatTable, { static: true }),
+    tslib_1.__metadata("design:type", MatTable)
+], LocationViewComponent.prototype, "table", void 0);
 LocationViewComponent = tslib_1.__decorate([
     Component({
         selector: 'app-locationView',
@@ -44,7 +51,7 @@ LocationViewComponent = tslib_1.__decorate([
         styleUrls: [],
         encapsulation: ViewEncapsulation.None
     }),
-    tslib_1.__metadata("design:paramtypes", [Router])
+    tslib_1.__metadata("design:paramtypes", [Router, MatDialog])
 ], LocationViewComponent);
 export { LocationViewComponent };
 //# sourceMappingURL=locationView.component.js.map

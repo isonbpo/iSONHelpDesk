@@ -13,8 +13,8 @@ import { FooterComponent } from './footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TablesComponent } from './tables/tables.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
-import { MatSortModule, MatTableModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatRippleModule, MatOptionModule, MatSelectModule, MatPaginator, MatDialogModule, MatIconModule, MatExpansionModule, MatTabsModule, MatCheckboxModule, MatSidenavModule, MatToolbarModule, MatListModule, MatDatepickerModule, MatNativeDateModule, MatRadioModule, MatFormFieldControl } from '@angular/material';
+
+import { MatSortModule, MatTableModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatRippleModule, MatOptionModule, MatSelectModule, MatPaginator, MatDialogModule, MatIconModule, MatExpansionModule, MatTabsModule, MatCheckboxModule, MatSidenavModule, MatToolbarModule, MatListModule, MatDatepickerModule, MatNativeDateModule, MatRadioModule, MatFormFieldControl, MatMenuModule } from '@angular/material';
 import { DepartmentComponent } from './masterPages/department/department.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -79,6 +79,10 @@ import { SoftwareTypeDialogBoxComponent } from './masterPages/SoftwareType/softw
 import { TeamDialogBoxComponent } from './masterPages/Team/team-dialog-box/team-dialog-box.component';
 import { AssetSubCategoryDialogBoxComponent } from './masterPages/AssetSubCategory/asset-sub-category-dialog-box/asset-sub-category-dialog-box.component';
 import { TicketSubCategoryDialogBoxComponent } from './masterPages/ticketSubCategory/ticket-sub-category-dialog-box/ticket-sub-category-dialog-box.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TicketCategoryDialogBoxComponent } from './masterPages/ticketCategory/ticket-category-dialog-box/ticket-category-dialog-box.component';
+import { LoginComponent } from './login/login.component';
 
 
 
@@ -142,9 +146,13 @@ import { TicketSubCategoryDialogBoxComponent } from './masterPages/ticketSubCate
     SoftwareTypeDialogBoxComponent,
     TeamDialogBoxComponent,
     AssetSubCategoryDialogBoxComponent,
-    TicketSubCategoryDialogBoxComponent
+    TicketSubCategoryDialogBoxComponent,
+    TicketCategoryDialogBoxComponent,
+    LoginComponent
 ],
   imports: [
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     BrowserModule,
     RouterModule,
     AppRoutingModule,
@@ -176,6 +184,7 @@ import { TicketSubCategoryDialogBoxComponent } from './masterPages/ticketSubCate
     MatNativeDateModule,
     MatRadioModule,
     MatCheckboxModule,
+    MatMenuModule,
     A11yModule,
     BidiModule,
     ObserversModule,
@@ -201,7 +210,8 @@ import { TicketSubCategoryDialogBoxComponent } from './masterPages/ticketSubCate
     ContactsGlobalComponent,
     AssetsGlobalComponent,
     TicketGlobalComponent,
-    DocumentsGlobalComponent
+    DocumentsGlobalComponent,
+    TicketCategoryDialogBoxComponent
     ],
   providers: [MasterPagesService],
   bootstrap: [AppComponent]

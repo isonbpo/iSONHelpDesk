@@ -7,6 +7,7 @@ import { NgForm } from '@angular/forms';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { AssetCategory } from '../shared/asset-category.model';
 import { AssetCategoryDialogBoxComponent } from './asset-category-dialog-box/asset-category-dialog-box.component';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -30,7 +31,7 @@ export class AssetCategoryComponent implements OnInit {
   dataSource :any;
   
 
-  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog){}
+  constructor(private Service:MasterPagesService, private route:Router, public dialog: MatDialog,private toastr:ToastrService){}
   
 
 
@@ -58,7 +59,7 @@ export class AssetCategoryComponent implements OnInit {
     this.Service.addAssetCategory().subscribe(
       res=>
         {
-          //this.toastr.success('Department Added Successfully', 'Department');
+          this.toastr.success('Added Successfully', 'Asset Category');
           this.LoadData();
           
         });
@@ -85,6 +86,7 @@ export class AssetCategoryComponent implements OnInit {
           value.asset_category_enabled = row_obj.asset_category_enabled;
           value.asset_category_discription = row_obj.asset_category_discription;
           this.Service.updateAssetCategory(value.asset_category_id,value.asset_category_name,value.asset_category_enabled, value.asset_category_discription).subscribe();        
+          this.toastr.info('Updated Successfully', 'Asset Category');
         }
         this.LoadData();
       });

@@ -6,11 +6,13 @@ import { MasterPagesService } from '../shared/master-pages.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { RoleDialogBoxComponent } from './role-dialog-box/role-dialog-box.component';
+import { ToastrService } from 'ngx-toastr';
 let RoleComponent = class RoleComponent {
-    constructor(Service, route, dialog) {
+    constructor(Service, route, dialog, toastr) {
         this.Service = Service;
         this.route = route;
         this.dialog = dialog;
+        this.toastr = toastr;
         this.displayedColumns = ['RoleName', 'RoleDescription', 'Enabled', 'Action', 'Id'];
         this.dataavailbale = false;
     }
@@ -30,7 +32,7 @@ let RoleComponent = class RoleComponent {
     }
     onSubmit() {
         this.Service.addRole().subscribe(res => {
-            //this.toastr.success('Department Added Successfully', 'Department');
+            this.toastr.success('Added Successfully', 'Role');
             this.LoadData();
         });
     }
@@ -53,9 +55,31 @@ let RoleComponent = class RoleComponent {
                 value.role_description = row_obj.role_description;
                 value.role_enabled = row_obj.role_enabled;
                 this.Service.updateRole(value.role_id, value.role_name, value.role_enabled, value.role_description).subscribe();
+                this.toastr.info('Updated Successfully', 'Role');
             }
             this.LoadData();
         });
+    }
+    getError(el) {
+        switch (el) {
+            case 'role_name':
+                if (this.Service.formModelRole.get('role_name').hasError('required')) {
+                    return 'Role name is required';
+                }
+                break;
+            case 'role_enabled':
+                if (this.Service.formModelRole.get('role_enabled').hasError('required')) {
+                    return 'Status is required';
+                }
+                break;
+            case 'role_description':
+                if (this.Service.formModelRole.get('role_description').hasError('required')) {
+                    return 'Discription is required';
+                }
+                break;
+            default:
+                return '';
+        }
     }
 };
 tslib_1.__decorate([
@@ -69,7 +93,7 @@ RoleComponent = tslib_1.__decorate([
         styleUrls: [],
         encapsulation: ViewEncapsulation.None
     }),
-    tslib_1.__metadata("design:paramtypes", [MasterPagesService, Router, MatDialog])
+    tslib_1.__metadata("design:paramtypes", [MasterPagesService, Router, MatDialog, ToastrService])
 ], RoleComponent);
 export { RoleComponent };
 //# sourceMappingURL=role.component.js.map
